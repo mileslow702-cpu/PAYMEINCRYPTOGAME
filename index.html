@@ -69,7 +69,7 @@ details[open] summary::before{content:"▾ "}
 .st.on{background:var(--c,var(--gold));box-shadow:inset 0 -3px 0 rgba(0,0,0,.35)}
 .st.play{outline:2px solid #fff}
 .roll .st{height:20px}
-select,input[type=text],input[type=number],textarea{background:#0f0b07;color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:9px;font-family:inherit;font-size:15px;width:100%}
+select,input[type=text],input[type=email],input[type=number],textarea{background:#0f0b07;color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:9px;font-family:inherit;font-size:16px;width:100%}
 label{font-size:13px;color:var(--dim);display:block;margin-bottom:4px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 input[type=range]{width:100%;accent-color:var(--gold)}
@@ -190,6 +190,22 @@ html{scroll-behavior:smooth}
 <div class="modal hidden" id="restartModal"><div class="box"><h3 style="margin-top:0">Start over?</h3><p style="font-size:14px">You'll go back to the beginning. Your current run will be cleared.</p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn" onclick="doRestart()">Yes, restart</button><button class="btn ghost" onclick="$('restartModal').classList.add('hidden')">Cancel</button></div></div></div>
 <div class="wrap">
 
+<section id="s-gate" class="hidden">
+  <div style="text-align:center;margin-top:12vh">
+    <div class="tag">AFROBEATS LEVEL</div>
+    <h1 style="font-size:52px;margin:16px 0 10px">PAY ME<br>IN CRYPTO</h1>
+    <p style="font-size:15px">Learn it by playing it. Take one song from idea to income.</p>
+  </div>
+  <form class="panel" style="margin-top:28px" onsubmit="signIn(event)">
+    <h3 style="margin-top:0">Sign in to play</h3>
+    <label for="gateEmail">Your email</label>
+    <input type="email" id="gateEmail" required autocomplete="email" inputmode="email" placeholder="you@email.com">
+    <button class="btn full" id="gateBtn" style="margin-top:12px">Start →</button>
+    <p id="gateMsg" style="font-size:12.5px;margin-top:10px">Free. We'll only use it to send you game updates and new levels.</p>
+  </form>
+  <p style="text-align:center;font-size:12px;color:var(--dim)">A Do Better Network game</p>
+</section>
+
 <section id="s-home">
   <div class="tag">LEARN IT BY PLAYING IT</div>
   <h1 style="margin-top:10px">PAY ME<br>IN CRYPTO</h1>
@@ -199,6 +215,7 @@ html{scroll-behavior:smooth}
     <div class="path" onclick="homeStart('make')"><div class="ic">🎛</div><div><b>Make a song</b><small>Pick a genre, then build a beat in the studio or write it with Suno.</small></div><div class="go">→</div></div>
     <div class="path" onclick="homeStart('demo')"><div class="ic">💿</div><div><b>Use a demo song</b><small>Jump straight in with a ready-made song.</small></div><div class="go">→</div></div>
   </div>
+  <p style="font-size:12px;color:var(--dim);margin-top:10px">Signed in as <span id="whoami"></span> · <a href="#" onclick="signOut();return false" style="color:var(--gold)">switch</a></p>
   <div class="cat">Music · Genres</div><p style="font-size:13px;margin-top:4px">Every genre gets its own song templates, rollout and content strategy, and its own markets and micro-niches. Afrobeats is live; the rest are being built.</p><div class="levels" id="lv-music"></div>
   <div class="cat">Creators · Art Forms</div><div class="levels" id="lv-creators"></div>
 </section>
@@ -590,7 +607,7 @@ function drawLevels(){
   mk(MUSIC,$("genrePick"),()=>{S.genre="Afrobeats";$("methodPick").classList.remove("hidden");$("methodPick").scrollIntoView({behavior:"smooth"})});
 }
 function homeStart(k){show("s-game");if(k==="make"){$("methodPick").classList.add("hidden");toStage(0)}else startPath(k)}
-function show(id){["s-home","s-game"].forEach(x=>{const e=$(x);e.classList.toggle("hidden",x!==id);e.classList.remove("enter");if(x===id){void e.offsetWidth;e.classList.add("enter")}});window.scrollTo({top:0,behavior:"instant"})}
+function show(id){["s-gate","s-home","s-game"].forEach(x=>{const e=$(x);e.classList.toggle("hidden",x!==id);e.classList.remove("enter");if(x===id){void e.offsetWidth;e.classList.add("enter")}});window.scrollTo({top:0,behavior:"instant"})}
 function goHome(){stopPlay();drawLevels();show("s-home")}
 function toStage(n){
   stopPlay();if(typeof arrStop==="function")arrStop();
@@ -914,14 +931,14 @@ function playClip(){const p=$("player");p.currentTime=S.analysis.clipStart;p.pla
 // Gemini actually listens: up to 3 minutes, phone quality, sent once
 async function aiListen(btn){
   const a=S.analysis;if(!a)return;
-  const SR=8000,secs=Math.min(a.dur,180),buf=await ctx.decodeAudioData(await a.file.arrayBuffer());
+  const SR=8000,secs=Math.min(a.dur,120),buf=await ctx.decodeAudioData(await a.file.arrayBuffer());
   const off=new OfflineAudioContext(1,Math.ceil(secs*SR),SR),src=off.createBufferSource();src.buffer=buf;src.connect(off.destination);src.start();
   const d=(await off.startRendering()).getChannelData(0),b=new DataView(new ArrayBuffer(44+d.length*2));
   const w=(o,s)=>[...s].forEach((c,i)=>b.setUint8(o+i,c.charCodeAt(0)));
   w(0,"RIFF");b.setUint32(4,36+d.length*2,true);w(8,"WAVEfmt ");b.setUint32(16,16,true);b.setUint16(20,1,true);b.setUint16(22,1,true);b.setUint32(24,SR,true);b.setUint32(28,SR*2,true);b.setUint16(32,2,true);b.setUint16(34,16,true);w(36,"data");b.setUint32(40,d.length*2,true);
   for(let i=0;i<d.length;i++)b.setInt16(44+i*2,Math.max(-1,Math.min(1,d[i]))*32767,true);
   const bytes=new Uint8Array(b.buffer);let bin="";for(let i=0;i<bytes.length;i+=32768)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+32768));
-  const ctxt=`Song: ${v("song")} by ${v("artist")} from ${v("city")}. Artist says the genre is ${$("genreSel").value}. Analyzer: ${a.tempo} BPM, ${mmss(a.dur)} long, hook found at ${mmss(a.clipStart)}, sections: ${a.sections.map(s=>s.lab+" "+mmss(s.t0)).join(", ")}.${a.dur>180?" (Only the first 3 minutes are attached.)":""}`;
+  const ctxt=`Song: ${v("song")} by ${v("artist")} from ${v("city")}. Artist says the genre is ${$("genreSel").value}. Analyzer: ${a.tempo} BPM, ${mmss(a.dur)} long, hook found at ${mmss(a.clipStart)}, sections: ${a.sections.map(s=>s.lab+" "+mmss(s.t0)).join(", ")}.${a.dur>120?" (Only the first 2 minutes are attached.)":""}`;
   const t=await aiText("listen",ctxt,btn,btoa(bin));if(!t)return;
   $("arOut").textContent=t;$("arOut").classList.remove("hidden");S.arNotes=t;
 }
@@ -1491,16 +1508,30 @@ $("anyLoop").onchange=async e=>{const f=e.target.files[0];if(!f)return;initAudio
 drawStacks();drawArr();
 $("genreSel").innerHTML=MUSIC.map(([n])=>`<option ${LIVE.includes(n)?"":"disabled"}>${n}${LIVE.includes(n)?"":" (coming soon)"}</option>`).join("");
 drawLevels();
+/* ================= SIGN IN ================= */
+function savedEmail(){try{return localStorage.getItem("pmic_email")}catch(e){return null}}
+async function signIn(e){
+  e.preventDefault();const em=$("gateEmail").value.trim().toLowerCase();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){$("gateMsg").textContent="That email doesn't look right. Try again.";return}
+  $("gateBtn").disabled=true;$("gateBtn").textContent="Signing in…";
+  const ctl=new AbortController();setTimeout(()=>ctl.abort(),5000);
+  try{await fetch("/api/signin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:em}),signal:ctl.signal})}catch(err){}
+  try{localStorage.setItem("pmic_email",em)}catch(err){}
+  $("gateBtn").disabled=false;$("gateBtn").textContent="Start →";$("whoami").textContent=em;show("s-home");
+}
+function signOut(){try{localStorage.removeItem("pmic_email")}catch(e){}$("gateEmail").value="";show("s-gate")}
+if(savedEmail()){$("whoami").textContent=savedEmail()}else show("s-gate");
 loadPreset(0);
 
 /* ================= AI (Gemini + Fish Audio, Vercel only) ================= */
 const AI={gemini:false,fish:false};
 fetch("/api/status").then(r=>r.ok?r.json():{}).then(j=>{AI.gemini=!!j.gemini;AI.fish=!!j.fish;document.body.classList.toggle("has-g",AI.gemini);document.body.classList.toggle("has-v",AI.fish)}).catch(()=>{});
 async function aiText(task,context,btn,audio){
-  const old=btn.textContent;btn.disabled=true;btn.textContent="Thinking…";
-  try{const r=await fetch("/api/gemini",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({task,context,audio})});const j=await r.json().catch(()=>({error:"The server didn't respond."}));if(!r.ok)throw Error(j.error);return j.text}
-  catch(e){alertLine(btn,"Gemini didn't answer: "+String(e.message||"").slice(0,140));return null}
-  finally{btn.disabled=false;btn.textContent=old}
+  const old=btn.textContent,t0=Date.now(),ctl=new AbortController(),kill=setTimeout(()=>ctl.abort(),65000);btn.disabled=true;
+  const tick=()=>{btn.textContent=(task==="listen"?"Listening… ":"Thinking… ")+Math.round((Date.now()-t0)/1000)+"s"};tick();const iv=setInterval(tick,1000);
+  try{const r=await fetch("/api/gemini",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({task,context,audio}),signal:ctl.signal});const j=await r.json().catch(()=>({error:"The server didn't respond."}));if(!r.ok)throw Error(j.error);return j.text}
+  catch(e){alertLine(btn,e.name==="AbortError"?"That took too long. Tap again.":"Gemini didn't answer: "+String(e.message||"").slice(0,140));return null}
+  finally{clearInterval(iv);clearTimeout(kill);btn.disabled=false;btn.textContent=old}
 }
 let sayAudio=null;
 async function say(text,voice,btn){

@@ -12,24 +12,49 @@ const TASKS = {
   recap: c => `Write a 40-second radio recap of this artist's 8-week release, as a warm, hype community-radio DJ talking to listeners. Mention the song, the city, the best moment and one lesson. Under 110 words. No stage directions, just the words to speak.\n\n${c}`
 };
 
+// Fastest model first; if one is slow or overloaded, move to the next.
+const TEXT_MODELS = ["gemini-flash-lite-latest", "gemini-3.5-flash-lite", "gemini-flash-latest", "gemini-2.5-flash"];
+const AUDIO_MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-3.5-flash-lite", "gemini-2.5-flash"];
+
+async function call(model, key, body, ms) {
+  const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms);
+  try {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+      method: "POST", signal: ctl.signal,
+      headers: { "Content-Type": "application/json", "x-goog-api-key": key },
+      body: JSON.stringify(body)
+    });
+    const j = await r.json();
+    if (!r.ok) return { error: j.error?.message || "Gemini error" };
+    const text = (j.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("").trim();
+    return text ? { text } : { error: "Empty answer" };
+  } catch (e) {
+    return { error: e.name === "AbortError" ? `${model} took too long` : e.message };
+  } finally { clearTimeout(t); }
+}
+
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
   const key = process.env.GEMINI_API_KEY;
   if (!key) return res.status(503).json({ error: "Gemini key not set" });
   const { task, context, audio } = req.body || {};
   if (!TASKS[task] || typeof context !== "string") return res.status(400).json({ error: "bad request" });
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: BASE }] },
-      contents: [{ role: "user", parts: [
-        ...(task === "listen" && typeof audio === "string" ? [{ inline_data: { mime_type: "audio/wav", data: audio } }] : []),
-        { text: TASKS[task](context.slice(0, 6000)) }] }]
-    })
-  });
-  const j = await r.json();
-  if (!r.ok) return res.status(502).json({ error: j.error?.message || "Gemini error" });
-  const text = (j.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("").trim();
-  res.status(200).json({ text });
+  const listen = task === "listen" && typeof audio === "string";
+  const body = {
+    systemInstruction: { parts: [{ text: BASE }] },
+    contents: [{ role: "user", parts: [
+      ...(listen ? [{ inline_data: { mime_type: "audio/wav", data: audio } }] : []),
+      { text: TASKS[task](context.slice(0, 6000)) }] }]
+  };
+  const models = [...new Set([process.env.GEMINI_MODEL, ...(listen ? AUDIO_MODELS : TEXT_MODELS)].filter(Boolean))];
+  const started = Date.now();
+  let last = "Gemini error";
+  for (const m of models) {
+    const left = 55000 - (Date.now() - started);
+    if (left < 4000) break;
+    const r = await call(m, key, body, Math.min(listen ? 30000 : 15000, left));
+    if (r.text) return res.status(200).json({ text: r.text, model: m });
+    last = r.error;
+  }
+  res.status(502).json({ error: last });
 };
