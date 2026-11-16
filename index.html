@@ -123,7 +123,7 @@ pre{white-space:pre-wrap;font-family:inherit;font-size:13.5px;line-height:1.5;ba
 .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--green));width:0;transition:width .15s}
 .prog span{position:absolute;inset:0;text-align:center;font-family:'Bungee';font-size:11px;line-height:22px;color:#fff;text-shadow:0 1px 2px #000}
 audio{width:100%;margin-top:8px}
-.restart{position:fixed;top:10px;right:10px;z-index:50;font-family:'Bungee';font-size:11px;background:#1a140d;color:var(--gold);border:2px solid var(--gold);border-radius:20px;padding:7px 12px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.5)}
+
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
 .modal .box{background:var(--panel);border:2px solid var(--gold);border-radius:14px;padding:18px;max-width:340px;text-align:center}
 .goal{background:linear-gradient(90deg,#2a1f12,#1a140d);border:2px solid var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0;font-size:14px;line-height:1.4}
@@ -158,10 +158,33 @@ audio{width:100%;margin-top:8px}
 .week b{font-family:'Bungee';font-size:12px;color:var(--gold)}
 body:not(.has-g) .ai-g,body:not(.has-v) .ai-v{display:none!important}
 .ai-out{white-space:pre-wrap;font-size:13px;background:var(--panel2,#1A140D);border:1px solid #3A2C1A;border-radius:10px;padding:10px;margin-top:8px}
+
+.topbar{position:sticky;top:0;z-index:40;margin:-16px -12px 0;padding:12px 12px 8px;background:rgba(13,10,7,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.stages div{transition:background .5s ease}
+.btn{transition:transform .08s ease,box-shadow .08s ease,filter .2s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5a00}
+.btn:disabled{filter:grayscale(.4) brightness(.8)}
+.enter{animation:enter .45s cubic-bezier(.2,.7,.2,1) both}
+.enter>.panel,.enter>div>.panel{animation:enter .5s cubic-bezier(.2,.7,.2,1) both}
+.enter>.panel:nth-child(2),.enter>div:nth-child(2)>.panel{animation-delay:.06s}.enter>.panel:nth-child(3){animation-delay:.12s}.enter>.panel:nth-child(4){animation-delay:.18s}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.log>div:first-child{animation:enter .4s ease both}
+.goal{transition:opacity .3s}
+.card,.path{transition:transform .15s ease,border-color .2s,background .2s}
+.path:active,.card:active{transform:scale(.98)}
+html{scroll-behavior:smooth}
+.secmap{display:flex;gap:2px;margin-top:4px;height:22px;font-size:10px;font-family:'Bungee'}
+.secmap span{display:flex;align-items:center;justify-content:center;border-radius:4px;overflow:hidden;white-space:nowrap;cursor:pointer;color:#1a0f00}
+.s-Hook{background:var(--gold)}.s-Verse{background:#8a6a40}.s-Intro,.s-Outro{background:#4a3a28;color:var(--ink)!important}.s-Break{background:#4FC3FF}
+.wave i.s-Hook{background:#b98a1e}.wave i.s-Break{background:#2f7fa8}.wave i.hot{background:#ffd75e!important}
+.score{margin-top:12px;background:#0f0b07;border:1px solid var(--line);border-radius:12px;padding:12px}
+.score .big{font-family:'Bungee';font-size:38px;color:var(--gold);text-shadow:2px 2px 0 #6b3d00}
+.meter{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px}.meter span{width:70px}.meter b{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden}.meter b i{display:block;height:100%;background:var(--gold);transition:width .8s ease}.meter em{width:26px;text-align:right;font-style:normal;color:var(--dim)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<button class="restart" onclick="askRestart()">↺ RESTART</button>
+
 <div class="modal hidden" id="restartModal"><div class="box"><h3 style="margin-top:0">Start over?</h3><p style="font-size:14px">You'll go back to the beginning. Your current run will be cleared.</p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn" onclick="doRestart()">Yes, restart</button><button class="btn ghost" onclick="$('restartModal').classList.add('hidden')">Cancel</button></div></div></div>
 <div class="wrap">
 
@@ -179,11 +202,13 @@ body:not(.has-g) .ai-g,body:not(.has-v) .ai-v{display:none!important}
 </section>
 
 <section id="s-game" class="hidden">
-  <div class="row" style="padding-right:96px">
-    <span class="tag" id="stageTag"></span>
-    <button class="btn ghost sm" onclick="goHome()">Home</button>
+  <div class="topbar">
+    <div class="row" style="justify-content:space-between;flex-wrap:nowrap">
+      <span class="tag" id="stageTag"></span>
+      <span class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn ghost sm" onclick="goHome()">Home</button><button class="btn ghost sm" onclick="askRestart()" aria-label="Restart">↺</button></span>
+    </div>
+    <div class="stages"><div id="b1"></div><div id="b2"></div><div id="b3"></div><div id="b4"></div><div id="b5"></div></div>
   </div>
-  <div class="stages"><div id="b1"></div><div id="b2"></div><div id="b3"></div><div id="b4"></div><div id="b5"></div></div>
   <div class="goal" id="goalBox"></div>
 
   <!-- ============ STAGE 0 · CHOOSE START ============ -->
@@ -235,15 +260,19 @@ body:not(.has-g) .ai-g,body:not(.has-v) .ai-v{display:none!important}
         <div id="anaOut" class="hidden">
           <audio id="player" controls></audio>
           <div class="wave" id="wave" title="Tap to jump"></div>
-          <p style="font-size:12px;margin-top:4px">Gold = your strongest 15 seconds. That's your clip.</p>
+          <div class="secmap" id="secMap"></div>
+          <p style="font-size:12px;margin-top:4px">Gold = the hook, the part that repeats. Bright gold = your 15-second clip. Tap any section to hear it.</p>
           <div class="stats four">
             <div class="stat"><div class="v" id="aBpm"></div><div class="k">Tempo</div></div>
             <div class="stat"><div class="v" id="aLen"></div><div class="k">Length</div></div>
             <div class="stat"><div class="v" id="aLoud"></div><div class="k">Loudness</div></div>
-            <div class="stat"><div class="v" id="aIntro"></div><div class="k">Kicks in</div></div>
+            <div class="stat"><div class="v" id="aIntro"></div><div class="k">Hook lands</div></div>
           </div>
           <button class="btn sm" style="margin-top:10px" onclick="playClip()">▶ Play my best clip</button>
+          <div id="anaScore" class="score"></div>
           <div id="anaNotes"></div>
+          <button class="btn sm ai-g" style="margin-top:10px" onclick="aiListen(this)">🎧 Get an A&R listen (Gemini)</button>
+          <div id="arOut" class="ai-out hidden"></div>
         </div>
       </div>
     </div>
@@ -348,7 +377,8 @@ body:not(.has-g) .ai-g,body:not(.has-v) .ai-v{display:none!important}
         <div><label>Your city</label><input type="text" id="city" value="Las Vegas" maxlength="24"></div>
         <div><label>Song status</label><select id="status"><option value="demo">Rough demo</option><option value="mixed">Mixed</option><option value="mastered" selected>Mixed + mastered</option><option value="out">Already released</option></select></div>
       </div>
-      <label style="margin-top:10px">Genre</label><select id="genreSel"></select>
+      <label style="margin-top:10px">Genre</label><select id="genreSel" onchange="S.genre=this.value;if(S.analysis)showAnalysis()"></select>
+      <p id="genreNote" class="hidden" style="font-size:12px;margin-top:4px">Your song can be any genre. The analyzer uses your genre's tempo range. The rollout uses the Afrobeats-tested playbook until your genre's level is live.</p>
       <label style="margin-top:10px">What's it about? (one line)</label><input type="text" id="about" value="falling for someone who makes my city feel like home" maxlength="90">
       <label style="margin-top:10px">Who's it for?</label><input type="text" id="fans" value="Afrobeats lovers 18–30, African diaspora, club and party crowd" maxlength="90">
       <div class="grid2" style="margin-top:10px">
@@ -514,7 +544,17 @@ body:not(.has-g) .ai-g,body:not(.has-v) .ai-v{display:none!important}
       <pre id="plan"></pre>
       <div class="row ai-g" style="margin-top:10px"><button class="btn sm" onclick="aiPlan(this)">✨ Make it personal</button><button class="btn sm" onclick="aiRecap(this)">📻 Radio recap</button></div>
       <div id="recapOut" class="ai-out hidden"></div>
-      <div class="row" style="margin-top:10px"><button class="btn" onclick="copyEl('plan',this)">Copy playbook</button><button class="btn ghost" onclick="restart()">Play again</button></div>
+      <div class="row" style="margin-top:12px"><button class="btn" onclick="copyEl('plan',this)">Copy playbook</button><button class="btn ghost" onclick="restart()">Play again</button></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">🤖 Take it to your own AI</h3>
+      <p style="font-size:13px">Turn this plan into your own release manager. Paste it into Claude, ChatGPT or Gemini (best as a Project, GPT or Gem so it remembers). Every week, tell it your numbers and it tells you the next three moves.</p>
+      <div class="row" style="margin-top:10px"><button class="btn" onclick="copyAgent(this)">Copy agent instructions</button><button class="btn ghost" onclick="downloadAgent()">Download .md</button></div>
+      <details style="margin-top:8px"><summary style="font-size:13px;color:var(--dim);cursor:pointer">How to set it up</summary><ol style="font-size:13px;margin:8px 0 0 18px;line-height:1.6">
+        <li><b>Claude:</b> new Project → paste into the project instructions.</li>
+        <li><b>ChatGPT:</b> new Project (or Explore GPTs → Create) → paste into instructions.</li>
+        <li><b>Gemini:</b> Gems → New Gem → paste into instructions.</li>
+        <li>Then start each week with: "Week 3 numbers: top cities…, best post…, saves…, new contacts…, raised…"</li></ol></details>
     </div>
   </div>
 </section>
@@ -541,11 +581,11 @@ function drawLevels(){
   mk(MUSIC,$("genrePick"),()=>{S.genre="Afrobeats";$("methodPick").classList.remove("hidden");$("methodPick").scrollIntoView({behavior:"smooth"})});
 }
 function homeStart(k){show("s-game");if(k==="make"){$("methodPick").classList.add("hidden");toStage(0)}else startPath(k)}
-function show(id){["s-home","s-game"].forEach(x=>$(x).classList.toggle("hidden",x!==id));window.scrollTo(0,0)}
+function show(id){["s-home","s-game"].forEach(x=>{const e=$(x);e.classList.toggle("hidden",x!==id);e.classList.remove("enter");if(x===id){void e.offsetWidth;e.classList.add("enter")}});window.scrollTo({top:0,behavior:"instant"})}
 function goHome(){stopPlay();drawLevels();show("s-home")}
 function toStage(n){
   stopPlay();if(typeof arrStop==="function")arrStop();
-  [0,1,2,3,4,5].forEach(i=>$("st"+i).classList.toggle("hidden",i!==n));
+  [0,1,2,3,4,5].forEach(i=>{const e=$("st"+i);e.classList.toggle("hidden",i!==n);e.classList.remove("enter");if(i===n){void e.offsetWidth;e.classList.add("enter")}});
   [1,2,3,4,5].forEach(i=>$("b"+i).classList.toggle("on",i<=Math.max(1,n)));
   $("stageTag").textContent=["MAKE A SONG","STAGE 1 · THE SONG","STAGE 2 · CONTENT STUDIO","STAGE 3 · FUND IT","STAGE 4 · THE ROLLOUT","STAGE 5 · RELEASE REPORT"][n];
   if(n===2)initContent(); if(n===3)initFund(); if(n===4)initRoll();
@@ -578,6 +618,9 @@ function startPath(p){
   if(p==="own"){$("status").value="mastered";}
   if(p==="beat"||p==="suno"){$("status").value=p==="suno"?"mixed":"demo";}
   if(p==="demo")drawDemos();
+  const up=p==="own"||p==="suno";
+  $("genreSel").innerHTML=MUSIC.map(([n])=>{const ok=up||LIVE.includes(n);return `<option ${ok?"":"disabled"}>${n}${ok?"":" (coming soon)"}</option>`}).join("");
+  $("genreNote").classList.toggle("hidden",!up);
 }
 function drawDemos(){
   const list=DEMOS.map((d,i)=>`<div class="path" onclick="pickDemo(${i})"><div class="ic">💿</div><div><b>${d.title}</b><small>${d.artist} · ${d.about}</small></div><div class="go">→</div></div>`).join("");
@@ -739,49 +782,140 @@ Theme: ${$("sTopic").value}
 }
 
 /* ================= SONG ANALYZER ================= */
+const TEMPO_RANGE={"Afrobeats":[90,120],"Amapiano":[108,118],"Hip-Hop":[70,100],"R&B / Soul":[60,100],"Gospel":[65,130],"Reggaeton":[85,100],"Country":[70,130],"Drill":[135,150]};
+function fft(re,im){const n=re.length;
+  for(let i=1,j=0;i<n;i++){let bit=n>>1;for(;j&bit;bit>>=1)j^=bit;j^=bit;if(i<j){let t=re[i];re[i]=re[j];re[j]=t;t=im[i];im[i]=im[j];im[j]=t}}
+  for(let len=2;len<=n;len<<=1){const ang=-2*Math.PI/len,wr=Math.cos(ang),wi=Math.sin(ang),h=len>>1;
+    for(let i=0;i<n;i+=len){let cr=1,ci=0;for(let j=0;j<h;j++){const a=i+j,b=a+h,tr=re[b]*cr-im[b]*ci,ti=re[b]*ci+im[b]*cr;re[b]=re[a]-tr;im[b]=im[a]-ti;re[a]+=tr;im[a]+=ti;const t=cr*wr-ci*wi;ci=cr*wi+ci*wr;cr=t}}}}
 async function analyzeFile(file){
-  $("anaBusy").classList.remove("hidden");$("anaOut").classList.add("hidden");
+  $("anaBusy").textContent="Listening to your song…";$("anaBusy").classList.remove("hidden");$("anaOut").classList.add("hidden");
   initAudio();
   let buf;
   try{buf=await ctx.decodeAudioData(await file.arrayBuffer())}catch(e){$("anaBusy").textContent="Couldn't read that file. Try an MP3 or WAV.";return}
+  await new Promise(r=>setTimeout(r,30));
   const sr=buf.sampleRate,c0=buf.getChannelData(0),c1=buf.numberOfChannels>1?buf.getChannelData(1):c0;
   const hop=512,n=Math.floor(c0.length/hop),rms=new Float32Array(n);let sum=0,peak=0;
   for(let i=0;i<n;i++){let s2=0;for(let j=0;j<hop;j++){const k=i*hop+j,s=(c0[k]+c1[k])*.5;s2+=s*s;const a=s<0?-s:s;if(a>peak)peak=a}sum+=s2;rms[i]=Math.sqrt(s2/hop)}
   const fps=sr/hop,dur=buf.duration,avgDb=20*Math.log10(Math.sqrt(sum/(n*hop))+1e-9);
   // tempo: autocorrelation of onset envelope
   const on=new Float32Array(n);for(let i=1;i<n;i++)on[i]=Math.max(0,rms[i]-rms[i-1]);
-  const start=Math.floor(n*.15),len=Math.min(n-start-400,Math.floor(fps*45));
+  const start=Math.floor(n*.15),len=Math.max(100,Math.min(n-start-400,Math.floor(fps*45)));
+  const tr=TEMPO_RANGE[$("genreSel").value]||[85,125],tc=(tr[0]+tr[1])/2;
   let best=0,bestB=100;
-  for(let b=80;b<=160;b+=.5){const lag=60*fps/b,l0=Math.floor(lag),fr=lag-l0;let s=0;
-    for(let i=start;i<start+len;i++)s+=on[i]*(on[i+l0]*(1-fr)+on[i+l0+1]*fr);
+  for(let b=60;b<=180;b+=.5){const lag=60*fps/b,l0=Math.floor(lag),fr=lag-l0;let s=0;
+    for(let i=start;i<start+len&&i+l0+1<n;i++)s+=on[i]*(on[i+l0]*(1-fr)+on[i+l0+1]*fr);
+    s*=Math.exp(-.5*(Math.log2(b/tc)/.4)**2);
     if(s>best){best=s;bestB=b}}
-  let tempo=bestB;if(tempo>135)tempo/=2;
-  // energy curve + intro + best clip
+  const tempo=bestB;
+  // energy curve for the waveform
   const buckets=90,curve=[];for(let b=0;b<buckets;b++){let s=0,a=Math.floor(b*n/buckets),z=Math.floor((b+1)*n/buckets);for(let i=a;i<z;i++)s+=rms[i];curve.push(s/Math.max(1,z-a))}
   const mx=Math.max(...curve);
   let intro=0;for(let b=0;b<buckets;b++){if(curve[b]>.6*mx){intro=b*dur/buckets;break}}
-  const win=Math.floor(15*fps);let bs=0,bi=0,acc=0;for(let i=0;i<n;i++){acc+=rms[i];if(i>=win)acc-=rms[i-win];if(i>=win&&acc>bs){bs=acc;bi=i-win}}
-  const clipStart=Math.min(bi/fps,Math.max(0,dur-15));
-  S.analysis={tempo:Math.round(tempo),dur,avgDb,peakDb:20*Math.log10(peak+1e-9),intro,clipStart,curve,mx,name:file.name};
+
+  // ---- spectral features: chroma (harmony/melody) + bands (timbre), in ~0.5s steps ----
+  const SR=11025,off=new OfflineAudioContext(1,Math.ceil(dur*SR),SR),src=off.createBufferSource();src.buffer=buf;src.connect(off.destination);src.start();
+  const mono=(await off.startRendering()).getChannelData(0);
+  const N=1024,H=512,F=11,seg=H*F/SR,nfr=Math.floor((mono.length-N)/H),ns=Math.floor(nfr/F);
+  const hann=new Float32Array(N).map((_,i)=>.5-.5*Math.cos(2*Math.PI*i/N)),bin=SR/N;
+  const edges=[40,90,180,350,700,1400,2800,5500],chOf=new Int8Array(N/2).fill(-1),bdOf=new Int8Array(N/2).fill(-1);
+  for(let k=1;k<N/2;k++){const f=k*bin;if(f>=80&&f<=2200)chOf[k]=((Math.round(12*Math.log2(f/261.63))%12)+12)%12;for(let b=0;b<7;b++)if(f>=edges[b]&&f<edges[b+1])bdOf[k]=b}
+  const chroma=[],bands=[],re=new Float32Array(N),im=new Float32Array(N);
+  for(let s=0;s<ns;s++){const ch=new Float32Array(12),bd=new Float32Array(7);
+    for(let f=0;f<F;f++){const o=(s*F+f)*H;for(let i=0;i<N;i++){re[i]=mono[o+i]*hann[i];im[i]=0}fft(re,im);
+      for(let k=1;k<N/2;k++){const p=re[k]*re[k]+im[k]*im[k];if(chOf[k]>=0)ch[chOf[k]]+=Math.sqrt(p);if(bdOf[k]>=0)bd[bdOf[k]]+=p}}
+    chroma.push(ch);bands.push(bd)}
+  const nrm=v=>{let q=0;for(const x of v)q+=x*x;q=Math.sqrt(q)||1;return v.map(x=>x/q)};
+  const lb=bands.map(b=>Array.from(b,x=>Math.log10(x+1e-6))),lbm=lb[0].map((_,k)=>lb.reduce((a,r)=>a+r[k],0)/ns);
+  const vec=chroma.map((c,i)=>[...nrm(Array.from(c)).map(x=>x*.85),...nrm(lb[i].map((x,k)=>x-lbm[k])).map(x=>x*.53)]);
+  const en=bands.map(b=>Math.sqrt(b.reduce((a,x)=>a+x,0))),enMax=Math.max(...en)||1;
+  const SS=new Float32Array(ns*ns);
+  for(let i=0;i<ns;i++)for(let j=i;j<ns;j++){let d=0;const a=vec[i],b=vec[j];for(let k=0;k<a.length;k++)d+=a[k]*b[k];SS[i*ns+j]=SS[j*ns+i]=d}
+  // diagonal prefix sums so any window-vs-window similarity is O(1)
+  const D=new Float32Array((ns+1)*(ns+1));for(let i=1;i<=ns;i++)for(let j=1;j<=ns;j++)D[i*(ns+1)+j]=SS[(i-1)*ns+j-1]+D[(i-1)*(ns+1)+j-1];
+  const W=Math.max(4,Math.round(15/seg)),wsim=(i,j,w=W)=>(D[(i+w)*(ns+1)+j+w]-D[i*(ns+1)+j])/w;
+  // ---- the hook: the 15s that repeats most, with energy and vocal-range presence ----
+  const cand=[];
+  for(let i=0;i+W<=ns;i++){let rep=0;for(let j=0;j+W<=ns;j++)if(Math.abs(i-j)>=W){const s=wsim(i,j);if(s>rep)rep=s}
+    let e=0,mid=0,tot=0;for(let k=i;k<i+W;k++){e+=en[k];mid+=bands[k][3]+bands[k][4]+bands[k][5];tot+=en[k]}
+    cand.push({i,rep,e:e/W/enMax,mid:mid/(tot||1)})}
+  const rr=cand.map(c=>c.rep),rMin=Math.min(...rr),rMax=Math.max(...rr),mids=cand.map(c=>c.mid),mMin=Math.min(...mids),mMax=Math.max(...mids),eMax=Math.max(...cand.map(c=>c.e));
+  cand.forEach(c=>{const t=c.i*seg;c.score=.55*(c.rep-rMin)/((rMax-rMin)||1)+.3*c.e/(eMax||1)+.15*(c.mid-mMin)/((mMax-mMin)||1);if(t<dur*.08)c.score*=.7;if(t+15>dur*.95)c.score*=.8});
+  let hook=cand.reduce((a,c)=>c.score>a.score?c:a,cand[0]);
+  // ---- sections: novelty (checkerboard over the similarity matrix) ----
+  const K=Math.max(3,Math.round(4/seg)),nov=new Float32Array(ns);
+  for(let i=K;i<ns-K;i++){let w=0,x=0;for(let a=-K;a<K;a++)for(let b=-K;b<K;b++){const v=SS[(i+a)*ns+i+b];if((a<0)===(b<0))w+=v;else x+=v}nov[i]=w-x}
+  const nm=nov.reduce((a,x)=>a+x,0)/ns,nsd=Math.sqrt(nov.reduce((a,x)=>a+(x-nm)**2,0)/ns),gap=Math.round(7/seg);
+  let bnd=[0];for(let i=K;i<ns-K;i++){let isPk=nov[i]>nm+.4*nsd;for(let d=-gap;d<=gap&&isPk;d++)if(d&&nov[i+d]>nov[i])isPk=false;if(isPk&&i-bnd[bnd.length-1]>=gap)bnd.push(i)}
+  bnd.push(ns);
+  // snap the hook start to the nearest section start within 3s
+  const snap=bnd.slice(0,-1).reduce((a,b)=>Math.abs(b-hook.i)<Math.abs(a-hook.i)?b:a,0);if(Math.abs(snap-hook.i)*seg<=3&&snap+W<=ns)hook=cand[snap]||hook;
+  const secs=[];for(let k=0;k+1<bnd.length;k++){const a=bnd[k],b=bnd[k+1];let e=0;for(let i=a;i<b;i++)e+=en[i];secs.push({a,b,e:e/(b-a)/enMax})}
+  const eMean=secs.reduce((s,x)=>s+x.e*(x.b-x.a),0)/ns;
+  secs.forEach(s=>{const w=Math.min(W,s.b-s.a);
+    let like=0;if(s.b>hook.i&&s.a<hook.i+W&&Math.min(s.b,hook.i+W)-Math.max(s.a,hook.i)>=w*.5)like=1;
+    else for(let d=-3;d<=3;d++){const i=s.a+d,ww=Math.min(w,ns-hook.i,ns-i);if(i>=0&&ww>2)like=Math.max(like,wsim(i,hook.i,ww))}
+    s.like=like});
+  const lk=secs.map(s=>s.like).sort((x,y)=>x-y),med=lk[Math.floor(lk.length/2)];
+  secs.forEach((s,k)=>{s.lab=s.like===1||(s.like>=Math.max(.75,hook.rep*.85)&&s.like>=med+.08)?"Hook":k===0&&s.e<eMean*.8?"Intro":k===secs.length-1&&s.e<eMean*.8?"Outro":s.e<eMean*.6?"Break":"Verse"});
+  const hooks=secs.filter(s=>s.lab==="Hook"),verses=secs.filter(s=>s.lab==="Verse");
+  const firstHook=hooks.length?hooks[0].a*seg:hook.i*seg;
+  const avg=(arr,f)=>arr.length?arr.reduce((a,x)=>a+f(x),0)/arr.length:0;
+  const hookE=avg(hooks.length?hooks:[{e:hook.e}],s=>s.e),verseE=avg(verses,s=>s.e)||hookE;
+  const tb=bands.reduce((a,b)=>a.map((x,k)=>x+b[k]),new Array(7).fill(0)),tbs=tb.reduce((a,x)=>a+x,0)||1;
+  S.analysis={tempo:Math.round(tempo),dur,avgDb,peakDb:20*Math.log10(peak+1e-9),intro,clipStart:Math.min(hook.i*seg,Math.max(0,dur-15)),curve,mx,name:file.name,
+    sections:secs.map(s=>({lab:s.lab,like:s.like,t0:s.a*seg,t1:Math.min(dur,s.b*seg)})),hookRep:hook.rep,hookCount:Math.max(1,hooks.length),firstHook,lift:hookE/(verseE||1),
+    bass:(tb[0]+tb[1]+tb[2])/tbs,air:(tb[6])/tbs,file};
   const url=URL.createObjectURL(file);$("player").src=url;
   showAnalysis();
 }
+function songReport(a){
+  const g=$("genreSel").value||S.genre||"Afrobeats",[lo,hi]=TEMPO_RANGE[g]||[85,125];
+  const cl=x=>Math.max(0,Math.min(100,Math.round(x)));
+  const hookS=cl((a.hookRep-.75)/.2*70+Math.min(3,a.hookCount)*10),
+        structS=cl(100-Math.max(0,a.firstHook-20)*1.5-(a.hookCount<2?15:0)-(a.dur>240?15:0)-(a.dur<100?15:0)),
+        mixS=cl(100-(a.avgDb<-15?30:a.avgDb>-7?15:0)-(a.bass<.3?20:a.bass>.85?15:0)-(a.air<.004?15:0)),
+        replayS=cl(60+(a.lift-1)*150-(a.dur>210?10:0)+(a.dur>=120&&a.dur<=200?10:0));
+  const overall=Math.round((hookS*1.3+structS+mixS+replayS)/4.3);
+  const n=[];
+  n.push(a.hookRep>.9?["ok",`Clear hook: the part at ${mmss(a.clipStart)} comes back ${a.hookCount>1?a.hookCount+" times":"again"} almost exactly. That repetition is what people remember and sing back.`]:a.hookRep>.84?["tip",`There's a repeated section at ${mmss(a.clipStart)}, but it changes a lot each time. Hooks stick when they come back the same way.`]:["bad","No section repeats clearly. A song without a repeated hook is hard to clip and hard to remember. Build one part that comes back 2–3 times."]);
+  n.push(a.firstHook<=30?["ok",`The hook first lands at ${mmss(a.firstHook)}. Fast. Listeners hear the best part before they can skip.`]:a.firstHook<=50?["tip",`The hook first lands at ${mmss(a.firstHook)}. Try to get there by 0:30, or open with a piece of it.`]:["bad",`The hook doesn't land until ${mmss(a.firstHook)}. Most streaming listeners decide in the first 30 seconds. Cut the intro or start on the hook.`]);
+  n.push(a.lift>=1.12?["ok","The hook lifts above the verses. It feels like a payoff."]:a.lift>=1.03?["tip","The hook only lifts a little over the verses. More layers, ad-libs or a bigger drum pattern in the hook would make it hit."]:["tip","The hook sits at the same energy as the rest of the song. That can work for a vibe record, but a lift makes the clip pop on social."]);
+  n.push(a.tempo>=lo&&a.tempo<=hi?["ok",`About ${a.tempo} BPM, right in the ${g} pocket (${lo}–${hi}).`]:["tip",`About ${a.tempo} BPM. ${g} usually sits around ${lo}–${hi}. That's fine if it's on purpose, and it can help you stand out.`]);
+  n.push(a.avgDb<-15?["bad","Quiet next to released songs. Budget for mixing and mastering in Stage 3."]:a.bass<.3?["tip","Light low end. On phone speakers that's fine, but in a club or car it'll feel thin next to other records."]:a.bass>.85?["tip","Very bass-heavy. Check it on phone speakers. The vocal can disappear."]:["ok","The mix balance holds up: good level and a solid low end."]);
+  n.push(a.dur<120?["tip","Under 2 minutes: great for replays, as long as it feels complete."]:a.dur<=210?["ok","Length is in the streaming sweet spot (2:00–3:30)."]:["tip","Over 3:30. A shorter edit usually gets more replays."]);
+  const verdict=overall>=80?"Ready to roll out. Spend your energy on content and funding.":overall>=65?"Close. Fix the top note below before you spend money pushing it.":"Work on the song before you put money behind it. Fix the red notes first.";
+  return {scores:[["Hook",hookS],["Structure",structS],["Mix",mixS],["Replay",replayS]],overall,notes:n,verdict};
+}
 function showAnalysis(){
   const a=S.analysis,cs=Math.floor(a.clipStart/a.dur*a.curve.length),ce=Math.ceil((a.clipStart+15)/a.dur*a.curve.length);
-  $("wave").innerHTML=a.curve.map((x,i)=>`<i class="${i>=cs&&i<ce?"hot":""}" style="height:${Math.max(3,x/a.mx*100)}%"></i>`).join("");
+  const labAt=t=>(a.sections.find(s=>t>=s.t0&&t<s.t1)||{}).lab||"";
+  $("wave").innerHTML=a.curve.map((x,i)=>`<i class="${i>=cs&&i<ce?"hot ":""}s-${labAt((i+.5)/a.curve.length*a.dur)}" style="height:${Math.max(3,x/a.mx*100)}%"></i>`).join("");
   $("wave").onclick=e=>{const r=$("wave").getBoundingClientRect();$("player").currentTime=(e.clientX-r.left)/r.width*a.dur;$("player").play()};
-  $("aBpm").textContent=a.tempo;$("aLen").textContent=mmss(a.dur);$("aLoud").textContent=a.avgDb.toFixed(0)+" dB";$("aIntro").textContent=mmss(a.intro);
-  const notes=[];
-  notes.push(a.tempo>=90&&a.tempo<=115?["ok",`About ${a.tempo} BPM: right in the Afrobeats pocket.`]:["tip",`About ${a.tempo} BPM. Classic Afrobeats sits around 90–120, but faster records are working right now too.`]);
-  notes.push(a.dur<120?["tip","Under 2 minutes: great for replays and short-form, but make sure it feels complete."]:a.dur<=210?["ok","Length is in the streaming sweet spot (2:00–3:30)."]:["tip","Over 3:30. Consider a shorter radio/streaming edit."]);
-  notes.push(a.avgDb>-9?["tip","Very loud. Make sure it isn't squashed."]:a.avgDb>-15?["ok","Loudness is streaming-ready."]:["bad","Quiet compared to released songs. Budget for mixing and mastering in Stage 3."]);
-  notes.push(a.intro<=12?["ok",`The song gets going by ${mmss(a.intro)}. Good, since listeners decide in seconds.`]:["bad",`The energy doesn't hit until ${mmss(a.intro)}. Many listeners skip before then. Try a shorter intro, or open your clips on the hook.`]);
-  notes.push(["tip",`Your strongest 15 seconds: ${mmss(a.clipStart)}–${mmss(a.clipStart+15)}. Use it for every short-form clip.`]);
+  $("secMap").innerHTML=a.sections.map(s=>`<span class="s-${s.lab}" style="flex:${s.t1-s.t0}" onclick="$('player').currentTime=${s.t0.toFixed(1)};$('player').play()">${(s.t1-s.t0)/a.dur>.1?s.lab:""}</span>`).join("");
+  $("aBpm").textContent=a.tempo;$("aLen").textContent=mmss(a.dur);$("aLoud").textContent=a.avgDb.toFixed(0)+" dB";$("aIntro").textContent=mmss(a.firstHook);
+  const R0=songReport(a);a.report=R0;
+  $("anaScore").innerHTML=`<div class="row" style="justify-content:space-between;align-items:center"><div><div class="tag">SONG REPORT</div><p style="margin-top:6px;font-size:14px;color:var(--ink)">${R0.verdict}</p></div><div class="big">${R0.overall}</div></div>`+
+    R0.scores.map(([k,v])=>`<div class="meter"><span>${k}</span><b><i style="width:${v}%"></i></b><em>${v}</em></div>`).join("");
+  const notes=[...R0.notes,["tip",`Your clip: ${mmss(a.clipStart)}–${mmss(a.clipStart+15)}, the hook. Use it for every short-form post so fans hear it again and again.`]];
   S.anaNotes=notes;
   $("anaNotes").innerHTML=notes.map(([k,t])=>`<div class="lesson ${k==="bad"?"bad":k==="tip"?"tip":""}">${t}</div>`).join("");
-  $("anaBusy").classList.add("hidden");$("anaOut").classList.remove("hidden");
+  $("anaBusy").classList.add("hidden");$("anaOut").classList.remove("hidden");$("arOut").classList.add("hidden");
 }
 function playClip(){const p=$("player");p.currentTime=S.analysis.clipStart;p.play();setTimeout(()=>{if(Math.abs(p.currentTime-S.analysis.clipStart-15)<2)p.pause()},15200)}
+// Gemini actually listens: up to 3 minutes, phone quality, sent once
+async function aiListen(btn){
+  const a=S.analysis;if(!a)return;
+  const SR=8000,secs=Math.min(a.dur,180),buf=await ctx.decodeAudioData(await a.file.arrayBuffer());
+  const off=new OfflineAudioContext(1,Math.ceil(secs*SR),SR),src=off.createBufferSource();src.buffer=buf;src.connect(off.destination);src.start();
+  const d=(await off.startRendering()).getChannelData(0),b=new DataView(new ArrayBuffer(44+d.length*2));
+  const w=(o,s)=>[...s].forEach((c,i)=>b.setUint8(o+i,c.charCodeAt(0)));
+  w(0,"RIFF");b.setUint32(4,36+d.length*2,true);w(8,"WAVEfmt ");b.setUint32(16,16,true);b.setUint16(20,1,true);b.setUint16(22,1,true);b.setUint32(24,SR,true);b.setUint32(28,SR*2,true);b.setUint16(32,2,true);b.setUint16(34,16,true);w(36,"data");b.setUint32(40,d.length*2,true);
+  for(let i=0;i<d.length;i++)b.setInt16(44+i*2,Math.max(-1,Math.min(1,d[i]))*32767,true);
+  const bytes=new Uint8Array(b.buffer);let bin="";for(let i=0;i<bytes.length;i+=32768)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+32768));
+  const ctxt=`Song: ${v("song")} by ${v("artist")} from ${v("city")}. Artist says the genre is ${$("genreSel").value}. Analyzer: ${a.tempo} BPM, ${mmss(a.dur)} long, hook found at ${mmss(a.clipStart)}, sections: ${a.sections.map(s=>s.lab+" "+mmss(s.t0)).join(", ")}.${a.dur>180?" (Only the first 3 minutes are attached.)":""}`;
+  const t=await aiText("listen",ctxt,btn,btoa(bin));if(!t)return;
+  $("arOut").textContent=t;$("arOut").classList.remove("hidden");S.arNotes=t;
+}
 
 /* ================= LOCK SONG ================= */
 function lockSong(){
@@ -789,7 +923,7 @@ function lockSong(){
   S.genre=$("genreSel").value.replace(" (coming soon)","");S.artist=v("artist");S.song=v("song");S.city=v("city");S.about=v("about");S.fansDesc=v("fans");S.status=$("status").value;
   S.followers=Math.max(50,+$("foll").value||0);S.list=Math.max(0,+$("list").value||0);
   const stQ={demo:.45,mixed:.7,mastered:.85,out:.85}[S.status];
-  if(S.analysis){const a=S.analysis;let q=stQ;if(a.intro>12)q-=.08;if(a.avgDb<-15)q-=.1;if(a.dur>=120&&a.dur<=210)q+=.05;S.q=Math.max(.3,Math.min(1,q));S.bpm=a.tempo;S.clip=`${mmss(a.clipStart)}–${mmss(a.clipStart+15)}`}
+  if(S.analysis){const a=S.analysis;S.q=Math.max(.3,Math.min(1,stQ*.4+(a.report?a.report.overall/100:.6)*.6));S.bpm=a.tempo;S.clip=`${mmss(a.clipStart)}–${mmss(a.clipStart+15)}`}
   else{S.q=Math.max(.3,Math.min(1,quality*.6+stQ*.4));S.bpm=bpm();S.clip="the hook (bars 9–16)";S.groove=PRESETS[curPre].n}
   S.real=S.path==="own";
   toStage(2);
@@ -1098,7 +1232,8 @@ function finishRelease(){
 function buildPlan(streamRev,total){
   const fundedNames=BUDGET.concat(MBUDGET).filter(b=>S.funded.includes(b.id)).map(b=>b.n),P=id=>PILLARS.find(p=>p.id===id).n;
   const a=S.analysis;
-  const songSec=a?`- Analyzed: ~${a.tempo} BPM, ${mmss(a.dur)} long, energy hits at ${mmss(a.intro)}.
+  const songSec=a?`- Analyzed: ~${a.tempo} BPM, ${mmss(a.dur)} long, hook lands at ${mmss(a.firstHook)}. Song report ${a.report?a.report.overall+"/100: "+a.report.verdict:""}
+- Sections: ${a.sections.map(x=>x.lab+" "+mmss(x.t0)).join(" · ")}${S.arNotes?"\n- A&R listen:\n"+S.arNotes.split("\n").map(l=>"  "+l).join("\n"):""}
 - Your clip: ${S.clip}. Use it in every short-form post.
 ${S.anaNotes.filter(x=>x[0]==="bad").map(x=>"- Fix: "+x[1]).join("\n")}`:`- ${S.path==="beat"||S.path==="demo"?"Built on the "+S.groove+" groove at "+S.bpm+" BPM.":"Made with Suno."}`;
   const fundSec=S.fundType==="token"?`- Fan token $${S.tok.sym}: fixed 100,000 supply · Backers ${S.tok.b}% · Rewards ${S.tok.c}% · Artist ${S.tok.a}%${S.tok.vest?" (locked 12 mo)":""} · Treasury ${S.tok.t}%${S.tok.cap?" · 2% wallet cap":""}.
@@ -1347,10 +1482,10 @@ loadPreset(0);
 /* ================= AI (Gemini + Fish Audio, Vercel only) ================= */
 const AI={gemini:false,fish:false};
 fetch("/api/status").then(r=>r.ok?r.json():{}).then(j=>{AI.gemini=!!j.gemini;AI.fish=!!j.fish;document.body.classList.toggle("has-g",AI.gemini);document.body.classList.toggle("has-v",AI.fish)}).catch(()=>{});
-async function aiText(task,context,btn){
+async function aiText(task,context,btn,audio){
   const old=btn.textContent;btn.disabled=true;btn.textContent="Thinking…";
-  try{const r=await fetch("/api/gemini",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({task,context})});const j=await r.json();if(!r.ok)throw Error(j.error);return j.text}
-  catch(e){alertLine(btn,"Gemini didn't answer. Try again.");return null}
+  try{const r=await fetch("/api/gemini",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({task,context,audio})});const j=await r.json().catch(()=>({error:"The server didn't respond."}));if(!r.ok)throw Error(j.error);return j.text}
+  catch(e){alertLine(btn,"Gemini didn't answer: "+String(e.message||"").slice(0,140));return null}
   finally{btn.disabled=false;btn.textContent=old}
 }
 let sayAudio=null;
@@ -1369,6 +1504,37 @@ async function aiCrew(btn){const blk=btn.closest("[data-wk]");const t=await aiTe
 function reportInfo(){return songInfo()+`\nGrade: ${$("grade").textContent}\nTotal brought in: ${$("pTotal").textContent}\nSuperfans: ${$("pCore").textContent}\nLessons: ${$("lessons").innerText}\n\nPlaybook:\n${$("plan").textContent}`}
 async function aiPlan(btn){const t=await aiText("playbook",reportInfo(),btn);if(t)$("plan").textContent=t}
 async function aiRecap(btn){const t=await aiText("recap",reportInfo(),btn);if(!t)return;const o=$("recapOut");o.textContent=t;o.classList.remove("hidden");if(AI.fish)say(t,"dj",btn)}
+
+/* ================= TAKE IT TO YOUR OWN AI ================= */
+function agentText(){
+  return `# Release Manager: "${S.song}" by ${S.artist}
+
+You are my release manager for my song "${S.song}" (${S.genre||"Afrobeats"}, ${S.city}). I'm an independent artist. Your job is to get this song funded, heard and turned into real fans and real income over the next 8 weeks, using the plan below.
+
+## How to work with me
+- Each week I'll send my numbers: top cities, which post did best, save rate, new followers, new contacts (emails/texts), money raised, shows booked.
+- Read them like a data analyst. Tell me what's working, what isn't, and give me exactly 3 moves for next week, with the day and time to post.
+- If a post takes off, tell me to make part 2 in the same format within 7 days.
+- If I skip a week, call it out. Going dark kills momentum.
+- Write hooks, captions and the comment keyword for me when I ask. The keyword gets said out loud in the video and put on screen.
+- Keep it short and direct. Ask me one question at a time if you need more.
+
+## Hard rules
+- Never tell me to promise fans that a token will go up in value or that they'll make money. Sell access, perks and experiences. Royalty sales are investments: tell me to use a platform built for them and to talk to an entertainment lawyer.
+- Paid ads go to my profile or page, never straight to Spotify.
+- Performance and story content beats promo. Open every video on the hook in the first 3 seconds.
+- Post 3+ times a week, main posts 5–7pm.
+- Every week, capture fan contacts I own (email/text), not just followers.
+
+## My game results (what I learned in Pay Me In Crypto)
+Grade ${$("grade").textContent} · ${$("pTotal").textContent} brought in · ${$("pCore").textContent} superfans
+${$("lessons").innerText.split("\n").filter(Boolean).map(l=>"- "+l).join("\n")}
+
+## My plan
+${$("plan").textContent}
+`}
+async function copyAgent(btn){try{await navigator.clipboard.writeText(agentText());const o=btn.textContent;btn.textContent="Copied ✓";setTimeout(()=>btn.textContent=o,1800)}catch(e){downloadAgent()}}
+function downloadAgent(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([agentText()],{type:"text/markdown"}));a.download=`${(S.song||"release").replace(/[^\w]+/g,"-")}-release-manager.md`;a.click()}
 </script>
 </body>
 </html>
