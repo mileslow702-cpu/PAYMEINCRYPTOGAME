@@ -1534,12 +1534,22 @@ async function aiText(task,context,btn,audio){
   finally{clearInterval(iv);clearTimeout(kill);btn.disabled=false;btn.textContent=old}
 }
 let sayAudio=null;
+let sayRun=0;
 async function say(text,voice,btn){
   if(sayAudio){sayAudio.pause();sayAudio=null}
-  const old=btn.textContent,t0=Date.now();btn.disabled=true;const iv=setInterval(()=>btn.textContent="🔊 "+Math.round((Date.now()-t0)/1000)+"s",1000);btn.textContent="🔊 0s";
-  try{const r=await fetch("/api/voice",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,voice})});if(!r.ok)throw Error();
-    sayAudio=new Audio(URL.createObjectURL(await r.blob()));sayAudio.play().catch(()=>{})}
-  catch(e){alertLine(btn,"Voice didn't load. Try again.")}
+  const run=++sayRun,old=btn.textContent,t0=Date.now();btn.disabled=true;const iv=setInterval(()=>btn.textContent="🔊 "+Math.round((Date.now()-t0)/1000)+"s",1000);btn.textContent="🔊 0s";
+  // short chunks, requested together, played in order: the first one starts fast
+  const parts=[];for(const sn of text.match(/[^.!?]+[.!?]*/g)||[text]){if(parts.length&&(parts[parts.length-1]+sn).length<160)parts[parts.length-1]+=sn;else parts.push(sn)}
+  const jobs=parts.map(t=>fetch("/api/voice",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:t.trim(),voice})}).then(r=>{if(!r.ok)throw Error();return r.blob()}));
+  try{
+    for(let i=0;i<jobs.length;i++){
+      const blob=await jobs[i];if(run!==sayRun)return;
+      if(i===0){clearInterval(iv);btn.disabled=false;btn.textContent=old}
+      sayAudio=new Audio(URL.createObjectURL(blob));
+      await new Promise(res=>{sayAudio.onended=res;sayAudio.onerror=res;sayAudio.play().catch(res)});
+      if(run!==sayRun)return;
+    }
+  }catch(e){alertLine(btn,"Voice didn't load. Try again.")}
   finally{clearInterval(iv);btn.disabled=false;btn.textContent=old}
 }
 function alertLine(btn,msg){const d=document.createElement("div");d.className="lesson bad";d.textContent=msg;btn.after(d);setTimeout(()=>d.remove(),4000)}
