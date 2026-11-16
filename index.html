@@ -81,7 +81,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .chk input{margin-top:3px;accent-color:var(--gold);width:18px;height:18px;flex-shrink:0}
 .chk span{font-size:14.5px;flex:1}
 .chk small{display:block;color:var(--dim);font-size:12.5px}
-.chk .amt{font-family:'Bungee';color:var(--gold);font-size:13px}
+.chk .amt{font-family:'Bungee';color:var(--gold);font-size:13px;width:74px;background:#0f0b07;border:1px solid var(--line);border-radius:8px;padding:6px;text-align:right}
 .chk.trap span{color:#ffb3ad}
 .lesson{border-left:4px solid var(--green);background:#0f1a12;padding:10px 12px;border-radius:0 10px 10px 0;margin:8px 0;font-size:14px;line-height:1.45}
 .lesson.bad{border-color:var(--red);background:#1f0f0d}
@@ -177,6 +177,8 @@ html{scroll-behavior:smooth}
 .secmap span{display:flex;align-items:center;justify-content:center;border-radius:4px;overflow:hidden;white-space:nowrap;cursor:pointer;color:#1a0f00}
 .s-Hook{background:var(--gold)}.s-Verse{background:#8a6a40}.s-Intro,.s-Outro{background:#4a3a28;color:var(--ink)!important}.s-Break{background:#4FC3FF}
 .wave i.s-Hook{background:#b98a1e}.wave i.s-Break{background:#2f7fa8}.wave i.hot{background:#ffd75e!important}
+.premium{border-color:var(--gold);background:linear-gradient(180deg,#2a1d0b,var(--panel))}
+.prem{border:1px dashed var(--line);border-radius:10px;padding:10px;margin-top:8px;opacity:.9}.prem b{display:block;font-size:14px}.prem small{color:var(--dim);font-size:12.5px}
 .score{margin-top:12px;background:#0f0b07;border:1px solid var(--line);border-radius:12px;padding:12px}
 .score .big{font-family:'Bungee';font-size:38px;color:var(--gold);text-shadow:2px 2px 0 #6b3d00}
 .meter{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px}.meter span{width:70px}.meter b{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden}.meter b i{display:block;height:100%;background:var(--gold);transition:width .8s ease}.meter em{width:26px;text-align:right;font-style:normal;color:var(--dim)}
@@ -444,7 +446,9 @@ html{scroll-behavior:smooth}
         <h3 style="margin-top:0">Step 2 · Design your fan token</h3>
         <p style="font-size:13px">Backers get tokens that unlock perks in your world: access, not profit.</p>
         <div class="grid2" style="margin-top:8px"><div><label>Token name</label><input type="text" id="tName" maxlength="20"></div><div><label>Symbol</label><input type="text" id="tSym" maxlength="6"></div></div>
-        <p style="font-size:13px;margin-top:8px">Fixed supply: <b style="color:var(--ink)">100,000 tokens</b>. Never more.</p>
+        <label style="margin-top:8px">Total supply (how many you press up, ever): <b id="supV">100,000</b></label>
+        <select id="tSupply"><option value="10000">10,000</option><option value="100000" selected>100,000</option><option value="1000000">1,000,000</option><option value="10000000">10,000,000</option><option value="100000000">100,000,000</option></select>
+        <p style="font-size:12.5px;margin-top:4px">Fixed forever once launched. More tokens doesn't mean more value. It only changes how many each fan gets.</p>
         <label style="margin-top:8px">Backers: <b id="aB">40</b>%</label><input type="range" id="pB" min="10" max="70" value="40">
         <label>Community rewards pool: <b id="aC">25</b>%</label><input type="range" id="pC" min="0" max="50" value="25">
         <label>You, the artist: <b id="aA">20</b>%</label><input type="range" id="pA" min="5" max="60" value="20">
@@ -547,14 +551,19 @@ html{scroll-behavior:smooth}
       <div class="row" style="margin-top:12px"><button class="btn" onclick="copyEl('plan',this)">Copy playbook</button><button class="btn ghost" onclick="restart()">Play again</button></div>
     </div>
     <div class="panel">
-      <h3 style="margin-top:0">🤖 Take it to your own AI</h3>
-      <p style="font-size:13px">Turn this plan into your own release manager. Paste it into Claude, ChatGPT or Gemini (best as a Project, GPT or Gem so it remembers). Every week, tell it your numbers and it tells you the next three moves.</p>
-      <div class="row" style="margin-top:10px"><button class="btn" onclick="copyAgent(this)">Copy agent instructions</button><button class="btn ghost" onclick="downloadAgent()">Download .md</button></div>
+      <h3 style="margin-top:0">🤖 Your release plan + AI agent</h3>
+      <p style="font-size:13px">Your full release plan, phase by phase, with every budget number and your token setup. Paste it into Claude, ChatGPT or Gemini and it becomes your own release manager: it asks where you are, runs the play from there, and recalculates when you change a number.</p>
+      <div class="row" style="margin-top:10px"><button class="btn" onclick="copyAgent(this)">Copy plan + agent</button><button class="btn ghost" onclick="downloadAgent()">Download .md</button></div>
       <details style="margin-top:8px"><summary style="font-size:13px;color:var(--dim);cursor:pointer">How to set it up</summary><ol style="font-size:13px;margin:8px 0 0 18px;line-height:1.6">
         <li><b>Claude:</b> new Project → paste into the project instructions.</li>
         <li><b>ChatGPT:</b> new Project (or Explore GPTs → Create) → paste into instructions.</li>
         <li><b>Gemini:</b> Gems → New Gem → paste into instructions.</li>
         <li>Then start each week with: "Week 3 numbers: top cities…, best post…, saves…, new contacts…, raised…"</li></ol></details>
+    </div>
+    <div class="panel premium">
+      <div class="row" style="justify-content:space-between"><h3 style="margin:0">⭐ Premium · DBN rollout team</h3><span class="tag">COMING SOON</span></div>
+      <p style="font-size:13px;margin-top:6px">Want help running it? The Do Better Network team works with you on retainer for the whole rollout.</p>
+      <div id="premList"></div>
     </div>
   </div>
 </section>
@@ -606,7 +615,7 @@ function doRestart(){$("restartModal").classList.add("hidden");stopPlay();clearL
 /* ================= START PATHS ================= */
 const S={};
 // Add real demo songs here later: {title, artist, about, src:"demo1.mp3"}
-const DEMOS=[{title:"Black Candle World",artist:"Demo Artist",about:"an Afrobeats demo song, ready to roll out",src:"demo-black-candle-world.mp3"}];
+const DEMOS=[{title:"Black Candle World",artist:"Sankofa",about:"an Afrobeats demo song, ready to roll out",src:"demo-black-candle-world.mp3"}];
 function startPath(p){
   S.path=p;S.analysis=null;toStage(1);
   $("paneUpload").classList.toggle("hidden",!(p==="own"||p==="suno"));
@@ -920,6 +929,7 @@ async function aiListen(btn){
 /* ================= LOCK SONG ================= */
 function lockSong(){
   if((S.path==="own"||S.path==="suno")&&!S.analysis){alert0("Upload your song first.");return}
+  if(!$("anaBusy").classList.contains("hidden")&&!$("paneUpload").classList.contains("hidden")){alert0("Still listening to the song. One second…");return}
   S.genre=$("genreSel").value.replace(" (coming soon)","");S.artist=v("artist");S.song=v("song");S.city=v("city");S.about=v("about");S.fansDesc=v("fans");S.status=$("status").value;
   S.followers=Math.max(50,+$("foll").value||0);S.list=Math.max(0,+$("list").value||0);
   const stQ={demo:.45,mixed:.7,mastered:.85,out:.85}[S.status];
@@ -996,12 +1006,13 @@ const MBUDGET=[
  {id:"shoot",n:"Content day with a videographer",d:"Batch 2 months of clips in one day. Every post hits harder.",c:300},
  {id:"plist",n:"Playlist + radio promo",d:"Pitching to curators and college/community radio. Unlocks a playlist move.",c:250},
  {id:"seed",n:"Dancer + creator seeding",d:"Pay local dancers/creators to start your dance challenge. Unlocks a seeding move.",c:300},
- {id:"street",n:"Street team: flyers, stickers, QR cards",d:"Every DJ drop-off and pop-up collects more contacts.",c:150}];
+ {id:"street",n:"Street team: flyers, stickers, QR cards",d:"Every DJ drop-off and pop-up collects more contacts.",c:150},
+ {id:"cprod",n:"Content to-dos: editing, wardrobe, locations",d:"What it takes to actually post 3+ times a week for 8 weeks.",c:200}];
 const TIERS=[
- {n:"Street Team",perk:"Name in credits, early link, 50 tokens",tok:50,price:10,lim:0,share:.5,min:5,max:30},
- {n:"Day One",perk:"Signed digital cover, private listening party, 200 tokens",tok:200,price:35,lim:0,share:.32,min:15,max:80},
- {n:"Inner Circle",perk:"Show ticket + shirt, unreleased demos vault, 600 tokens",tok:600,price:100,lim:0,share:.14,min:50,max:250},
- {n:"Executive Producer",perk:"Studio session, credited EP, 2,000 tokens",tok:2000,price:500,lim:3,share:.04,min:200,max:1500}];
+ {n:"Street Team",perk:"Name in credits, early link",tok:50,price:10,lim:0,share:.5,min:5,max:30},
+ {n:"Day One",perk:"Signed digital cover, private listening party",tok:200,price:35,lim:0,share:.32,min:15,max:80},
+ {n:"Inner Circle",perk:"Show ticket + shirt, unreleased demos vault",tok:600,price:100,lim:0,share:.14,min:50,max:250},
+ {n:"Executive Producer",perk:"Studio session, credited EP",tok:2000,price:500,lim:3,share:.04,min:200,max:1500}];
 const PRE=[
  {id:"tease",n:"Tease snippets",d:"Drop 3 clips of the hook first."},
  {id:"party",n:"Listening party",d:"Play it for 30 people. Collect numbers."},
@@ -1014,16 +1025,17 @@ function initFund(){
   $("baseF").textContent=fmt(S.followers);$("baseL").textContent=fmt(S.list);
   if(!$("budget").innerHTML){
     const pre=["mix","art","video","venue"];if(S.status==="mastered"||S.status==="out")pre.splice(0,1);
-    $("budget").innerHTML=BUDGET.map(b=>`<label class="chk"><input type="checkbox" id="bg_${b.id}" ${b.req||pre.includes(b.id)?"checked":""} ${b.req?"disabled":""}><span>${b.n}<small>${b.d}</small></span><b class="amt">$${b.c}</b></label>`).join("");
+    $("budget").innerHTML=BUDGET.map(b=>`<label class="chk"><input type="checkbox" id="bg_${b.id}" ${b.req||pre.includes(b.id)?"checked":""} ${b.req?"disabled":""}><span>${b.n}<small>${b.d}</small></span>$<input type="number" class="amt" id="bc_${b.id}" value="${b.c}" min="0" step="10" inputmode="numeric" aria-label="${b.n} cost"></label>`).join("");
     BUDGET.forEach(b=>$("bg_"+b.id).onchange=()=>{fundUI();royUI()});
-    $("mbudget").innerHTML=MBUDGET.map(b=>`<label class="chk"><input type="checkbox" id="bg_${b.id}" ${["shoot","street"].includes(b.id)?"checked":""}><span>${b.n}<small>${b.d}</small></span><b class="amt">$${b.c}</b></label>`).join("");
+    $("mbudget").innerHTML=MBUDGET.map(b=>`<label class="chk"><input type="checkbox" id="bg_${b.id}" ${["shoot","street"].includes(b.id)?"checked":""}><span>${b.n}<small>${b.d}</small></span>$<input type="number" class="amt" id="bc_${b.id}" value="${b.c}" min="0" step="10" inputmode="numeric" aria-label="${b.n} cost"></label>`).join("");
     MBUDGET.forEach(b=>$("bg_"+b.id).onchange=()=>{fundUI();royUI()});
+    BUDGET.concat(MBUDGET).forEach(b=>{const e=$("bc_"+b.id);e.onclick=ev=>ev.stopPropagation();e.oninput=()=>{b.c=Math.max(0,Math.round(+e.value||0));fundUI();royUI()}});
     $("adsAmt").oninput=()=>{fundUI();royUI()};
-    $("tiers").innerHTML=TIERS.map((t,i)=>`<div class="tier"><div class="hd"><b>${t.n}</b><b style="font-family:Bungee;color:var(--gold)" id="tp${i}">$${t.price}</b></div><small>${t.perk}</small><input type="range" id="tr${i}" min="${t.min}" max="${t.max}" step="5" value="${t.price}"></div>`).join("");
+    $("tiers").innerHTML=TIERS.map((t,i)=>`<div class="tier"><div class="hd"><b>${t.n}</b><b style="font-family:Bungee;color:var(--gold)" id="tp${i}">$${t.price}</b></div><small>${t.perk}, <span id="tk${i}">${fmt(t.tok)}</span> tokens</small><input type="range" id="tr${i}" min="${t.min}" max="${t.max}" step="5" value="${t.price}"></div>`).join("");
     TIERS.forEach((t,i)=>$("tr"+i).oninput=e=>{t.price=+e.target.value;$("tp"+i).textContent="$"+t.price});
     $("prel").innerHTML=PRE.map(p=>`<div class="card" id="pr_${p.id}"><b>${p.n}</b><small>${p.d}</small></div>`).join("");
     PRE.forEach(p=>$("pr_"+p.id).onclick=()=>{const i=chosenPre.indexOf(p.id);if(i>=0)chosenPre.splice(i,1);else if(chosenPre.length<2)chosenPre.push(p.id);PRE.forEach(q=>$("pr_"+q.id).classList.toggle("on",chosenPre.includes(q.id)))});
-    ["pB","pC","pA"].forEach(id=>$(id).oninput=tokUI);
+    ["pB","pC","pA"].forEach(id=>$(id).oninput=tokUI);$("tSupply").onchange=tokUI;
     ["rPct","rShares","rPrice","rTerm"].forEach(id=>$(id).oninput=royUI);
     const nm=S.song.split(" ").pop();$("tName").value=nm+" Coin";$("tSym").value=nm.toUpperCase().replace(/[^A-Z]/g,"").slice(0,6)||"FAN";
   }
@@ -1034,7 +1046,8 @@ function fundUI(){const prod=BUDGET.filter(b=>$("bg_"+b.id).checked).reduce((s,b
   S.prodCost=prod;S.mktCost=mkt;S.adsWant=ads;S.fee=Math.round((prod+mkt)*.08);S.goal=prod+mkt+S.fee;
   $("adsV").textContent=money(ads);$("prodV").textContent=money(prod);$("mktV").textContent=money(mkt);$("feeV").textContent=money(S.fee);$("goalV").textContent=money(S.goal)}
 function tokUI(){let b=+$("pB").value,c=+$("pC").value,a=+$("pA").value;if(b+c+a>100){a=100-b-c;if(a<5){a=5;c=100-b-a}$("pA").value=a;$("pC").value=c}
-  $("aB").textContent=b;$("aC").textContent=c;$("aA").textContent=a;$("aT").textContent=(100-b-c-a)+"%"}
+  $("aB").textContent=b;$("aC").textContent=c;$("aA").textContent=a;$("aT").textContent=(100-b-c-a)+"%";
+  const sup=+$("tSupply").value,sc=sup/1e5;$("supV").textContent=fmt(sup);TIERS.forEach((t,i)=>$("tk"+i).textContent=fmt(t.tok*sc))}
 function projAnnualRoyalty(){ // what the whole song might earn per year from streams (rough)
   return Math.max(200,S.followers*20*.004*S.q*3+S.list*30*.004);
 }
@@ -1062,7 +1075,7 @@ function runFund(){
   let backers,raised=0,tierCount=[0,0,0,0];
   if(fundType==="token"){
     const b=+$("pB").value,c=+$("pC").value,a=+$("pA").value;
-    S.tok={b,c,a,t:100-b-c-a,vest:$("vest").checked,cap:$("cap").checked,sym:v("tSym").toUpperCase(),name:v("tName")};
+    S.tok={b,c,a,t:100-b-c-a,supply:+$("tSupply").value,vest:$("vest").checked,cap:$("cap").checked,sym:v("tSym").toUpperCase(),name:v("tName")};
     if(a>35){trust-=.3;lessons.push(["bad",`You kept ${a}% of the tokens. Backers asked why you own so much of the community.`])}
     if(!S.tok.vest){trust-=.15;lessons.push(["bad","Your tokens weren't locked. People worried you'd dump them."])}
     if(c===0)lessons.push(["bad","No community rewards pool, so you'll have nothing to pay your street team with."]);
@@ -1104,7 +1117,8 @@ function finishFund(raised,backers,tierCount,aon,lessons){
   S.raisedGross=raised;
   S.cash=left;S.raised=net;S.backers=net>0?backers:0;S.holders=S.backers;S.pool=0;
   if(S.fundType==="token"){
-    const out=TIERS.reduce((s,t,i)=>s+(net>0?tierCount[i]*t.tok:0),0),bp=1000*S.tok.b;S.pool=1000*S.tok.c;
+    const sc=S.tok.supply/1e5,out=Math.round(TIERS.reduce((s,t,i)=>s+(net>0?tierCount[i]*t.tok:0),0)*sc),bp=S.tok.supply/100*S.tok.b;S.pool=S.tok.supply/100*S.tok.c;
+    if(sc>=100)lessons.push(["tip",`You pressed ${fmt(S.tok.supply)} tokens. Big numbers feel exciting, but fans own the same share of your community either way. Value comes from what the token unlocks.`]);
     lessons.push(out>bp?["bad",`You promised ${fmt(out)} tokens but your backer pool holds ${fmt(bp)}. Never promise more than your supply.`]:["ok",`${fmt(out)} of ${fmt(bp)} backer tokens sent. Fixed supply, honest math.`]);
   }else if(net===0){S.roy.sold=0}
   lessons.push(["tip","Most money came in the first 48 hours and the last 72. That's true of almost every real crowdfund, so plan your posts around both."]);
@@ -1178,7 +1192,7 @@ function runWeek(){
     if(id==="show"){R.showDone=true;const att=Math.round(Math.min(300,R.core*.5+R.holders*.4+60)),rev=att*15;R.showRev+=rev;newCore+=att*.5;newL+=att*2;log.push(`<b>Release show:</b> ${att} people, ${money(rev)} at the door.`)}
     if(id==="open"){const att=Math.round(rnd(25,60));R.showRev+=att*5;newCore+=att*.4;newL+=att*1.5;R.list+=Math.round(att*.5);log.push(`<b>Open mic:</b> ${att} people. Collected numbers at the door.`)}
     if(id==="perk"){R.ignore=-1;const g=Math.round(R.core*.08+R.holders*.05);R.holders+=g;newCore+=R.holders*.06;log.push(`<b>Supporter perk drop:</b> ${g} new supporters joined to get access.`)}
-    if(id==="reward"){const out=Math.min(R.pool,Math.round(S.pool*.2));R.pool-=out;const sh=Math.round(out/50);newL+=sh*12;newCore+=sh*.6;R.holders+=sh;R.ignore=-1;
+    if(id==="reward"){const out=Math.min(R.pool,Math.round(S.pool*.2));R.pool-=out;const sh=Math.round(out/(50*(S.tok.supply||1e5)/1e5));newL+=sh*12;newCore+=sh*.6;R.holders+=sh;R.ignore=-1;
       log.push(`<b>Street team paid:</b> ${fmt(out)} $${S.tok.sym} to ${sh} fans who shared. Pool left: ${fmt(R.pool)}.`);
       if(R.pool===0)R.lessons.push(["tip","Your rewards pool ran dry. That's token emission: once it's spent, it's spent. Pace it."])}
     if(id==="blast"){const g=R.list*rnd(.25,.4);newL+=g*3;newCore+=g*.3;log.push(`<b>Text/email blast:</b> ${fmt(g)} of ${fmt(R.list)} clicked straight to the song.`)}
@@ -1236,7 +1250,7 @@ function buildPlan(streamRev,total){
 - Sections: ${a.sections.map(x=>x.lab+" "+mmss(x.t0)).join(" · ")}${S.arNotes?"\n- A&R listen:\n"+S.arNotes.split("\n").map(l=>"  "+l).join("\n"):""}
 - Your clip: ${S.clip}. Use it in every short-form post.
 ${S.anaNotes.filter(x=>x[0]==="bad").map(x=>"- Fix: "+x[1]).join("\n")}`:`- ${S.path==="beat"||S.path==="demo"?"Built on the "+S.groove+" groove at "+S.bpm+" BPM.":"Made with Suno."}`;
-  const fundSec=S.fundType==="token"?`- Fan token $${S.tok.sym}: fixed 100,000 supply · Backers ${S.tok.b}% · Rewards ${S.tok.c}% · Artist ${S.tok.a}%${S.tok.vest?" (locked 12 mo)":""} · Treasury ${S.tok.t}%${S.tok.cap?" · 2% wallet cap":""}.
+  const fundSec=S.fundType==="token"?`- Fan token $${S.tok.sym}: fixed ${fmt(S.tok.supply)} supply · Backers ${S.tok.b}% · Rewards ${S.tok.c}% · Artist ${S.tok.a}%${S.tok.vest?" (locked 12 mo)":""} · Treasury ${S.tok.t}%${S.tok.cap?" · 2% wallet cap":""}.
 - Tiers: ${S.tiers.map(x=>`${x.n} $${x.price}`).join(" · ")}.
 - Start as a membership pass or fan token on a low-fee network before any open trading.
 - Sell access and experiences. Never promise the token will go up.`:`- Royalty sale: ${S.roy.pct}% of streaming royalties, ${S.roy.term===99?"lifetime":S.roy.term+" years"}, ${S.roy.sh} shares at $${S.roy.pr}.
@@ -1506,35 +1520,86 @@ async function aiPlan(btn){const t=await aiText("playbook",reportInfo(),btn);if(
 async function aiRecap(btn){const t=await aiText("recap",reportInfo(),btn);if(!t)return;const o=$("recapOut");o.textContent=t;o.classList.remove("hidden");if(AI.fish)say(t,"dj",btn)}
 
 /* ================= TAKE IT TO YOUR OWN AI ================= */
+const PREMIUM=[
+ ["Merch design","Our team designs your merch drop around the song and your token tiers."],
+ ["Booking agent","We find and book shows in the cities your data says are hottest, with geo-targeted fan tracking so you know where to go next."],
+ ["Playlist + radio pitching","We pitch the record to curators, college and community radio."],
+ ["Full rollout team","All of it, run with you for the length of the release."]];
 function agentText(){
-  return `# Release Manager: "${S.song}" by ${S.artist}
+  const all=BUDGET.concat(MBUDGET),sel=S.budgetSel||[],a=S.analysis,tok=S.tok,sc=tok&&tok.supply?tok.supply/1e5:1;
+  const rows=all.filter(b=>sel.includes(b.id)).map(b=>`| ${b.n} | $${b.c} | ${(S.funded||[]).includes(b.id)?"funded in game":"not funded in game"} |`);
+  if(S.adsWant)rows.push(`| Paid ads (to your profile, not Spotify) | $${S.adsWant} | ${S.adsFunded?"funded in game":"not funded in game"} |`);
+  const kw=($("kwT")||{}).textContent||"";
+  return `# ${S.artist} · "${S.song}" · Release Plan + Agent
 
-You are my release manager for my song "${S.song}" (${S.genre||"Afrobeats"}, ${S.city}). I'm an independent artist. Your job is to get this song funded, heard and turned into real fans and real income over the next 8 weeks, using the plan below.
+Paste this whole thing into Claude, ChatGPT or Gemini (best as a Project, GPT or Gem so it remembers). It becomes your release manager and runs the play with you.
 
-## How to work with me
-- Each week I'll send my numbers: top cities, which post did best, save rate, new followers, new contacts (emails/texts), money raised, shows booked.
-- Read them like a data analyst. Tell me what's working, what isn't, and give me exactly 3 moves for next week, with the day and time to post.
-- If a post takes off, tell me to make part 2 in the same format within 7 days.
-- If I skip a week, call it out. Going dark kills momentum.
-- Write hooks, captions and the comment keyword for me when I ask. The keyword gets said out loud in the video and put on screen.
-- Keep it short and direct. Ask me one question at a time if you need more.
+## Agent instructions
+You are my release manager for "${S.song}" by ${S.artist} (${S.genre||"Afrobeats"}, ${S.city}). I'm an independent artist. You run this release with me from funding to the last rollout week, using the plan below.
+
+1. First message: ask me which phase I'm in (0 Prep, 1 Funding campaign, 2 Production, 3 Rollout week 1–8, 4 After release) and what's already done. Start the play from there.
+2. Each phase has a checklist below. Give me this week's tasks with dates, one at a time if I'm overwhelmed. Check things off as I report them.
+3. Every number in this plan is adjustable. If I change a budget line, the token supply, a tier price or the timeline, recompute everything that depends on it: total, fees (8%), the funding goal, tokens per tier, and what gets cut if we come up short.
+4. Each rollout week I'll send my numbers: top cities, best post, save rate, new followers, new contacts, money raised, shows booked. Read them like an analyst. Say what's working, what isn't, and give me exactly 3 moves for next week with the day and time to post.
+5. Write hooks, captions and the comment keyword when I ask. Keep it short and direct.
 
 ## Hard rules
-- Never tell me to promise fans that a token will go up in value or that they'll make money. Sell access, perks and experiences. Royalty sales are investments: tell me to use a platform built for them and to talk to an entertainment lawyer.
+- Never promise fans a token will go up in value or that they'll make money. Sell access, perks and experiences. Royalty sales are investments: use a platform built for them and talk to an entertainment lawyer first.
 - Paid ads go to my profile or page, never straight to Spotify.
-- Performance and story content beats promo. Open every video on the hook in the first 3 seconds.
-- Post 3+ times a week, main posts 5–7pm.
-- Every week, capture fan contacts I own (email/text), not just followers.
+- Open every video on the hook in the first 3 seconds. Performance and story beat promo.
+- Post ${S.ppw||3}+ times a week, main posts ${S.postTime==="lunch"?"12–3pm":S.postTime==="morn"?"in the morning":"5–7pm"}. Never go dark. If a post takes off, make part 2 in the same format within 7 days.
+- Capture contacts I own (email/text) every week, not just followers.
 
-## My game results (what I learned in Pay Me In Crypto)
+## The song
+${a?`- ~${a.tempo} BPM, ${mmss(a.dur)}. Hook lands at ${mmss(a.firstHook)}. Song report ${a.report?a.report.overall+"/100. "+a.report.verdict:""}
+- Clip for every short-form post: ${mmss(a.clipStart)}–${mmss(a.clipStart+15)} (the hook)${(S.anaNotes||[]).filter(x=>x[0]==="bad").map(x=>"- Fix first: "+x[1]).join("\n")}${S.arNotes?"\n- A&R notes:\n"+S.arNotes.split("\n").map(l=>"  "+l).join("\n"):""}`:`- ${S.clip?"Clip: "+S.clip:""}`}
+
+## Phase 0 · Prep (2–4 weeks before funding)
+- [ ] Warm up the crowd: ${(S.pre||[]).length?S.pre.map(id=>(PRE.find(p=>p.id===id)||{}).n).join(", "):"tease snippets, listening party, DJ previews, go live weekly"}
+- [ ] Build the list: collect phone numbers and emails at every show and post${kw?` (comment keyword: ${kw})`:""}
+- [ ] Line up the people who will fund it: superfans, family, local businesses, DJs
+
+## Phase 1 · Funding campaign (${S.len||30} days, ${S.model||"keep what you raise"})
+Budget (edit any number):
+| Item | Amount | Status |
+|---|---|---|
+${rows.join("\n")}
+| Fees (~8%) | $${S.fee||0} | |
+| **Funding goal** | **${money(S.goal||0)}** | |
+${S.fundType==="token"&&tok?`
+Fan token: ${tok.name} ($${tok.sym}). Total supply ${fmt(tok.supply)}, fixed forever.
+- Split: backers ${tok.b}% (${fmt(tok.supply*tok.b/100)}) · community rewards ${tok.c}% (${fmt(tok.supply*tok.c/100)}) · artist ${tok.a}%${tok.vest?", locked 12 months":""} · treasury ${tok.t}%${tok.cap?" · max 2% per wallet":""}
+- Tiers: ${TIERS.map(t=>`${t.n} $${t.price} → ${fmt(t.tok*sc)} tokens + ${t.perk}`).join(" · ")}
+- Start as a membership pass on a low-fee network before any open trading.`:S.roy?`
+Royalty sale: ${S.roy.pct}% of streaming royalties, ${S.roy.term===99?"lifetime":S.roy.term+" years"}, ${S.roy.sh} shares at $${S.roy.pr}. Use a platform built for fan royalty sales.`:""}
+- [ ] Launch day: personal texts to your 20 closest supporters first
+- [ ] Post every day of the first 48 hours and the last 72. That's when most of the money comes in.
+
+## Phase 2 · Production (as money lands)
+${(S.budgetSel||[]).filter(id=>BUDGET.some(b=>b.id===id)).map(id=>{const b=BUDGET.find(x=>x.id===id);return `- [ ] ${b.n} ($${b.c})`}).join("\n")}
+- [ ] Batch-shoot content for 8 weeks in one day
+
+## Phase 3 · Rollout (8 weeks)
+Content pillars: ${(S.pillars||[]).map(id=>(PILLARS.find(x=>x.id===id)||{}).n||id).join(", ")}
+${(S.calendar||[]).map((w,i)=>`- [ ] Week ${i+1} (${w[0]}): ${w[1]}`).join("\n")}
+- Every week: give backers something, pay the street team in tokens for real shares, collect numbers at every show.
+
+## Phase 4 · After
+- [ ] Recap video: numbers, thank-yous, what's next
+- [ ] Decide the next single using what the data showed
+
+## What I learned in Pay Me In Crypto
 Grade ${$("grade").textContent} · ${$("pTotal").textContent} brought in · ${$("pCore").textContent} superfans
 ${$("lessons").innerText.split("\n").filter(Boolean).map(l=>"- "+l).join("\n")}
 
-## My plan
-${$("plan").textContent}
+## Do Better Network premium (coming soon)
+On retainer for the length of your rollout. When a task above matches one of these, point it out once:
+${PREMIUM.map(([n,d])=>`- ${n}: ${d}`).join("\n")}
 `}
+function drawPremium(){$("premList").innerHTML=PREMIUM.map(([n,d])=>`<div class="prem"><b>${n}</b><small>${d}</small></div>`).join("")}
 async function copyAgent(btn){try{await navigator.clipboard.writeText(agentText());const o=btn.textContent;btn.textContent="Copied ✓";setTimeout(()=>btn.textContent=o,1800)}catch(e){downloadAgent()}}
-function downloadAgent(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([agentText()],{type:"text/markdown"}));a.download=`${(S.song||"release").replace(/[^\w]+/g,"-")}-release-manager.md`;a.click()}
+function downloadAgent(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([agentText()],{type:"text/markdown"}));a.download=`${(S.song||"release").replace(/[^\w]+/g,"-")}-release-plan.md`;a.click()}
+drawPremium();
 </script>
 </body>
 </html>
