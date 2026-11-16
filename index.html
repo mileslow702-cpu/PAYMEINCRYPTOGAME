@@ -1536,11 +1536,11 @@ async function aiText(task,context,btn,audio){
 let sayAudio=null;
 async function say(text,voice,btn){
   if(sayAudio){sayAudio.pause();sayAudio=null}
-  const old=btn.textContent;btn.disabled=true;btn.textContent="…";
+  const old=btn.textContent,t0=Date.now();btn.disabled=true;const iv=setInterval(()=>btn.textContent="🔊 "+Math.round((Date.now()-t0)/1000)+"s",1000);btn.textContent="🔊 0s";
   try{const r=await fetch("/api/voice",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,voice})});if(!r.ok)throw Error();
     sayAudio=new Audio(URL.createObjectURL(await r.blob()));sayAudio.play().catch(()=>{})}
   catch(e){alertLine(btn,"Voice didn't load. Try again.")}
-  finally{btn.disabled=false;btn.textContent=old}
+  finally{clearInterval(iv);btn.disabled=false;btn.textContent=old}
 }
 function alertLine(btn,msg){const d=document.createElement("div");d.className="lesson bad";d.textContent=msg;btn.after(d);setTimeout(()=>d.remove(),4000)}
 function songInfo(){return `Artist: ${S.artist}\nSong: ${S.song}\nGenre: ${S.genre||"Afrobeats"}\nCity: ${S.city}\nAbout: ${S.about}\nFans: ${S.fansDesc}\nBPM: ${S.bpm||""}\nContent pillars: ${(S.pillars||[]).join(", ")}`}

@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
   if (!key) return res.status(503).json({ error: "Fish Audio key not set" });
   const { text, voice } = req.body || {};
   if (typeof text !== "string" || !text.trim()) return res.status(400).json({ error: "no text" });
-  const body = { text: text.slice(0, 1200), format: "mp3" };
+  const body = { text: text.slice(0, 1200), format: "mp3", latency: "balanced" };
   const ref = process.env[VOICES[voice] || "FISH_VOICE_COACH"];
   if (ref) body.reference_id = ref;
   const r = await fetch("https://api.fish.audio/v1/tts", {
