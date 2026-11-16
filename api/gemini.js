@@ -14,7 +14,7 @@ const TASKS = {
 
 // Fastest model first; if one is slow or overloaded, move to the next.
 const TEXT_MODELS = ["gemini-flash-lite-latest", "gemini-3.5-flash-lite", "gemini-flash-latest", "gemini-2.5-flash"];
-const AUDIO_MODELS = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-3.5-flash-lite", "gemini-2.5-flash"];
+const AUDIO_MODELS = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-3.5-flash-lite", "gemini-2.5-flash"];
 
 async function call(model, key, body, ms) {
   const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms);
