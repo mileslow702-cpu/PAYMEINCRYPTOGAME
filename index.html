@@ -156,6 +156,8 @@ audio{width:100%;margin-top:8px}
 .lay .ok{color:var(--green);font-family:'Bungee';font-size:10px}
 .week{border-bottom:1px solid var(--line);padding:8px 0;font-size:14px}
 .week b{font-family:'Bungee';font-size:12px;color:var(--gold)}
+body:not(.has-g) .ai-g,body:not(.has-v) .ai-v{display:none!important}
+.ai-out{white-space:pre-wrap;font-size:13px;background:var(--panel2,#1A140D);border:1px solid #3A2C1A;border-radius:10px;padding:10px;margin-top:8px}
 </style>
 </head>
 <body>
@@ -379,7 +381,7 @@ audio{width:100%;margin-top:8px}
       <div id="cal"></div>
       <h3>Hooks + captions</h3>
       <pre id="caps"></pre>
-      <div class="row" style="margin-top:8px"><button class="btn sm" onclick="copyEl('calText',this)">Copy full plan</button></div>
+      <div class="row" style="margin-top:8px"><button class="btn sm" onclick="copyEl('calText',this)">Copy full plan</button><button class="btn sm ai-g" onclick="aiCaps(this)">✨ Write mine with Gemini</button></div>
       <pre id="calText" class="hidden"></pre>
       <button class="btn full" onclick="toStage(3)">Next: Fund the release →</button>
     </div>
@@ -510,6 +512,8 @@ audio{width:100%;margin-top:8px}
       <h3 style="margin-top:0">Your real-world playbook</h3>
       <p style="font-size:13px;margin-bottom:8px">Built from your song and your choices.</p>
       <pre id="plan"></pre>
+      <div class="row ai-g" style="margin-top:10px"><button class="btn sm" onclick="aiPlan(this)">✨ Make it personal</button><button class="btn sm" onclick="aiRecap(this)">📻 Radio recap</button></div>
+      <div id="recapOut" class="ai-out hidden"></div>
       <div class="row" style="margin-top:10px"><button class="btn" onclick="copyEl('plan',this)">Copy playbook</button><button class="btn ghost" onclick="restart()">Play again</button></div>
     </div>
   </div>
@@ -552,7 +556,7 @@ function toStage(n){
    ["STAGE GOAL",`Raise your full release budget (production <b>and</b> marketing) from your own community, without promising anyone returns.`],
    ["STAGE GOAL",`Hit these targets in 8 weeks: <b>${TARGETS.core}+ superfans</b>, never go a week without posting, and follow the data (60%+ of data-driven moves hit).`],
    ["FINAL SCORE","See how you did against your goals, then take the playbook into real life."]][n];
-  $("goalBox").innerHTML=`<b>🎯 ${G[0]}</b>${G[1]}`;
+  $("goalBox").innerHTML=`<b>🎯 ${G[0]}</b>${G[1]} <button class="btn sm ai-v" style="margin-top:6px" onclick="say(this.parentNode.innerText.replace('🔊',''),'coach',this)">🔊</button>`;
   window.scrollTo(0,0);
 }
 const TARGETS={core:300,data:.6};
@@ -970,7 +974,7 @@ function finishFund(raised,backers,tierCount,aon,lessons){
     lessons.push(out>bp?["bad",`You promised ${fmt(out)} tokens but your backer pool holds ${fmt(bp)}. Never promise more than your supply.`]:["ok",`${fmt(out)} of ${fmt(bp)} backer tokens sent. Fixed supply, honest math.`]);
   }else if(net===0){S.roy.sold=0}
   lessons.push(["tip","Most money came in the first 48 hours and the last 72. That's true of almost every real crowdfund, so plan your posts around both."]);
-  $("fLessons").innerHTML=lessons.map(([k,t])=>`<div class="lesson ${k==="bad"?"bad":k==="tip"?"tip":""}">${t}</div>`).join("");
+  $("fLessons").innerHTML=lessons.map(([k,t])=>`<div class="lesson ${k==="bad"?"bad":k==="tip"?"tip":""}">${t}${t.includes("THE REGULATOR")?` <button class="btn sm ai-v" onclick="say(this.parentNode.innerText.replace('🔊',''),'regulator',this)">🔊</button>`:""}</div>`).join("");
   S.fundLessons=lessons;$("toRoll").classList.remove("hidden");
 }
 
@@ -1053,7 +1057,7 @@ function runWeek(){
   R.listeners=Math.round(R.listeners*.82+newL);R.core=Math.round(R.core+newCore);
   const streams=Math.round(R.listeners*(2+R.save*8)+R.core*6);R.weekly.push(streams);R.streamsTot+=streams;
   if(S.funded.includes("merch")&&R.wk>=2){const m=Math.round(R.core*rnd(.03,.06))*25;R.merchRev+=m;log.push(`<b>Merch:</b> ${money(m)}.`)}
-  const blk=document.createElement("div");blk.innerHTML=`<b style="color:var(--gold)">WEEK ${R.wk}</b> · ${fmt(streams)} streams<br>`+log.join("<br>");$("rLog").prepend(blk);
+  const blk=document.createElement("div");blk.innerHTML=`<b style="color:var(--gold)">WEEK ${R.wk}</b> · ${fmt(streams)} streams<br>`+log.join("<br>")+` <div><button class="btn sm ai-g" style="margin-top:6px" onclick="aiCrew(this)">🗣 Ask the crew</button></div>`;blk.dataset.wk=`Week ${R.wk} of 8. ${fmt(streams)} streams. Superfans ${fmt(R.core)}. Listeners ${fmt(R.listeners)}. City data: ${R.cityView.map(c=>c[0]).join(", ")}.\n`+log.join("\n").replace(/<[^>]+>/g,"");$("rLog").prepend(blk);
   picks=[];if(R.wk>=8){finishRelease();return}
   R.wk++;drawWeek();window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1339,6 +1343,32 @@ drawStacks();drawArr();
 $("genreSel").innerHTML=MUSIC.map(([n])=>`<option ${LIVE.includes(n)?"":"disabled"}>${n}${LIVE.includes(n)?"":" (coming soon)"}</option>`).join("");
 drawLevels();
 loadPreset(0);
+
+/* ================= AI (Gemini + Fish Audio, Vercel only) ================= */
+const AI={gemini:false,fish:false};
+fetch("/api/status").then(r=>r.ok?r.json():{}).then(j=>{AI.gemini=!!j.gemini;AI.fish=!!j.fish;document.body.classList.toggle("has-g",AI.gemini);document.body.classList.toggle("has-v",AI.fish)}).catch(()=>{});
+async function aiText(task,context,btn){
+  const old=btn.textContent;btn.disabled=true;btn.textContent="Thinking…";
+  try{const r=await fetch("/api/gemini",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({task,context})});const j=await r.json();if(!r.ok)throw Error(j.error);return j.text}
+  catch(e){alertLine(btn,"Gemini didn't answer. Try again.");return null}
+  finally{btn.disabled=false;btn.textContent=old}
+}
+let sayAudio=null;
+async function say(text,voice,btn){
+  if(sayAudio){sayAudio.pause();sayAudio=null}
+  const old=btn.textContent;btn.disabled=true;btn.textContent="…";
+  try{const r=await fetch("/api/voice",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,voice})});if(!r.ok)throw Error();
+    sayAudio=new Audio(URL.createObjectURL(await r.blob()));sayAudio.play().catch(()=>{})}
+  catch(e){alertLine(btn,"Voice didn't load. Try again.")}
+  finally{btn.disabled=false;btn.textContent=old}
+}
+function alertLine(btn,msg){const d=document.createElement("div");d.className="lesson bad";d.textContent=msg;btn.after(d);setTimeout(()=>d.remove(),4000)}
+function songInfo(){return `Artist: ${S.artist}\nSong: ${S.song}\nGenre: ${S.genre||"Afrobeats"}\nCity: ${S.city}\nAbout: ${S.about}\nFans: ${S.fansDesc}\nBPM: ${S.bpm||""}\nContent pillars: ${(S.pillars||[]).join(", ")}`}
+async function aiCaps(btn){const t=await aiText("captions",songInfo(),btn);if(t)$("caps").textContent=t}
+async function aiCrew(btn){const blk=btn.closest("[data-wk]");const t=await aiText("crew",songInfo()+"\n\n"+blk.dataset.wk,btn);if(!t)return;const d=document.createElement("div");d.className="ai-out";d.textContent=t;btn.replaceWith(d)}
+function reportInfo(){return songInfo()+`\nGrade: ${$("grade").textContent}\nTotal brought in: ${$("pTotal").textContent}\nSuperfans: ${$("pCore").textContent}\nLessons: ${$("lessons").innerText}\n\nPlaybook:\n${$("plan").textContent}`}
+async function aiPlan(btn){const t=await aiText("playbook",reportInfo(),btn);if(t)$("plan").textContent=t}
+async function aiRecap(btn){const t=await aiText("recap",reportInfo(),btn);if(!t)return;const o=$("recapOut");o.textContent=t;o.classList.remove("hidden");if(AI.fish)say(t,"dj",btn)}
 </script>
 </body>
 </html>
