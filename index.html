@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pay Me In Crypto — Afrobeats Level</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0a07;--panel:#1a140d;--line:#3a2c1a;--gold:#f5b82e;--green:#2fd67b;--red:#ff5a4e;--ink:#f6ead6;--dim:#a89377;--purple:#b06cff;--blue:#4fc3ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(circle at 50% -10%,#3a2408 0%,var(--bg) 55%);color:var(--ink);font-family:'Bricolage Grotesque',sans-serif;min-height:100vh;padding:16px 12px 40px}
+.wrap{max-width:760px;margin:0 auto}
+h1,h2,h3{font-family:'Bungee',cursive;font-weight:400;letter-spacing:.5px}
+h1{font-size:34px;line-height:1;color:var(--gold);text-shadow:3px 3px 0 #6b3d00}
+h2{font-size:21px;color:var(--gold);margin-bottom:6px}
+h3{font-size:14px;margin:14px 0 8px}
+p{line-height:1.45;color:var(--dim);font-size:15px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.btn{font-family:'Bungee';background:var(--gold);color:#1a0f00;border:none;border-radius:10px;padding:12px 16px;font-size:14px;cursor:pointer;box-shadow:0 4px 0 #8a5a00;text-decoration:none;display:inline-block}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5a00}
+.btn.ghost{background:transparent;color:var(--gold);border:2px solid var(--gold);box-shadow:none}
+.btn.green{background:var(--green);box-shadow:0 4px 0 #137a43}
+.btn.sm{padding:7px 10px;font-size:11px}
+.btn.full{width:100%;margin-top:12px;text-align:center}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hidden{display:none!important}
+.tag{display:inline-block;font-size:11px;font-family:'Bungee';padding:3px 8px;border-radius:6px;background:#2a1f12;color:var(--gold);border:1px solid var(--line)}
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+.lvl{border:2px solid var(--line);border-radius:12px;padding:12px;background:#140f09;position:relative;min-height:90px}
+.lvl.open{border-color:var(--gold);background:linear-gradient(160deg,#3a2408,#140f09);cursor:pointer}
+.lvl .nm{font-family:'Bungee';font-size:14px}
+.lvl .sb{font-size:12px;color:var(--dim);margin-top:4px}
+.lvl.soon{opacity:.72}
+.lvl .badge{display:inline-block;margin-top:8px;font-family:'Bungee';font-size:9.5px;padding:3px 7px;border-radius:6px;border:1px solid var(--line);color:var(--dim)}
+.lvl.open .badge{color:#1a0f00;background:var(--green);border-color:var(--green)}
+.cat{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:2px;margin-top:18px}
+.stages{display:flex;gap:6px;margin:10px 0 4px}
+.stages div{flex:1;height:8px;border-radius:4px;background:var(--line)}
+.stages div.on{background:var(--gold)}
+/* start paths */
+.paths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+.path{display:flex;gap:12px;align-items:center;background:#140f09;border:2px solid var(--line);border-radius:14px;padding:14px;cursor:pointer}
+.path:hover,.path:active{border-color:var(--gold)}
+.path .ic{font-size:30px;width:44px;text-align:center;flex-shrink:0}
+.path b{font-family:'Bungee';font-size:15px;display:block;color:var(--ink)}
+.path small{color:var(--dim);font-size:13px;line-height:1.35}
+.path .go{margin-left:auto;font-family:'Bungee';color:var(--gold)}
+/* presets */
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pre{background:#0f0b07;border:2px solid var(--line);border-radius:12px;padding:10px;cursor:pointer}
+.pre.on{border-color:var(--gold);background:#2a1f12}
+.pre b{font-family:'Bungee';font-size:12.5px;display:block}
+.pre .bpm{font-size:11px;color:var(--gold);font-family:'Bungee'}
+.pre small{display:block;color:var(--dim);font-size:12px;margin-top:3px;line-height:1.3}
+.bigplay{width:100%;font-size:18px;padding:16px;margin-top:10px}
+details{margin-top:10px}
+summary{cursor:pointer;font-family:'Bungee';font-size:13px;color:var(--gold);padding:8px 0;list-style:none}
+summary::before{content:"▸ "}
+details[open] summary::before{content:"▾ "}
+.rack{background:#0a0806;border:2px solid var(--line);border-radius:10px;padding:6px;margin-top:8px;overflow-x:auto}
+.ch{display:flex;align-items:center;gap:4px;margin:3px 0;min-width:max-content}
+.ch .m{width:22px;height:22px;border-radius:50%;border:2px solid var(--green);background:var(--green);cursor:pointer;flex-shrink:0}
+.ch .m.off{background:transparent;border-color:#555}
+.ch input[type=range]{width:44px;flex-shrink:0}
+.ch .nm{width:78px;font-size:11.5px;font-weight:800;background:#2a2016;border-radius:5px;padding:5px 6px;flex-shrink:0;white-space:nowrap;overflow:hidden;cursor:pointer}
+.st{width:24px;height:28px;border-radius:4px;border:none;background:#3b3026;flex-shrink:0;cursor:pointer}
+.st.alt{background:#4a2a22}
+.st.on{background:var(--c,var(--gold));box-shadow:inset 0 -3px 0 rgba(0,0,0,.35)}
+.st.play{outline:2px solid #fff}
+.roll .st{height:20px}
+select,input[type=text],input[type=number],textarea{background:#0f0b07;color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:9px;font-family:inherit;font-size:15px;width:100%}
+label{font-size:13px;color:var(--dim);display:block;margin-bottom:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.meter{height:14px;background:#2a2016;border-radius:7px;overflow:hidden;margin:6px 0}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold),var(--green));transition:width .3s}
+.tips li{font-size:13.5px;color:var(--dim);margin:3px 0 3px 18px}
+.tips li.ok{color:var(--green)}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.chk input{margin-top:3px;accent-color:var(--gold);width:18px;height:18px;flex-shrink:0}
+.chk span{font-size:14.5px;flex:1}
+.chk small{display:block;color:var(--dim);font-size:12.5px}
+.chk .amt{font-family:'Bungee';color:var(--gold);font-size:13px}
+.chk.trap span{color:#ffb3ad}
+.lesson{border-left:4px solid var(--green);background:#0f1a12;padding:10px 12px;border-radius:0 10px 10px 0;margin:8px 0;font-size:14px;line-height:1.45}
+.lesson.bad{border-color:var(--red);background:#1f0f0d}
+.lesson.tip{border-color:var(--blue);background:#0d1520}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.stats.four{grid-template-columns:repeat(4,1fr)}
+.stat{background:#0f0b07;border:2px solid var(--line);border-radius:10px;padding:8px;text-align:center}
+.stat .v{font-family:'Bungee';font-size:16px;color:var(--gold)}
+.stat .k{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.log{background:#0f0b07;border-radius:10px;padding:10px;max-height:220px;overflow-y:auto;font-size:13.5px;margin-top:10px}
+.log div{padding:4px 0;border-bottom:1px dashed var(--line);color:var(--dim)}
+.log div b{color:var(--ink)}
+.tier{background:#0f0b07;border:2px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
+.tier .hd{display:flex;justify-content:space-between;align-items:center}
+.tier small{display:block;color:var(--dim);font-size:12.5px;margin:3px 0 6px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.card{background:#0f0b07;border:2px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;font-size:13.5px}
+.card b{display:block;font-size:14px;margin-bottom:3px}
+.card small{color:var(--dim);font-size:12px}
+.card.on{border-color:var(--gold);background:#2a1f12}
+.card.dis{opacity:.35;cursor:not-allowed}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{flex:1;font-family:'Bungee';font-size:12px;padding:10px;border-radius:10px;border:2px solid var(--line);background:#0f0b07;color:var(--dim);cursor:pointer}
+.tabs button.on{border-color:var(--gold);color:var(--gold);background:#2a1f12}
+.wave{display:flex;align-items:center;gap:1px;height:70px;margin-top:8px;cursor:pointer}
+.wave i{flex:1;background:#5a4630;border-radius:1px;min-height:2px}
+.wave i.hot{background:var(--gold)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:110px;margin-top:10px;padding:0 4px;border-bottom:2px solid var(--line)}
+.bars div{flex:1;background:linear-gradient(0deg,#8a5a00,var(--gold));border-radius:4px 4px 0 0;position:relative;min-height:2px}
+.bars div span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:10px;color:var(--dim)}
+.hbar{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0}
+.hbar .l{width:88px;color:var(--dim)}
+.hbar .b{flex:1;height:12px;background:#2a2016;border-radius:6px;overflow:hidden}
+.hbar .b i{display:block;height:100%;background:var(--blue)}
+.hbar .n{width:40px;text-align:right;font-family:'Bungee';font-size:11px}
+.grade{font-family:'Bungee';font-size:72px;text-align:center;color:var(--gold);text-shadow:4px 4px 0 #6b3d00;line-height:1}
+pre{white-space:pre-wrap;font-family:inherit;font-size:13.5px;line-height:1.5;background:#0f0b07;border-radius:10px;padding:12px;color:var(--ink)}
+.prog{height:22px;background:#2a2016;border-radius:11px;overflow:hidden;position:relative;margin:8px 0}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--green));width:0;transition:width .15s}
+.prog span{position:absolute;inset:0;text-align:center;font-family:'Bungee';font-size:11px;line-height:22px;color:#fff;text-shadow:0 1px 2px #000}
+audio{width:100%;margin-top:8px}
+.restart{position:fixed;top:10px;right:10px;z-index:50;font-family:'Bungee';font-size:11px;background:#1a140d;color:var(--gold);border:2px solid var(--gold);border-radius:20px;padding:7px 12px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.5)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal .box{background:var(--panel);border:2px solid var(--gold);border-radius:14px;padding:18px;max-width:340px;text-align:center}
+.goal{background:linear-gradient(90deg,#2a1f12,#1a140d);border:2px solid var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0;font-size:14px;line-height:1.4}
+.goal b{font-family:'Bungee';color:var(--gold);font-size:12px;display:block;margin-bottom:2px}
+.sub{font-family:'Bungee';font-size:12px;color:var(--dim);margin:12px 0 4px;letter-spacing:1px}
+.goalrow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.drop{border:2px dashed var(--gold);border-radius:14px;padding:22px;text-align:center;cursor:pointer;background:#140f09}
+.drop b{font-family:'Bungee';color:var(--gold);display:block;font-size:15px;margin-bottom:4px}
+.arr{background:#0a0806;border:2px solid var(--line);border-radius:10px;padding:6px;overflow-x:auto;margin-top:8px}
+.arow{display:flex;align-items:center;gap:3px;margin:3px 0;min-width:max-content}
+.arow .tn{width:96px;flex-shrink:0;font-size:11px;font-weight:800;background:#2a2016;border-radius:5px;padding:4px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow .tn small{display:block;font-weight:400;color:var(--dim);font-size:9.5px}
+.bar{width:26px;height:30px;border-radius:4px;border:none;background:#2c241b;flex-shrink:0;cursor:pointer}
+.bar.q{margin-left:5px}
+.bar.on{background:var(--c,var(--gold))}
+.bar.ph{outline:2px solid #fff}
+.arow .mx{display:flex;gap:3px;align-items:center;flex-shrink:0}
+.arow .mx input{width:42px}
+.ruler{display:flex;gap:3px;min-width:max-content;margin-left:99px;font-size:9px;color:var(--dim)}
+.ruler span{width:26px;text-align:center}
+.ruler span.q{margin-left:5px}
+.stk{background:#0f0b07;border:2px solid var(--line);border-radius:10px;padding:9px;cursor:pointer}
+.stk.on{border-color:var(--gold);background:#2a1f12}
+.stk b{font-family:'Bungee';font-size:12px;display:block}
+.stk small{color:var(--dim);font-size:11.5px}
+.lay{display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding:8px 0;font-size:13px}
+.lay .info{flex:1;min-width:0}
+.lay .info small{display:block;color:var(--dim);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lay label.up{margin:0;font-family:'Bungee';font-size:10px;color:var(--gold);border:2px solid var(--gold);border-radius:8px;padding:6px 8px;cursor:pointer;flex-shrink:0}
+.lay .ok{color:var(--green);font-family:'Bungee';font-size:10px}
+.week{border-bottom:1px solid var(--line);padding:8px 0;font-size:14px}
+.week b{font-family:'Bungee';font-size:12px;color:var(--gold)}
+</style>
+</head>
+<body>
+<button class="restart" onclick="askRestart()">↺ RESTART</button>
+<div class="modal hidden" id="restartModal"><div class="box"><h3 style="margin-top:0">Start over?</h3><p style="font-size:14px">You'll go back to the beginning. Your current run will be cleared.</p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn" onclick="doRestart()">Yes, restart</button><button class="btn ghost" onclick="$('restartModal').classList.add('hidden')">Cancel</button></div></div></div>
+<div class="wrap">
+
+<section id="s-home">
+  <div class="tag">LEARN IT BY PLAYING IT</div>
+  <h1 style="margin-top:10px">PAY ME<br>IN CRYPTO</h1>
+  <p style="margin-top:10px">Bring your real song or make one. Plan the content, fund the release with your fans, roll it out, read the data. A real-world playbook for independent creators in smaller markets.</p>
+  <div class="paths" style="margin-top:16px">
+    <div class="path" onclick="homeStart('own')"><div class="ic">🎤</div><div><b>Upload your song</b><small>Bring your real track. We analyze it, then build your real content plan, funding and rollout.</small></div><div class="go">→</div></div>
+    <div class="path" onclick="homeStart('make')"><div class="ic">🎛</div><div><b>Make a song</b><small>Pick a genre, then build a beat in the studio or write it with Suno.</small></div><div class="go">→</div></div>
+    <div class="path" onclick="homeStart('demo')"><div class="ic">💿</div><div><b>Use a demo song</b><small>Jump straight in with a ready-made song.</small></div><div class="go">→</div></div>
+  </div>
+  <div class="cat">Music · Genres</div><p style="font-size:13px;margin-top:4px">Every genre gets its own song templates, rollout and content strategy, and its own markets and micro-niches. Afrobeats is live; the rest are being built.</p><div class="levels" id="lv-music"></div>
+  <div class="cat">Creators · Art Forms</div><div class="levels" id="lv-creators"></div>
+</section>
+
+<section id="s-game" class="hidden">
+  <div class="row" style="padding-right:96px">
+    <span class="tag" id="stageTag"></span>
+    <button class="btn ghost sm" onclick="goHome()">Home</button>
+  </div>
+  <div class="stages"><div id="b1"></div><div id="b2"></div><div id="b3"></div><div id="b4"></div><div id="b5"></div></div>
+  <div class="goal" id="goalBox"></div>
+
+  <!-- ============ STAGE 0 · CHOOSE START ============ -->
+  <div id="st0">
+    <div class="panel">
+      <h2>Pick your genre</h2>
+      <p>Each genre has its own beat templates, sounds and rollout playbook.</p>
+      <div class="levels" id="genrePick"></div>
+    </div>
+    <div class="panel hidden" id="methodPick">
+      <h2>How do you want to make it?</h2>
+      <div class="paths">
+        <div class="path" onclick="startPath('beat')"><div class="ic">🎛</div><div><b>Studio: beat maker + looper</b><small>Start from 5 classic Afro grooves, layer loops, arrange your song.</small></div><div class="go">→</div></div>
+        <div class="path" onclick="startPath('suno')"><div class="ic">✨</div><div><b>Write it with Suno</b><small>We write your prompt and lyric map. Make it in Suno, upload it here.</small></div><div class="go">→</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ STAGE 1 · THE SONG ============ -->
+  <div id="st1" class="hidden">
+
+    <!-- OWN / SUNO UPLOAD -->
+    <div id="paneUpload" class="hidden">
+      <div class="panel" id="sunoBox">
+        <h2>Write it with Suno</h2>
+        <p>Pick your sound. We'll write the Suno prompt and lyric map. Paste them into Suno, make the song, then upload it below.</p>
+        <div class="grid2" style="margin-top:10px">
+          <div><label>Vibe</label><select id="sVibe"><option>Afrobeats love song</option><option>Afropop party anthem</option><option>Afro-fusion street story</option><option>Afro-soul slow wine</option></select></div>
+          <div><label>Language mix</label><select id="sLang"><option>English + Nigerian Pidgin</option><option>English + Yoruba</option><option>English + Twi</option><option>English only</option></select></div>
+          <div><label>Vocals</label><select id="sVox"><option>Smooth male vocals</option><option>Sweet female vocals</option><option>Male + female duet</option></select></div>
+          <div><label>Tempo</label><select id="sTempo"><option>100 BPM</option><option>104 BPM</option><option>108 BPM</option></select></div>
+        </div>
+        <label style="margin-top:10px">What's it about?</label>
+        <input type="text" id="sTopic" value="falling for someone who makes my city feel like home" maxlength="80">
+        <button class="btn full" onclick="makeSuno()">Write my Suno prompt</button>
+        <div id="sunoOut" class="hidden">
+          <h3>Style prompt</h3><pre id="sunoStyle"></pre>
+          <h3>Lyric map</h3><pre id="sunoLyr"></pre>
+          <div class="row" style="margin-top:8px"><button class="btn sm" onclick="copyEl('sunoStyle',this)">Copy style</button><button class="btn sm" onclick="copyEl('sunoLyr',this)">Copy lyrics</button>
+          <a class="btn ghost sm" href="https://suno.com" target="_blank" rel="noopener">Open Suno ↗</a></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 id="upTitle">Upload your song</h2>
+        <label class="drop" for="file"><b>Tap to upload</b><span style="color:var(--dim);font-size:13px">MP3, WAV or M4A</span></label>
+        <input type="file" id="file" accept="audio/*" class="hidden">
+        <div id="anaBusy" class="lesson tip hidden">Listening to your song…</div>
+        <div id="anaOut" class="hidden">
+          <audio id="player" controls></audio>
+          <div class="wave" id="wave" title="Tap to jump"></div>
+          <p style="font-size:12px;margin-top:4px">Gold = your strongest 15 seconds. That's your clip.</p>
+          <div class="stats four">
+            <div class="stat"><div class="v" id="aBpm"></div><div class="k">Tempo</div></div>
+            <div class="stat"><div class="v" id="aLen"></div><div class="k">Length</div></div>
+            <div class="stat"><div class="v" id="aLoud"></div><div class="k">Loudness</div></div>
+            <div class="stat"><div class="v" id="aIntro"></div><div class="k">Kicks in</div></div>
+          </div>
+          <button class="btn sm" style="margin-top:10px" onclick="playClip()">▶ Play my best clip</button>
+          <div id="anaNotes"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BEAT MAKER -->
+    <div id="paneBeat" class="hidden">
+      <div class="panel">
+        <h2>Pick a groove</h2>
+        <p>Five patterns every Afro producer should know. Tap one, then hit play.</p>
+        <div class="presets" id="presets" style="margin-top:10px"></div>
+        <button class="btn green bigplay" id="playBtn" onclick="togglePlay()">▶ PLAY</button>
+        <div id="preNote" class="lesson tip"></div>
+        <label style="margin-top:8px">Tempo <b id="bpmV">95</b> BPM</label><input type="range" id="bpm" min="85" max="125" value="95">
+        <label>Swing <b id="swV">15</b>%</label><input type="range" id="swing" min="0" max="60" value="15">
+        <div class="grid2" style="margin-top:6px">
+          <div><label>Chords</label><select id="prog"><option value="0">Sunset: Am F C G</option><option value="1">Lagos Night: Dm Bb F C</option><option value="2">Highlife: C F G F</option></select></div>
+          <div><label>Bass</label><select id="bassStyle"><option value="bounce">Bounce</option><option value="root">Root notes</option><option value="walk">Walking</option><option value="off">Off</option></select></div>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <label class="chk" style="border:none;padding:0"><input type="checkbox" id="padOn" checked><span>Chords</span></label>
+          <label class="chk" style="border:none;padding:0"><input type="checkbox" id="keysOn" checked><span>Melody</span></label>
+          <label class="chk" style="border:none;padding:0"><input type="checkbox" id="shakOn" checked><span>Shaker layer</span></label>
+        </div>
+        <details>
+          <summary>Edit the pattern (channel rack)</summary>
+          <p style="font-size:12.5px">Tap squares to add hits. Tap a name to hear it. Green dot = mute.</p>
+          <div class="rack" id="rack"></div>
+          <h3>Melody</h3>
+          <div class="rack roll" id="roll"></div>
+        </details>
+      </div>
+      <div class="panel" id="looper">
+        <h2>🎚 Looper</h2>
+        <p>Build a full song from loops, FL Studio playlist style. Every loop is auto-fitted to the project's tempo and key, so anything you drop in locks together.</p>
+        <div class="grid2" style="margin-top:8px">
+          <div><label>Project tempo</label><input type="number" id="pBpm" value="100" min="80" max="130"></div>
+          <div><label>Project key</label><select id="pKey"></select></div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn sm" onclick="sendBeat()">+ Send Beat Maker to looper</button>
+          <label class="btn ghost sm" for="anyLoop" style="margin:0">+ Add your own loop</label>
+          <input type="file" id="anyLoop" accept="audio/*" class="hidden">
+        </div>
+        <div id="lpBusy" class="lesson tip hidden"></div>
+                <div class="arr" id="arr"><p style="font-size:13px;padding:8px">No loops yet. Send your Beat Maker parts in, load a stack below, or add your own loop.</p></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn green" id="arrPlay" onclick="arrToggle()">▶ PLAY SONG</button>
+          <select id="arrTpl" style="width:auto;padding:8px;font-size:13px" onchange="applyTpl(this.value);this.value=''"><option value="">Arrange…</option><option value="song">Song form (intro, verse, hook)</option><option value="all">Everything on</option><option value="clear">Clear all</option></select>
+        </div>
+        <button class="btn full" onclick="bounceSong()">✅ Use this as my song</button>
+        <div id="bounceOut"></div>
+      </div>
+
+      <div class="panel">
+        <h2>🧩 Stack library</h2>
+        <p>12 Afrobeats stacks built in Splice: different drum patterns, bass styles and tempos from 90 to 120. Pick one to set the project's tempo and key. Then download each sound in Splice and drop it in its slot. <b style="color:var(--ink)">Needs your own Splice account.</b></p>
+        <div class="presets" id="stacks" style="margin-top:10px"></div>
+        <div id="stackDetail"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Add real sounds</h2>
+        <p>The built-in drums are a sketch. Real producers layer real recordings, so drop in your own.</p>
+        <h3>🥁 Your own drum sounds</h3>
+        <p style="font-size:13px">Swap any channel for a real one-shot sample (kick, rim, shaker, conga…).</p>
+        <div class="grid2" style="margin-top:6px">
+          <div><label>Channel</label><select id="smpCh"></select></div>
+          <div><label>Sample</label><input type="file" id="smpFile" accept="audio/*" style="font-size:13px;color:var(--dim)"></div>
+        </div>
+        <div id="smpList" style="font-size:13px;color:var(--green);margin-top:6px"></div>
+        <details>
+          <summary>Where to get real Afro sounds</summary>
+          <div class="lesson tip">🎙 <b>Record your own.</b> Shakers, bottles, a table, hand claps, your voice. Free, unique, and 100% yours.</div>
+          <div class="lesson tip">💳 <b>Paid sample libraries</b> (like Splice): huge Afrobeats sections, cleared for use in your songs.</div>
+          <div class="lesson tip">🆓 <b>Free loop and sample sites</b> (like Looperman or Freesound): great sounds, but every upload has its own license. Some require credit, some forbid commercial use.</div>
+          <div class="lesson tip">🎁 <b>Producer drum kits:</b> many Afro producers give away or sell kits. Read the terms that come with them.</div>
+          <div class="lesson bad">⚖️ <b>Ownership lesson:</b> if you don't clear a sample, you don't fully own your song, and you can't sell its royalties or build a token on it. Keep a note of where every sound came from.</div>
+        </details>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0">Afrobeats feel</h3>
+        <div class="meter"><i id="feelBar"></i></div>
+        <ul class="tips" id="feelTips"></ul>
+      </div>
+    </div>
+
+    <!-- DEMO -->
+    <div id="paneDemo" class="hidden">
+      <div class="panel">
+        <h2>Demo songs</h2>
+        <p>Pick a demo to play the game with.</p>
+        <div class="paths" id="demoList"></div>
+      </div>
+    </div>
+
+    <!-- DESCRIBE IT (all paths) -->
+    <div class="panel" id="describe">
+      <h2>Tell us about it</h2>
+      <div class="grid2">
+        <div><label>Artist name</label><input type="text" id="artist" value="Kofi Waves" maxlength="24"></div>
+        <div><label>Song title</label><input type="text" id="song" value="Sweet Like Mango" maxlength="28"></div>
+        <div><label>Your city</label><input type="text" id="city" value="Las Vegas" maxlength="24"></div>
+        <div><label>Song status</label><select id="status"><option value="demo">Rough demo</option><option value="mixed">Mixed</option><option value="mastered" selected>Mixed + mastered</option><option value="out">Already released</option></select></div>
+      </div>
+      <label style="margin-top:10px">Genre</label><select id="genreSel"></select>
+      <label style="margin-top:10px">What's it about? (one line)</label><input type="text" id="about" value="falling for someone who makes my city feel like home" maxlength="90">
+      <label style="margin-top:10px">Who's it for?</label><input type="text" id="fans" value="Afrobeats lovers 18–30, African diaspora, club and party crowd" maxlength="90">
+      <div class="grid2" style="margin-top:10px">
+        <div><label>Total social followers</label><input type="number" id="foll" value="600" min="0"></div>
+        <div><label>Fans' phone numbers/emails you have</label><input type="number" id="list" value="80" min="0"></div>
+      </div>
+      <button class="btn full" onclick="lockSong()">Next: Content Studio →</button>
+    </div>
+  </div>
+
+  <!-- ============ STAGE 2 · CONTENT STUDIO ============ -->
+  <div id="st2" class="hidden">
+    <div class="panel">
+      <h2>Content Studio</h2>
+      <p>Before you ask anyone for money or streams, decide what you'll post. Pick <b style="color:var(--gold)">3 content pillars</b>, the types of posts you'll repeat all campaign.</p>
+      <div id="clipNote" class="lesson tip"></div>
+      <div class="cards" id="pillars"></div>
+      <h3>How you'll post</h3>
+      <div class="grid2">
+        <div><label>Posting time</label><select id="postTime"><option value="eve">Evening 5–7pm (main posts)</option><option value="lunch">Lunch 12–3pm</option><option value="morn">Mornings</option></select></div>
+        <div><label>Posts per week</label><select id="ppw"><option value="1">1</option><option value="3" selected>3</option><option value="5">5</option></select></div>
+      </div>
+      <label style="margin-top:10px">How each video opens</label>
+      <select id="opening"><option value="hook">On the hook: your face, performing, best line first</option><option value="flyer">On the cover art / flyer / logo</option></select>
+      <label class="chk"><input type="checkbox" id="kwOn" checked><span>Comment-keyword auto-DM<small>"Comment <b id="kwT">MANGO</b> and I'll send you the link." Said out loud in the video + shown on screen. Every comment becomes a contact you own.</small></span></label>
+      <button class="btn full" id="calBtn" onclick="buildCalendar()" disabled>Build my 8-week content plan</button>
+    </div>
+    <div class="panel hidden" id="calOut">
+      <h3 style="margin-top:0">Your content plan</h3>
+      <div id="cal"></div>
+      <h3>Hooks + captions</h3>
+      <pre id="caps"></pre>
+      <div class="row" style="margin-top:8px"><button class="btn sm" onclick="copyEl('calText',this)">Copy full plan</button></div>
+      <pre id="calText" class="hidden"></pre>
+      <button class="btn full" onclick="toStage(3)">Next: Fund the release →</button>
+    </div>
+  </div>
+
+  <!-- ============ STAGE 3 · FUND IT ============ -->
+  <div id="st3" class="hidden">
+    <div class="panel">
+      <h2>Fund it</h2>
+      <p>No label advance. Your community funds the release, and they get something real back. Choose how.</p>
+      <div class="lesson tip">You're starting with <b id="baseF"></b> followers and <b id="baseL"></b> people you can text or email.</div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Step 1 · Release budget</h3>
+      <div class="sub">PRODUCTION</div>
+      <div id="budget"></div>
+      <div class="sub">MARKETING</div>
+      <div id="mbudget"></div>
+      <label style="margin-top:10px">Paid ads budget: <b id="adsV">$400</b></label><input type="range" id="adsAmt" min="0" max="1500" step="100" value="400">
+      <p style="font-size:12.5px">Send paid traffic to your profile or page, never straight to Spotify. People who follow you are worth more than one stream.</p>
+      <div class="row" style="justify-content:space-between;margin-top:8px"><span>Production</span><b id="prodV"></b></div>
+      <div class="row" style="justify-content:space-between"><span>Marketing</span><b id="mktV"></b></div>
+      <div class="row" style="justify-content:space-between;margin-top:8px"><span>Fees (~8%)</span><b id="feeV"></b></div>
+      <div class="row" style="justify-content:space-between;margin-top:4px"><span class="tag">FUNDING GOAL</span><b style="font-family:Bungee;color:var(--gold);font-size:20px" id="goalV"></b></div>
+    </div>
+    <div class="tabs"><button id="tabTok" class="on" onclick="fundTab('token')">🪙 Fan token</button><button id="tabRoy" onclick="fundTab('royalty')">📈 Sell royalties</button></div>
+
+    <div id="paneTok">
+      <div class="panel">
+        <h3 style="margin-top:0">Step 2 · Design your fan token</h3>
+        <p style="font-size:13px">Backers get tokens that unlock perks in your world: access, not profit.</p>
+        <div class="grid2" style="margin-top:8px"><div><label>Token name</label><input type="text" id="tName" maxlength="20"></div><div><label>Symbol</label><input type="text" id="tSym" maxlength="6"></div></div>
+        <p style="font-size:13px;margin-top:8px">Fixed supply: <b style="color:var(--ink)">100,000 tokens</b>. Never more.</p>
+        <label style="margin-top:8px">Backers: <b id="aB">40</b>%</label><input type="range" id="pB" min="10" max="70" value="40">
+        <label>Community rewards pool: <b id="aC">25</b>%</label><input type="range" id="pC" min="0" max="50" value="25">
+        <label>You, the artist: <b id="aA">20</b>%</label><input type="range" id="pA" min="5" max="60" value="20">
+        <div class="row" style="justify-content:space-between"><label style="margin:0">Treasury</label><b id="aT">15%</b></div>
+        <label class="chk"><input type="checkbox" id="vest" checked><span>Lock your tokens 12 months<small>Proves you won't cash out on day one.</small></span></label>
+        <label class="chk"><input type="checkbox" id="cap" checked><span>Max 2% per wallet<small>Keeps one whale from controlling it.</small></span></label>
+        <h3>Reward tiers</h3>
+        <div id="tiers"></div>
+      </div>
+    </div>
+
+    <div id="paneRoy" class="hidden">
+      <div class="panel">
+        <h3 style="margin-top:0">Step 2 · Sell a slice of your royalties</h3>
+        <p style="font-size:13px">Fans buy shares of this song's streaming royalties. When the song earns, they earn. You get the money up front and give up part of the future income.</p>
+        <label style="margin-top:10px">Share of royalties for sale: <b id="rPctV">20</b>%</label><input type="range" id="rPct" min="5" max="50" value="20">
+        <label>Term</label><select id="rTerm"><option value="3">3 years</option><option value="5" selected>5 years</option><option value="99">Lifetime</option></select>
+        <label style="margin-top:10px">Number of shares: <b id="rSharesV">100</b></label><input type="range" id="rShares" min="20" max="500" step="10" value="100">
+        <label>Price per share: <b id="rPriceV">$25</b></label><input type="range" id="rPrice" min="5" max="200" step="5" value="25">
+        <div class="lesson tip" id="rVal"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0">Step 3 · Campaign strategy</h3>
+      <label>Funding model</label>
+      <select id="model"><option value="aon">All-or-nothing (more trust; miss the goal = $0)</option><option value="flex">Keep what you raise (safer, fewer commit)</option></select>
+      <label style="margin-top:10px">Length</label>
+      <select id="len"><option value="15">15 days</option><option value="30" selected>30 days</option><option value="45">45 days</option></select>
+      <h3>Warm-up moves (pick 2)</h3>
+      <div class="cards" id="prel"></div>
+      <h3>Your pitch</h3>
+      <label class="chk trap"><input type="checkbox" id="moon"><span id="moonTxt">"Get in now, this is going to 10x!"<small>Could drive hype…</small></span></label>
+      <button class="btn full" id="launchBtn" onclick="runFund()">Launch the campaign →</button>
+    </div>
+
+    <div class="panel hidden" id="fundRes">
+      <h3 style="margin-top:0">Campaign live</h3>
+      <div class="prog"><i id="fProg"></i><span id="fProgT">$0</span></div>
+      <div class="stats"><div class="stat"><div class="v" id="fRaised">$0</div><div class="k">Raised</div></div><div class="stat"><div class="v" id="fBackers">0</div><div class="k">Backers</div></div><div class="stat"><div class="v" id="fDay">0</div><div class="k">Day</div></div></div>
+      <div class="log" id="fLog"></div>
+      <div id="fLessons"></div>
+      <button class="btn full hidden" id="toRoll" onclick="toStage(4)">Start the rollout →</button>
+    </div>
+  </div>
+
+  <!-- ============ STAGE 4 · ROLLOUT ============ -->
+  <div id="st4" class="hidden">
+    <div class="panel">
+      <div class="row" style="justify-content:space-between"><h2 style="margin:0">Week <span id="wk">1</span> of 8</h2><span class="tag" id="wkBudget"></span></div>
+      <div class="stats four">
+        <div class="stat"><div class="v" id="dStreams">0</div><div class="k">Streams/wk</div></div>
+        <div class="stat"><div class="v" id="dListen">0</div><div class="k">Listeners</div></div>
+        <div class="stat"><div class="v" id="dCore">0</div><div class="k">Superfans</div></div>
+        <div class="stat"><div class="v" id="dHold">0</div><div class="k">Holders</div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">📊 Data room</h3>
+      <div class="grid2" style="margin-top:6px">
+        <div><label>Top listener cities</label><div id="dCities"></div></div>
+        <div><label>Your content last week</label><div id="dContent"></div></div>
+      </div>
+      <div class="row" style="margin-top:8px;justify-content:space-between;font-size:13px"><span>Swiped in 3s: <b id="dSkip"></b></span><span>Save rate: <b id="dSave"></b></span><span>Holders: <b id="dAct"></b></span><span id="dPoolWrap">Rewards pool: <b id="dPool"></b></span></div>
+      <div id="dInsight"></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Pick 2 moves this week</h3>
+      <div class="cards" id="moves"></div>
+      <button class="btn full" id="wkBtn" onclick="runWeek()" disabled>Run the week →</button>
+      <div class="log" id="rLog"></div>
+    </div>
+  </div>
+
+  <!-- ============ STAGE 5 · REPORT ============ -->
+  <div id="st5" class="hidden">
+    <div class="panel" style="text-align:center">
+      <div class="tag">RELEASE REPORT</div>
+      <div class="grade" id="grade" style="margin:12px 0"></div>
+      <p id="gradeLine"></p>
+      <div class="stats four">
+        <div class="stat"><div class="v" id="pStream"></div><div class="k">Streaming</div></div>
+        <div class="stat"><div class="v" id="pShow"></div><div class="k">Shows</div></div>
+        <div class="stat"><div class="v" id="pMerch"></div><div class="k">Merch</div></div>
+        <div class="stat"><div class="v" id="pFund"></div><div class="k">Raised</div></div>
+      </div>
+      <div class="stat" style="margin-top:8px"><div class="v" id="pTotal" style="font-size:24px"></div><div class="k">Total brought in</div></div>
+    </div>
+    <div class="panel"><h3 style="margin-top:0">Weekly streams</h3><div class="bars" id="chart"></div><div style="height:18px"></div>
+      <div class="stats"><div class="stat"><div class="v" id="pCore"></div><div class="k">Superfans</div></div><div class="stat"><div class="v" id="pHold"></div><div class="k">Holders</div></div><div class="stat"><div class="v" id="pData"></div><div class="k">Data reads hit</div></div></div>
+    </div>
+    <div class="panel"><h3 style="margin-top:0">🎯 Your goals</h3><div id="goalCard"></div></div>
+    <div class="panel"><h3 style="margin-top:0">What you learned</h3><div id="lessons"></div></div>
+    <div class="panel">
+      <h3 style="margin-top:0">Your real-world playbook</h3>
+      <p style="font-size:13px;margin-bottom:8px">Built from your song and your choices.</p>
+      <pre id="plan"></pre>
+      <div class="row" style="margin-top:10px"><button class="btn" onclick="copyEl('plan',this)">Copy playbook</button><button class="btn ghost" onclick="restart()">Play again</button></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+/* ================= HELPERS ================= */
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString();
+const money=n=>"$"+Math.round(n).toLocaleString();
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const mmss=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
+const v=id=>$(id).value.trim()||$(id).defaultValue;
+function copyEl(id,btn){navigator.clipboard.writeText($(id).textContent).then(()=>{btn.textContent="Copied ✓"}).catch(()=>{btn.textContent="Select + copy"})}
+
+/* ================= LEVELS ================= */
+const MUSIC=[["Afrobeats","From your block to your blockchain"],["Amapiano","Log drums + the dance floor economy"],["Hip-Hop","Mixtapes, features, ownership"],["R&B / Soul","Intimate shows, superfan clubs"],["Gospel","Church circuits + community"],["Reggaeton","Club play + Latin diaspora"],["Country","Small towns, big loyalty"],["Drill","Scenes, crews, short-form"]];
+const CREATORS=[["Visual Artist","Prints, editions, collectors"],["Filmmaker","Fund the film with your viewers"],["Podcaster","Listener-owned shows"],["Fashion Designer","Drops, scarcity, community"],["Game Dev","In-game economies"],["Poet / Author","Chapters, patrons, readings"]];
+const LIVE=["Afrobeats"];
+function drawLevels(){
+  const mk=(arr,el,onPick)=>{el.innerHTML="";arr.forEach(([n,sub])=>{const d=document.createElement("div");const open=LIVE.includes(n);d.className="lvl "+(open?"open":"soon");
+    d.innerHTML=`<div class="nm">${n}</div><div class="sb">${sub}</div><span class="badge">${open?"AVAILABLE":"COMING SOON"}</span>`;if(open)d.onclick=onPick;el.appendChild(d)})};
+  mk(MUSIC,$("lv-music"),()=>homeStart("make"));mk(CREATORS,$("lv-creators"),()=>{});
+  mk(MUSIC,$("genrePick"),()=>{S.genre="Afrobeats";$("methodPick").classList.remove("hidden");$("methodPick").scrollIntoView({behavior:"smooth"})});
+}
+function homeStart(k){show("s-game");if(k==="make"){$("methodPick").classList.add("hidden");toStage(0)}else startPath(k)}
+function show(id){["s-home","s-game"].forEach(x=>$(x).classList.toggle("hidden",x!==id));window.scrollTo(0,0)}
+function goHome(){stopPlay();drawLevels();show("s-home")}
+function toStage(n){
+  stopPlay();if(typeof arrStop==="function")arrStop();
+  [0,1,2,3,4,5].forEach(i=>$("st"+i).classList.toggle("hidden",i!==n));
+  [1,2,3,4,5].forEach(i=>$("b"+i).classList.toggle("on",i<=Math.max(1,n)));
+  $("stageTag").textContent=["MAKE A SONG","STAGE 1 · THE SONG","STAGE 2 · CONTENT STUDIO","STAGE 3 · FUND IT","STAGE 4 · THE ROLLOUT","STAGE 5 · RELEASE REPORT"][n];
+  if(n===2)initContent(); if(n===3)initFund(); if(n===4)initRoll();
+  const G=[
+   ["YOUR MISSION","Take one song from idea to income: make it, plan the content, fund it with your community, roll it out and read the data. Pick your genre and how you'll make it."],
+   ["STAGE GOAL","Lock a song that sounds finished, and know your strongest 15 seconds. That's your clip for everything."],
+   ["STAGE GOAL","Plan 8 weeks of content you can actually keep up: 3+ posts a week, the hook in the first 3 seconds, and a way to capture every fan's contact."],
+   ["STAGE GOAL",`Raise your full release budget (production <b>and</b> marketing) from your own community, without promising anyone returns.`],
+   ["STAGE GOAL",`Hit these targets in 8 weeks: <b>${TARGETS.core}+ superfans</b>, never go a week without posting, and follow the data (60%+ of data-driven moves hit).`],
+   ["FINAL SCORE","See how you did against your goals, then take the playbook into real life."]][n];
+  $("goalBox").innerHTML=`<b>🎯 ${G[0]}</b>${G[1]}`;
+  window.scrollTo(0,0);
+}
+const TARGETS={core:300,data:.6};
+function askRestart(){$("restartModal").classList.remove("hidden")}
+function doRestart(){$("restartModal").classList.add("hidden");stopPlay();clearLoop();restart();goHome()}
+
+/* ================= START PATHS ================= */
+const S={};
+// Add real demo songs here later: {title, artist, about, src:"demo1.mp3"}
+const DEMOS=[{title:"Black Candle World",artist:"Demo Artist",about:"an Afrobeats demo song, ready to roll out",src:"demo-black-candle-world.mp3"}];
+function startPath(p){
+  S.path=p;S.analysis=null;toStage(1);
+  $("paneUpload").classList.toggle("hidden",!(p==="own"||p==="suno"));
+  $("sunoBox").classList.toggle("hidden",p!=="suno");
+  $("upTitle").textContent=p==="suno"?"Upload your Suno song":"Upload your song";
+  $("paneBeat").classList.toggle("hidden",p!=="beat");
+  $("paneDemo").classList.toggle("hidden",p!=="demo");
+  $("describe").classList.toggle("hidden",p==="demo");
+  if(p==="own"){$("status").value="mastered";}
+  if(p==="beat"||p==="suno"){$("status").value=p==="suno"?"mixed":"demo";}
+  if(p==="demo")drawDemos();
+}
+function drawDemos(){
+  const list=DEMOS.map((d,i)=>`<div class="path" onclick="pickDemo(${i})"><div class="ic">💿</div><div><b>${d.title}</b><small>${d.artist} · ${d.about}</small></div><div class="go">→</div></div>`).join("");
+  $("demoList").innerHTML=list+`<div class="path" onclick="pickDemo(-1)"><div class="ic">🥭</div><div><b>Sweet Like Mango (beat only)</b><small>Kofi Waves · built-in demo beat, 95 BPM</small></div><div class="go">→</div></div>`;
+}
+function pickDemo(i){
+  const d=i>=0?DEMOS[i]:{title:"Sweet Like Mango",artist:"Kofi Waves",about:"falling for someone who makes my city feel like home"};
+  $("artist").value=d.artist;$("song").value=d.title;$("about").value=d.about;$("status").value="mastered";
+  $("describe").classList.remove("hidden");
+  if(i<0){S.path="demo";$("paneBeat").classList.remove("hidden");$("paneDemo").classList.add("hidden");loadPreset(0);togglePlay()}
+  else{S.path="demo";$("paneUpload").classList.remove("hidden");$("sunoBox").classList.add("hidden");$("paneDemo").classList.add("hidden");$("anaBusy").classList.remove("hidden");$("anaBusy").textContent="Loading the demo song…";fetch(d.src).then(r=>r.blob()).then(b=>analyzeFile(new File([b],d.title))).catch(()=>{$("anaBusy").textContent="Couldn't load the demo song."})}
+  $("describe").scrollIntoView({behavior:"smooth"});
+}
+
+/* ================= AUDIO ENGINE ================= */
+let ctx,master,noiseBuf,timer,step=0,loopStep=0,nextT=0,playing=false;
+function initAudio(){
+  if(ctx)return;ctx=new (window.AudioContext||window.webkitAudioContext)();
+  master=ctx.createDynamicsCompressor();master.connect(ctx.destination);
+  noiseBuf=ctx.createBuffer(1,ctx.sampleRate*.5,ctx.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+}
+const f=m=>440*Math.pow(2,(m-69)/12);
+function env(g,t,a,peak,dec){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(peak,.0002),t+a);g.gain.exponentialRampToValueAtTime(0.0001,t+dec)}
+function noise(t,type,freq,peak,dec){const s=ctx.createBufferSource();s.buffer=noiseBuf;const fl=ctx.createBiquadFilter();fl.type=type;fl.frequency.value=freq;const g=ctx.createGain();env(g,t,.002,peak,dec);s.connect(fl).connect(g).connect(master);s.start(t);s.stop(t+dec+.05)}
+function tone(t,freq,type,peak,dec,endF){const o=ctx.createOscillator();o.type=type;o.frequency.setValueAtTime(freq,t);if(endF)o.frequency.exponentialRampToValueAtTime(endF,t+dec*.6);const g=ctx.createGain();env(g,t,.004,peak,dec);o.connect(g).connect(master);o.start(t);o.stop(t+dec+.05)}
+
+/* ================= BEAT MAKER ================= */
+const CH=[
+ {n:"Kick",c:"#f5b82e"},{n:"Rim",c:"#4fc3ff"},{n:"Rim 2",c:"#8fd8ff"},{n:"Snare",c:"#ff8a3d"},{n:"Clap",c:"#ff6fa8"},
+ {n:"Hi-hat",c:"#c9c9c9"},{n:"Shaker",c:"#2fd67b"},{n:"Conga",c:"#b06cff"},{n:"Perc",c:"#d6a6ff"},{n:"Cowbell",c:"#ffe08a"},{n:"Talking Drum",c:"#ff5a4e"}];
+const P=s=>s.split("").map(Number);
+// Patterns drawn from the classic Afro grooves taught in the tutorials
+const PRESETS=[
+ {n:"Nigerian Afrobeats",bpm:95,sw:15,prog:0,note:"The foundation. Rims on 1, 4, 7, 11, 13 with a steady four-on-the-floor kick. Almost every Afrobeats song starts here. A little swing makes it dance.",
+  g:["1000100010001000","1001001000101000","0000000000000010","0000000000000000","0000000000000000","0000000000000000","1111111111111111","0010000000000000","0000000000100000","0000000000000000","0000000000000000"]},
+ {n:"Ghanaian Highlife",bpm:100,sw:12,prog:2,note:"Like the Nigerian groove with a slide, and the cowbell is the foundation. Four-on-the-floor kick, congas around it, shakers to bring it to life.",
+  g:["1000100010001000","0001000000010000","0000000000000000","0000000000000000","0000000000000000","0000000000000000","1111111111111111","0100000000000001","0000001000000000","0010001000100010","0000000000000000"]},
+ {n:"Afro-Dancehall",bpm:100,sw:8,prog:1,note:"Jamaican dancehall meets Afrobeats. Constant kick, then the 3-3-2 rim bounce on top. Add percussion and shakers to taste.",
+  g:["1000100010001000","0001001000010010","0000000000000000","0000000000001000","0000100000000000","0000000000000000","1010101010101010","0000010000000100","0000000001000000","0000000000000000","0000000000000000"]},
+ {n:"Afro-Swing",bpm:100,sw:35,prog:0,note:"The UK flavor. Just kick, rim and hi-hats with rolls. Turn the swing up, but don't overdo it.",
+  g:["1000000100100000","1001001000100000","0000000000000010","0000000000000000","0000100000001000","1010101110101011","0000000000000000","0000000000000000","0000000000000000","0000000000000000","0000000000000000"]},
+ {n:"Amapiano Bounce",bpm:112,sw:20,prog:1,note:"South African flavor (full Amapiano level coming). Soft kick on every beat, and shakers are NOT optional. Talking drum stands in for the log drum here.",
+  g:["1000100010001000","0000000000000000","0000000000000000","0000000000000000","0000100000001000","0010001000100010","1111111111111111","0000000000000000","0001000000010000","0000000000000000","1000000100100000"]}];
+const ROLLPRE=[-1,-1,4,-1,3,-1,2,-1,-1,0,-1,2,3,-1,2,-1];
+let grid=[],roll=ROLLPRE.slice(),mute=CH.map(()=>false),vol=CH.map(()=>.8),curPre=0;
+function drawPresets(){$("presets").innerHTML=PRESETS.map((p,i)=>`<div class="pre ${i===curPre?"on":""}" onclick="loadPreset(${i})"><b>${p.n}</b><span class="bpm">${p.bpm} BPM</span></div>`).join("")}
+function loadPreset(i){curPre=i;const p=PRESETS[i];grid=p.g.map(P);$("bpm").value=p.bpm;$("bpmV").textContent=p.bpm;$("swing").value=p.sw;$("swV").textContent=p.sw;$("prog").value=p.prog;
+  $("preNote").innerHTML=`<b>${p.n}:</b> ${p.note}`;drawPresets();drawRack();drawRoll();scoreSong()}
+function drawRack(){
+  const el=$("rack");el.innerHTML="";
+  CH.forEach((c,i)=>{const r=document.createElement("div");r.className="ch";
+    r.innerHTML=`<button class="m ${mute[i]?"off":""}"></button><input type="range" min="0" max="1" step=".05" value="${vol[i]}"><div class="nm">${c.n}</div>`;
+    r.children[0].onclick=e=>{mute[i]=!mute[i];e.target.classList.toggle("off")};
+    r.children[1].oninput=e=>vol[i]=+e.target.value;
+    r.children[2].onclick=()=>{initAudio();ctx.resume();hit(i,ctx.currentTime)};
+    for(let s=0;s<16;s++){const b=document.createElement("button");b.className="st"+(Math.floor(s/4)%2?" alt":"")+(grid[i][s]?" on":"");b.style.setProperty("--c",c.c);
+      b.onclick=()=>{grid[i][s]^=1;b.classList.toggle("on");if(grid[i][s]){initAudio();ctx.resume();hit(i,ctx.currentTime)}scoreSong()};r.appendChild(b)}
+    el.appendChild(r)});
+}
+const NOTE_NAMES=["Root","2nd","3rd","5th","6th","Oct","Oct+2","Oct+3"],SCALE=[0,2,3,7,9,12,14,15];
+function drawRoll(){
+  const el=$("roll");el.innerHTML="";
+  for(let n=7;n>=0;n--){const r=document.createElement("div");r.className="ch";
+    r.innerHTML=`<div style="width:26px"></div><div style="width:44px"></div><div class="nm">${NOTE_NAMES[n]}</div>`;
+    r.children[2].onclick=()=>{initAudio();ctx.resume();keyNote(n,ctx.currentTime)};
+    for(let s=0;s<16;s++){const b=document.createElement("button");b.className="st"+(Math.floor(s/4)%2?" alt":"")+(roll[s]===n?" on":"");b.style.setProperty("--c","#2fd67b");
+      b.onclick=()=>{roll[s]=roll[s]===n?-1:n;drawRoll();if(roll[s]>=0){initAudio();ctx.resume();keyNote(n,ctx.currentTime)}scoreSong()};r.appendChild(b)}
+    el.appendChild(r)}
+}
+const PROGS=[[[57,60,64],[53,57,60],[48,52,55],[55,59,62]],[[50,53,57],[46,50,53],[53,57,60],[48,52,55]],[[48,52,55],[53,57,60],[55,59,62],[53,57,60]]];
+const KEYROOT=[57,50,48];
+const samples={};
+function playBuf(b,t,g,rate){const s=ctx.createBufferSource();s.buffer=b;if(rate)s.playbackRate.value=rate;const gn=ctx.createGain();gn.gain.value=g;s.connect(gn).connect(master);s.start(t);return s}
+let loopBuf=null,loopSrc=null,loopGain=null;
+function tempoOf(buf){
+  const sr=buf.sampleRate,c0=buf.getChannelData(0),hop=512,n=Math.floor(c0.length/hop),rms=new Float32Array(n);
+  for(let i=0;i<n;i++){let s2=0;for(let j=0;j<hop;j++){const x=c0[i*hop+j];s2+=x*x}rms[i]=Math.sqrt(s2/hop)}
+  const fps=sr/hop,on=new Float32Array(n);for(let i=1;i<n;i++)on[i]=Math.max(0,rms[i]-rms[i-1]);
+  let best=0,bb=100;for(let b=80;b<=160;b+=.5){const lag=60*fps/b,l0=Math.floor(lag),fr=lag-l0;let sc=0;for(let i=0;i<n-l0-1;i++)sc+=on[i]*(on[i+l0]*(1-fr)+on[i+l0+1]*fr);if(sc>best){best=sc;bb=b}}
+  // loops are whole bars: snap to beats-per-loop
+  const d=buf.duration;let snap=bb,dist=1e9;[4,8,16,32,64].forEach(beats=>{const t=beats*60/d;if(t>=70&&t<=170&&Math.abs(t-bb)<dist){dist=Math.abs(t-bb);snap=t}});
+  return Math.round(snap*10)/10;
+}
+function startLoop(t){if(!loopBuf)return;loopGain=ctx.createGain();loopGain.gain.value=+$("loopVol").value;loopSrc=ctx.createBufferSource();loopSrc.buffer=loopBuf;loopSrc.loop=true;loopSrc.playbackRate.value=bpm()/(+$("loopBpm").value||100);loopSrc.connect(loopGain).connect(master);loopSrc.start(t)}
+function stopLoop(){if(loopSrc){try{loopSrc.stop()}catch(e){}loopSrc=null}}
+function clearLoop(){stopLoop();loopBuf=null;if($("loopInfo"))$("loopInfo").classList.add("hidden");if($("loopFile"))$("loopFile").value=""}
+function hit(i,t){const v=vol[i];
+  if(samples[i]){playBuf(samples[i],t,v);return}
+  if(i===0)tone(t,150,"sine",.95*v,.35,45);
+  if(i===1)tone(t,1000,"square",.11*v,.035);
+  if(i===2)tone(t,760,"square",.09*v,.04);
+  if(i===3){noise(t,"bandpass",1800,.45*v,.18);tone(t,220,"triangle",.25*v,.1)}
+  if(i===4){[0,.01,.022].forEach(d=>noise(t+d,"bandpass",1200,.35*v,.12))}
+  if(i===5)noise(t,"highpass",9000,.18*v,.04);
+  if(i===6)noise(t,"highpass",6500,.12*v,.06);
+  if(i===7)tone(t,240,"sine",.5*v,.2,200);
+  if(i===8)tone(t,360,"sine",.4*v,.14,320);
+  if(i===9){tone(t,820,"square",.06*v,.18);tone(t,1230,"square",.04*v,.15)}
+  if(i===10)tone(t,150,"sine",.6*v,.32,270);
+}
+function keyNote(n,t){const root=KEYROOT[+$("prog").value];tone(t,f(root+12+SCALE[n]),"triangle",.16,.32);tone(t,f(root+24+SCALE[n]),"sine",.05,.2)}
+const bpm=()=>+$("bpm").value;
+function scheduleStep(s,t){
+  const RD=!RENDER||RENDER.drums,RB=!RENDER||RENDER.bass,RK=!RENDER||RENDER.keys;
+  if(RD)CH.forEach((_,i)=>{if(grid[i][s]&&!mute[i])hit(i,t)});
+  if(RD&&$("shakOn").checked&&!grid[6][s])noise(t,"highpass",7000,.05,.04);
+  const bar=Math.floor(loopStep/16)%4, ch=PROGS[+$("prog").value][bar], sp=60/bpm()/4, bs=$("bassStyle").value;
+  const bassSteps={bounce:[0,3,6,10,14],root:[0,8],walk:[0,4,8,12]}[bs];
+  if(RB&&bassSteps&&bassSteps.includes(s)){const off=bs==="walk"?[0,3,7,5][s/4]:0;tone(t,f(ch[0]-24+off),"triangle",.55,sp*(bs==="root"?6:2.2))}
+  if(RK&&$("padOn").checked&&[2,6,10,14].includes(s))ch.forEach(n=>tone(t,f(n+12),"triangle",.035,sp*.9));
+  if(RK&&$("padOn").checked&&s===0)ch.forEach(n=>tone(t,f(n),"sine",.06,sp*15));
+  if(RK&&$("keysOn").checked&&roll[s]>=0&&bar%2===1)keyNote(roll[s],t);
+  if(!RENDER)requestAnimationFrame(()=>document.querySelectorAll("#rack .ch").forEach(r=>r.querySelectorAll(".st").forEach((x,k)=>x.classList.toggle("play",k===s))));
+}
+function tick(){while(nextT<ctx.currentTime+.1){const sp=60/bpm()/4,sw=step%2?(+$("swing").value/100)*sp*.5:0;scheduleStep(step,nextT+sw);nextT+=sp;step=(step+1)%16;loopStep++}}
+function togglePlay(){initAudio();ctx.resume();if(playing){stopPlay();return}if(typeof arrStop==="function")arrStop();playing=true;step=0;loopStep=0;nextT=ctx.currentTime+.05;startLoop(nextT);timer=setInterval(tick,25);$("playBtn").textContent="■ STOP"}
+function stopPlay(){playing=false;clearInterval(timer);stopLoop();$("playBtn").textContent="▶ PLAY";document.querySelectorAll(".st.play").forEach(c=>c.classList.remove("play"));const pl=$("player");if(pl&&!pl.paused)pl.pause()}
+let quality=0;
+function scoreSong(){
+  const g=grid,cnt=a=>a.filter(Boolean).length;
+  const checks=[
+    [bpm()>=90&&bpm()<=115,"Tempo in the Afro range (90–115 BPM)"],
+    [cnt(g[0])>=3,"Kick holds the floor"],
+    [cnt(g[1])+cnt(g[2])>=3,"Rims carry the bounce"],
+    [cnt(g[6])+cnt(g[5])>=6||$("shakOn").checked,"Shakers/hats keep it moving"],
+    [cnt(g[7])+cnt(g[8])+cnt(g[9])+cnt(g[10])>=1,"Percussion adds spice"],
+    [+$("swing").value>=8&&+$("swing").value<=40,"A little swing for that bounce"],
+    [roll.filter(x=>x>=0).length>=4&&$("keysOn").checked,"Melody hook on"],
+    [$("bassStyle").value!=="off","Bassline on"]];
+  quality=checks.filter(c=>c[0]).length/checks.length;
+  $("feelBar").style.width=(quality*100)+"%";
+  $("feelTips").innerHTML=checks.map(c=>`<li class="${c[0]?"ok":""}">${c[0]?"✓":"○"} ${c[1]}</li>`).join("");
+}
+
+/* ================= SUNO PROMPT ================= */
+function makeSuno(){
+  const lang=$("sLang").value;
+  $("sunoStyle").textContent=`${$("sVibe").value}, ${$("sTempo").value}, Afrobeats groove, rim bounce, syncopated congas, shakers, talking drum accents, warm highlife guitar licks, deep bass, ${$("sVox").value.toLowerCase()}, ${lang} lyrics, catchy call-and-response hook, polished modern mix`;
+  $("sunoLyr").textContent=`Title: ${v("song")}
+Theme: ${$("sTopic").value}
+
+[Intro]
+(ad-libs, artist tag "${v("artist")}")
+[Verse 1]
+(set the scene in ${v("city")}: who, where, the feeling)
+[Pre-Chorus]
+(build tension, 2–4 lines)
+[Chorus]
+(the hook: short, repeatable, one phrase fans can chant back)
+[Verse 2]
+(${lang.includes("only")?"new details, same story":"switch into "+lang.split("+ ")[1]+" for a line or two"})
+[Chorus]
+[Bridge]
+(strip it down, call-and-response)
+[Chorus]
+[Outro]`;
+  $("about").value=$("sTopic").value;
+  $("sunoOut").classList.remove("hidden");
+}
+
+/* ================= SONG ANALYZER ================= */
+async function analyzeFile(file){
+  $("anaBusy").classList.remove("hidden");$("anaOut").classList.add("hidden");
+  initAudio();
+  let buf;
+  try{buf=await ctx.decodeAudioData(await file.arrayBuffer())}catch(e){$("anaBusy").textContent="Couldn't read that file. Try an MP3 or WAV.";return}
+  const sr=buf.sampleRate,c0=buf.getChannelData(0),c1=buf.numberOfChannels>1?buf.getChannelData(1):c0;
+  const hop=512,n=Math.floor(c0.length/hop),rms=new Float32Array(n);let sum=0,peak=0;
+  for(let i=0;i<n;i++){let s2=0;for(let j=0;j<hop;j++){const k=i*hop+j,s=(c0[k]+c1[k])*.5;s2+=s*s;const a=s<0?-s:s;if(a>peak)peak=a}sum+=s2;rms[i]=Math.sqrt(s2/hop)}
+  const fps=sr/hop,dur=buf.duration,avgDb=20*Math.log10(Math.sqrt(sum/(n*hop))+1e-9);
+  // tempo: autocorrelation of onset envelope
+  const on=new Float32Array(n);for(let i=1;i<n;i++)on[i]=Math.max(0,rms[i]-rms[i-1]);
+  const start=Math.floor(n*.15),len=Math.min(n-start-400,Math.floor(fps*45));
+  let best=0,bestB=100;
+  for(let b=80;b<=160;b+=.5){const lag=60*fps/b,l0=Math.floor(lag),fr=lag-l0;let s=0;
+    for(let i=start;i<start+len;i++)s+=on[i]*(on[i+l0]*(1-fr)+on[i+l0+1]*fr);
+    if(s>best){best=s;bestB=b}}
+  let tempo=bestB;if(tempo>135)tempo/=2;
+  // energy curve + intro + best clip
+  const buckets=90,curve=[];for(let b=0;b<buckets;b++){let s=0,a=Math.floor(b*n/buckets),z=Math.floor((b+1)*n/buckets);for(let i=a;i<z;i++)s+=rms[i];curve.push(s/Math.max(1,z-a))}
+  const mx=Math.max(...curve);
+  let intro=0;for(let b=0;b<buckets;b++){if(curve[b]>.6*mx){intro=b*dur/buckets;break}}
+  const win=Math.floor(15*fps);let bs=0,bi=0,acc=0;for(let i=0;i<n;i++){acc+=rms[i];if(i>=win)acc-=rms[i-win];if(i>=win&&acc>bs){bs=acc;bi=i-win}}
+  const clipStart=Math.min(bi/fps,Math.max(0,dur-15));
+  S.analysis={tempo:Math.round(tempo),dur,avgDb,peakDb:20*Math.log10(peak+1e-9),intro,clipStart,curve,mx,name:file.name};
+  const url=URL.createObjectURL(file);$("player").src=url;
+  showAnalysis();
+}
+function showAnalysis(){
+  const a=S.analysis,cs=Math.floor(a.clipStart/a.dur*a.curve.length),ce=Math.ceil((a.clipStart+15)/a.dur*a.curve.length);
+  $("wave").innerHTML=a.curve.map((x,i)=>`<i class="${i>=cs&&i<ce?"hot":""}" style="height:${Math.max(3,x/a.mx*100)}%"></i>`).join("");
+  $("wave").onclick=e=>{const r=$("wave").getBoundingClientRect();$("player").currentTime=(e.clientX-r.left)/r.width*a.dur;$("player").play()};
+  $("aBpm").textContent=a.tempo;$("aLen").textContent=mmss(a.dur);$("aLoud").textContent=a.avgDb.toFixed(0)+" dB";$("aIntro").textContent=mmss(a.intro);
+  const notes=[];
+  notes.push(a.tempo>=90&&a.tempo<=115?["ok",`About ${a.tempo} BPM: right in the Afrobeats pocket.`]:["tip",`About ${a.tempo} BPM. Classic Afrobeats sits around 90–120, but faster records are working right now too.`]);
+  notes.push(a.dur<120?["tip","Under 2 minutes: great for replays and short-form, but make sure it feels complete."]:a.dur<=210?["ok","Length is in the streaming sweet spot (2:00–3:30)."]:["tip","Over 3:30. Consider a shorter radio/streaming edit."]);
+  notes.push(a.avgDb>-9?["tip","Very loud. Make sure it isn't squashed."]:a.avgDb>-15?["ok","Loudness is streaming-ready."]:["bad","Quiet compared to released songs. Budget for mixing and mastering in Stage 3."]);
+  notes.push(a.intro<=12?["ok",`The song gets going by ${mmss(a.intro)}. Good, since listeners decide in seconds.`]:["bad",`The energy doesn't hit until ${mmss(a.intro)}. Many listeners skip before then. Try a shorter intro, or open your clips on the hook.`]);
+  notes.push(["tip",`Your strongest 15 seconds: ${mmss(a.clipStart)}–${mmss(a.clipStart+15)}. Use it for every short-form clip.`]);
+  S.anaNotes=notes;
+  $("anaNotes").innerHTML=notes.map(([k,t])=>`<div class="lesson ${k==="bad"?"bad":k==="tip"?"tip":""}">${t}</div>`).join("");
+  $("anaBusy").classList.add("hidden");$("anaOut").classList.remove("hidden");
+}
+function playClip(){const p=$("player");p.currentTime=S.analysis.clipStart;p.play();setTimeout(()=>{if(Math.abs(p.currentTime-S.analysis.clipStart-15)<2)p.pause()},15200)}
+
+/* ================= LOCK SONG ================= */
+function lockSong(){
+  if((S.path==="own"||S.path==="suno")&&!S.analysis){alert0("Upload your song first.");return}
+  S.genre=$("genreSel").value.replace(" (coming soon)","");S.artist=v("artist");S.song=v("song");S.city=v("city");S.about=v("about");S.fansDesc=v("fans");S.status=$("status").value;
+  S.followers=Math.max(50,+$("foll").value||0);S.list=Math.max(0,+$("list").value||0);
+  const stQ={demo:.45,mixed:.7,mastered:.85,out:.85}[S.status];
+  if(S.analysis){const a=S.analysis;let q=stQ;if(a.intro>12)q-=.08;if(a.avgDb<-15)q-=.1;if(a.dur>=120&&a.dur<=210)q+=.05;S.q=Math.max(.3,Math.min(1,q));S.bpm=a.tempo;S.clip=`${mmss(a.clipStart)}–${mmss(a.clipStart+15)}`}
+  else{S.q=Math.max(.3,Math.min(1,quality*.6+stQ*.4));S.bpm=bpm();S.clip="the hook (bars 9–16)";S.groove=PRESETS[curPre].n}
+  S.real=S.path==="own";
+  toStage(2);
+}
+function alert0(t){const d=document.createElement("div");d.className="lesson bad";d.textContent=t;$("describe").prepend(d);setTimeout(()=>d.remove(),3000);$("describe").scrollIntoView({behavior:"smooth"})}
+
+/* ================= STAGE 2 · CONTENT STUDIO ================= */
+const PILLARS=[
+ {id:"dance",n:"Dance challenge",d:"A simple move to the hook that fans copy."},
+ {id:"studio",n:"Behind the music",d:"How the song was made: beat, vocals, mistakes."},
+ {id:"story",n:"Storytime",d:"The real story behind the lyrics."},
+ {id:"live",n:"Live moments",d:"Shows, open mics, singing it in the street."},
+ {id:"fans",n:"Fan features",d:"Repost fans' videos, duets, shout-outs."},
+ {id:"culture",n:"Culture + city",d:"Food, fashion, slang, your city, the diaspora."},
+ {id:"stakes",n:"Story with stakes",d:"A real problem you're facing in this release. Gets watched and saved."},
+ {id:"promo",n:"Promo / flyer posts",d:"Release-date graphics, 'link in bio', cover art."}];
+let pillars=[];
+function initContent(){
+  $("clipNote").innerHTML=`🎬 Your clip: <b>${S.clip}</b>${S.analysis?" (found by the analyzer)":""}. Every post uses this part of the song so fans hear the hook again and again.`;
+  $("pillars").innerHTML=PILLARS.map(p=>`<div class="card ${pillars.includes(p.id)?"on":""}" data-id="${p.id}"><b>${p.n}</b><small>${p.d}</small></div>`).join("");
+  document.querySelectorAll("#pillars .card").forEach(c=>c.onclick=()=>{const id=c.dataset.id,i=pillars.indexOf(id);if(i>=0)pillars.splice(i,1);else if(pillars.length<3)pillars.push(id);initContent()});
+  $("calBtn").disabled=pillars.length!==3;
+  $("kwT").textContent=S.song.split(" ")[0].toUpperCase();
+}
+function buildCalendar(){
+  S.pillars=pillars.slice();S.postTime=$("postTime").value;S.ppw=+$("ppw").value;S.opening=$("opening").value;S.kw=$("kwOn").checked?S.song.split(" ")[0].toUpperCase():"";
+  const warn=[];
+  if(S.opening==="flyer")warn.push(["bad","Opening on a flyer or logo is the #1 reach killer: about 2 out of 3 viewers swipe away in the first 3 seconds. Open on the hook."]);
+  if(S.pillars.includes("promo"))warn.push(["bad","Promo posts are usually the weakest content type for reach. Put promo in Stories first, and keep feed posts about the music and the story."]);
+  if(S.ppw===1)warn.push(["bad","1 post a week isn't enough to keep the algorithm warm. Aim for 3+."]);
+  if(S.postTime==="morn")warn.push(["tip","Mornings tend to underperform. Post main content 5–7pm and secondary content 12–3pm."]);
+  if(!S.kw)warn.push(["tip","No comment-keyword CTA means fans who love the clip leave without you getting their contact."]);
+  S.contentWarn=warn;const P=id=>PILLARS.find(p=>p.id===id).n;const [a,b,c]=S.pillars;
+  const weeks=[
+   ["Tease","2 clips of the hook ("+P(a)+"), 1 "+P(b)+". Announce the release date."],
+   ["Pre-save + fund","Launch the funding campaign. "+P(c)+" post explaining why fans should back it."],
+   ["Release week","Release day post + "+P(a)+" every day for 3 days. Text your whole list."],
+   ["Spread","Repost every fan video. "+P(b)+" + "+P(c)+"."],
+   ["Go local","Live moment from a show in "+S.city+". Tag local DJs and pages."],
+   ["Double down","Whatever performed best in weeks 3–5, post 3 more of it."],
+   ["Community","Supporter-only drop (demo, vote, early ticket). Thank backers publicly."],
+   ["Next chapter","Recap video: numbers, thank-yous, tease what's next."]];
+  $("cal").innerHTML=weeks.map((w,i)=>`<div class="week"><b>WEEK ${i+1} · ${w[0].toUpperCase()}</b><br>${w[1]}</div>`).join("");
+  const t=S.song;
+  const caps=[
+   `HOOK: "Play this for the person who makes ${S.city} feel like home 🥭"`,
+   `HOOK: "I made this beat in my room. Now ${S.city} is singing it."`,
+   `HOOK: "POV: the DJ drops '${t}' and the aunties take over the floor"`,
+   `CAPTION: "${t}" out now 🔥 Which line is yours? 👇`,
+   `CAPTION: Funding my release with the people who've been here from day one. Link in bio.`,
+   `CALL TO ACTION: Say it out loud in the last 3 seconds + put it on screen ("Comment ${t.split(" ")[0].toUpperCase()} and I'll send you the link"). One keyword per post.`,
+   `RULES: Open on the hook (never the flyer). Post main content ${S.postTime==="eve"?"5–7pm":S.postTime==="lunch"?"12–3pm":"in the morning (try 5–7pm instead)"}. ${S.ppw}x a week, never go dark. If a post takes off, make part 2 in the same format within 7 days.`];
+  $("caps").textContent=caps.join("\n\n");
+  S.calendar=weeks;
+  $("calText").textContent=`CONTENT PLAN: "${t}" by ${S.artist}\nClip: ${S.clip}\nPillars: ${S.pillars.map(P).join(", ")}\n\n`+weeks.map((w,i)=>`Week ${i+1} (${w[0]}): ${w[1]}`).join("\n")+"\n\n"+caps.join("\n");
+  $("calOut").querySelectorAll(".lesson").forEach(x=>x.remove());
+  $("calOut").insertAdjacentHTML("afterbegin",warn.map(([k,t])=>`<div class="lesson ${k==="bad"?"bad":"tip"}">${t}</div>`).join(""));
+  $("calOut").classList.remove("hidden");$("calOut").scrollIntoView({behavior:"smooth"});
+}
+
+/* ================= STAGE 3 · FUND IT ================= */
+const BUDGET=[
+ {id:"dist",n:"Distribution to all platforms",d:"Required. Keep your masters.",c:30,req:1},
+ {id:"mix",n:"Mix + master",d:"Makes it compete with the radio. Boosts save rate.",c:350},
+ {id:"art",n:"Cover art + visuals pack",d:"Cover, canvas loops, story graphics.",c:150},
+ {id:"video",n:"Music video",d:"Makes every content post hit harder.",c:900},
+ {id:"venue",n:"Release show venue",d:"Unlocks a big release show.",c:500},
+ {id:"merch",n:"Merch first run",d:"Sells to superfans every week.",c:600}];
+const MBUDGET=[
+ {id:"shoot",n:"Content day with a videographer",d:"Batch 2 months of clips in one day. Every post hits harder.",c:300},
+ {id:"plist",n:"Playlist + radio promo",d:"Pitching to curators and college/community radio. Unlocks a playlist move.",c:250},
+ {id:"seed",n:"Dancer + creator seeding",d:"Pay local dancers/creators to start your dance challenge. Unlocks a seeding move.",c:300},
+ {id:"street",n:"Street team: flyers, stickers, QR cards",d:"Every DJ drop-off and pop-up collects more contacts.",c:150}];
+const TIERS=[
+ {n:"Street Team",perk:"Name in credits, early link, 50 tokens",tok:50,price:10,lim:0,share:.5,min:5,max:30},
+ {n:"Day One",perk:"Signed digital cover, private listening party, 200 tokens",tok:200,price:35,lim:0,share:.32,min:15,max:80},
+ {n:"Inner Circle",perk:"Show ticket + shirt, unreleased demos vault, 600 tokens",tok:600,price:100,lim:0,share:.14,min:50,max:250},
+ {n:"Executive Producer",perk:"Studio session, credited EP, 2,000 tokens",tok:2000,price:500,lim:3,share:.04,min:200,max:1500}];
+const PRE=[
+ {id:"tease",n:"Tease snippets",d:"Drop 3 clips of the hook first."},
+ {id:"party",n:"Listening party",d:"Play it for 30 people. Collect numbers."},
+ {id:"dj",n:"DJ previews",d:"Test it in clubs early."},
+ {id:"live",n:"Go live weekly",d:"Explain the offer on camera. Builds trust."}];
+let chosenPre=[],fundType="token";
+function fundTab(t){fundType=t;$("paneTok").classList.toggle("hidden",t!=="token");$("paneRoy").classList.toggle("hidden",t!=="royalty");$("tabTok").classList.toggle("on",t==="token");$("tabRoy").classList.toggle("on",t==="royalty");
+  $("moonTxt").innerHTML=t==="token"?`"Get in now, this token is going to 10x!"<small>Could drive hype…</small>`:`"Guaranteed returns: you'll make your money back 5x!"<small>Could drive hype…</small>`;royUI()}
+function initFund(){
+  $("baseF").textContent=fmt(S.followers);$("baseL").textContent=fmt(S.list);
+  if(!$("budget").innerHTML){
+    const pre=["mix","art","video","venue"];if(S.status==="mastered"||S.status==="out")pre.splice(0,1);
+    $("budget").innerHTML=BUDGET.map(b=>`<label class="chk"><input type="checkbox" id="bg_${b.id}" ${b.req||pre.includes(b.id)?"checked":""} ${b.req?"disabled":""}><span>${b.n}<small>${b.d}</small></span><b class="amt">$${b.c}</b></label>`).join("");
+    BUDGET.forEach(b=>$("bg_"+b.id).onchange=()=>{fundUI();royUI()});
+    $("mbudget").innerHTML=MBUDGET.map(b=>`<label class="chk"><input type="checkbox" id="bg_${b.id}" ${["shoot","street"].includes(b.id)?"checked":""}><span>${b.n}<small>${b.d}</small></span><b class="amt">$${b.c}</b></label>`).join("");
+    MBUDGET.forEach(b=>$("bg_"+b.id).onchange=()=>{fundUI();royUI()});
+    $("adsAmt").oninput=()=>{fundUI();royUI()};
+    $("tiers").innerHTML=TIERS.map((t,i)=>`<div class="tier"><div class="hd"><b>${t.n}</b><b style="font-family:Bungee;color:var(--gold)" id="tp${i}">$${t.price}</b></div><small>${t.perk}</small><input type="range" id="tr${i}" min="${t.min}" max="${t.max}" step="5" value="${t.price}"></div>`).join("");
+    TIERS.forEach((t,i)=>$("tr"+i).oninput=e=>{t.price=+e.target.value;$("tp"+i).textContent="$"+t.price});
+    $("prel").innerHTML=PRE.map(p=>`<div class="card" id="pr_${p.id}"><b>${p.n}</b><small>${p.d}</small></div>`).join("");
+    PRE.forEach(p=>$("pr_"+p.id).onclick=()=>{const i=chosenPre.indexOf(p.id);if(i>=0)chosenPre.splice(i,1);else if(chosenPre.length<2)chosenPre.push(p.id);PRE.forEach(q=>$("pr_"+q.id).classList.toggle("on",chosenPre.includes(q.id)))});
+    ["pB","pC","pA"].forEach(id=>$(id).oninput=tokUI);
+    ["rPct","rShares","rPrice","rTerm"].forEach(id=>$(id).oninput=royUI);
+    const nm=S.song.split(" ").pop();$("tName").value=nm+" Coin";$("tSym").value=nm.toUpperCase().replace(/[^A-Z]/g,"").slice(0,6)||"FAN";
+  }
+  $("fundRes").classList.add("hidden");$("launchBtn").disabled=false;
+  fundUI();tokUI();royUI();
+}
+function fundUI(){const prod=BUDGET.filter(b=>$("bg_"+b.id).checked).reduce((s,b)=>s+b.c,0),ads=+$("adsAmt").value,mkt=MBUDGET.filter(b=>$("bg_"+b.id).checked).reduce((s,b)=>s+b.c,0)+ads;
+  S.prodCost=prod;S.mktCost=mkt;S.adsWant=ads;S.fee=Math.round((prod+mkt)*.08);S.goal=prod+mkt+S.fee;
+  $("adsV").textContent=money(ads);$("prodV").textContent=money(prod);$("mktV").textContent=money(mkt);$("feeV").textContent=money(S.fee);$("goalV").textContent=money(S.goal)}
+function tokUI(){let b=+$("pB").value,c=+$("pC").value,a=+$("pA").value;if(b+c+a>100){a=100-b-c;if(a<5){a=5;c=100-b-a}$("pA").value=a;$("pC").value=c}
+  $("aB").textContent=b;$("aC").textContent=c;$("aA").textContent=a;$("aT").textContent=(100-b-c-a)+"%"}
+function projAnnualRoyalty(){ // what the whole song might earn per year from streams (rough)
+  return Math.max(200,S.followers*20*.004*S.q*3+S.list*30*.004);
+}
+function royUI(){
+  if(!S.followers)return;
+  const pct=+$("rPct").value,sh=+$("rShares").value,pr=+$("rPrice").value,term=+$("rTerm").value;
+  $("rPctV").textContent=pct;$("rSharesV").textContent=sh;$("rPriceV").textContent="$"+pr;
+  const yrs=term===99?10:term, annual=projAnnualRoyalty(), toBuyers=annual*pct/100, perShare=toBuyers/sh*yrs;
+  S.roy={pct,sh,pr,term,annual,perShare,raiseMax:sh*pr};
+  $("rVal").innerHTML=`If the song earns about <b>${money(annual)}/yr</b> from streams, buyers would get about <b>${money(toBuyers)}/yr</b>. That's roughly <b>${money(perShare)}</b> back per share over ${term===99?"10+ years":term+" years"}.<br>Max you can raise: <b>${money(sh*pr)}</b> (goal ${money(S.goal)}).<br>${pr>perShare*3?"⚠ Price is far above what a share is likely to pay back, so only true fans will buy.":"Fair-ish price. Fans see real value."}`;
+}
+function runFund(){
+  $("launchBtn").disabled=true;
+  const len=+$("len").value,aon=$("model").value==="aon",moon=$("moon").checked;
+  S.fundType=fundType;S.budgetSel=BUDGET.concat(MBUDGET).filter(x=>$("bg_"+x.id).checked).map(x=>x.id);S.pre=chosenPre.slice();S.model=aon?"All-or-nothing":"Keep what you raise";S.len=len;
+  const lessons=[];
+  let reach=S.followers+S.list*3,conv=.035*(.6+S.q*.6),trust=1;
+  if(S.pre.includes("tease"))reach*=1.3;
+  if(S.pre.includes("party")){S.list+=30;reach+=90}
+  if(S.pre.includes("dj"))reach*=1.15;
+  if(S.pre.includes("live"))trust+=.2;
+  if(S.pre.length<2)lessons.push(["bad","You launched cold. Real campaigns warm up the crowd for 2–4 weeks first."]);
+  if(aon)conv*=1.15;
+  conv*=({15:.85,30:1,45:.92})[len];reach*=({15:.85,30:1,45:1.12})[len];
+  let backers,raised=0,tierCount=[0,0,0,0];
+  if(fundType==="token"){
+    const b=+$("pB").value,c=+$("pC").value,a=+$("pA").value;
+    S.tok={b,c,a,t:100-b-c-a,vest:$("vest").checked,cap:$("cap").checked,sym:v("tSym").toUpperCase(),name:v("tName")};
+    if(a>35){trust-=.3;lessons.push(["bad",`You kept ${a}% of the tokens. Backers asked why you own so much of the community.`])}
+    if(!S.tok.vest){trust-=.15;lessons.push(["bad","Your tokens weren't locked. People worried you'd dump them."])}
+    if(c===0)lessons.push(["bad","No community rewards pool, so you'll have nothing to pay your street team with."]);
+    const lowP=TIERS[0].price,appeal=lowP<=10?1.15:lowP<=20?1:.75;
+    if(lowP>20)lessons.push(["bad",`Cheapest tier is $${lowP}. In a small market, a $5–10 entry tier is how most fans join.`]);
+    backers=Math.round(reach*conv*Math.max(.2,trust)*appeal*rnd(.85,1.15));
+    tierCount=TIERS.map((t,i)=>{let n=Math.round(backers*t.share*(t.price>[20,60,150,800][i]?.6:1));if(t.lim)n=Math.min(n,t.lim);raised+=n*t.price;return n});
+    backers=tierCount.reduce((x,y)=>x+y,0);S.tiers=TIERS.map(t=>({n:t.n,price:t.price}));
+  }else{
+    const r=S.roy,valueRatio=r.perShare/r.pr; // >1 good deal for buyers
+    let demand=reach*conv*1.4*Math.max(.25,Math.min(1.6,.5+valueRatio))*rnd(.85,1.15);
+    const avgShares=r.pr<=25?2:r.pr<=75?1.5:1.1;
+    let sold=Math.min(r.sh,Math.round(demand*avgShares));backers=Math.round(sold/avgShares);raised=sold*r.pr;S.roy.sold=sold;
+    if(r.pct>30)lessons.push(["bad",`You sold ${r.pct}% of your royalties. That's a lot of your future income on one song. Many artists cap it around 10–25%.`]);
+    if(r.term===99)lessons.push(["tip","Lifetime royalty deals are forever. If this song blows up in 5 years, buyers still get paid. Fixed terms protect you."]);
+    if(valueRatio<.3)lessons.push(["bad","Your share price was much higher than what a share is likely to pay back. Mostly superfans bought in, as a way to support you."]);
+    lessons.push(["tip","Royalty shares are investments, so in many places they're regulated like securities. Real artists use platforms built to handle that legally. Don't run this alone through DMs."]);
+  }
+  if(moon){raised=Math.round(raised*.25);lessons.push(["bad",`⚖️ THE REGULATOR: you promised ${fundType==="token"?"the token would go up":"guaranteed returns"}. That's an investment pitch, and it can fall under securities law. Your campaign was paused and most backers asked for refunds. ${fundType==="token"?"Sell access and perks, never profits.":"Show real numbers and real risks, never guarantees."}`])}
+  const days=len,curve=[];for(let d=1;d<=days;d++)curve.push(d<=2?.15:d>days-3?.08:(.44/(days-5)));
+  const sum=curve.reduce((x,y)=>x+y,0);let acc=0,d=0;const logEl=$("fLog");logEl.innerHTML="";
+  $("fundRes").classList.remove("hidden");$("fundRes").scrollIntoView({behavior:"smooth"});
+  const ev={1:"Launch day. Your list gets the link first.",2:"Early backers share it. Momentum!",[Math.round(days/2)]:"The mid-campaign slump. Everyone who planned to back already did.",[days-2]:"Final 72 hours: \"last chance\" posts start working.",[days]:"Campaign closes."};
+  const iv=setInterval(()=>{d++;acc+=curve[d-1]/sum;const r=raised*acc;
+    $("fRaised").textContent=money(r);$("fBackers").textContent=fmt(backers*acc);$("fDay").textContent=d;
+    $("fProg").style.width=Math.min(100,r/S.goal*100)+"%";$("fProgT").textContent=`${money(r)} of ${money(S.goal)}`;
+    if(ev[d]){const x=document.createElement("div");x.innerHTML=`<b>Day ${d}:</b> ${ev[d]}`;logEl.prepend(x)}
+    if(d>=days){clearInterval(iv);finishFund(raised,backers,tierCount,aon,lessons)}
+  },Math.max(30,1500/days));
+}
+function finishFund(raised,backers,tierCount,aon,lessons){
+  const hit=raised>=S.goal,fee=aon?.05:.08;let net;
+  if(!hit&&aon){net=0;lessons.unshift(["bad",`You raised ${money(raised)} of ${money(S.goal)}. All-or-nothing means $0. Lower the goal or warm up longer.`])}
+  else{net=Math.round(raised*(1-fee));lessons.unshift([hit?"ok":"tip",hit?`FUNDED. ${fmt(backers)} backers, ${money(raised)} raised, ${money(net)} after fees.`:`You kept ${money(net)} after fees, short of ${money(S.goal)}. Some budget gets cut.`])}
+  let left=net;S.funded=[];
+  BUDGET.concat(MBUDGET).forEach(b=>{if(S.budgetSel.includes(b.id)&&left>=b.c){S.funded.push(b.id);left-=b.c}});
+  if(!S.funded.includes("dist"))S.funded.push("dist");
+  S.adsFunded=Math.min(left,S.adsWant);left-=S.adsFunded;if(S.adsFunded>0)S.funded.push("ads");
+  S.raisedGross=raised;
+  S.cash=left;S.raised=net;S.backers=net>0?backers:0;S.holders=S.backers;S.pool=0;
+  if(S.fundType==="token"){
+    const out=TIERS.reduce((s,t,i)=>s+(net>0?tierCount[i]*t.tok:0),0),bp=1000*S.tok.b;S.pool=1000*S.tok.c;
+    lessons.push(out>bp?["bad",`You promised ${fmt(out)} tokens but your backer pool holds ${fmt(bp)}. Never promise more than your supply.`]:["ok",`${fmt(out)} of ${fmt(bp)} backer tokens sent. Fixed supply, honest math.`]);
+  }else if(net===0){S.roy.sold=0}
+  lessons.push(["tip","Most money came in the first 48 hours and the last 72. That's true of almost every real crowdfund, so plan your posts around both."]);
+  $("fLessons").innerHTML=lessons.map(([k,t])=>`<div class="lesson ${k==="bad"?"bad":k==="tip"?"tip":""}">${t}</div>`).join("");
+  S.fundLessons=lessons;$("toRoll").classList.remove("hidden");
+}
+
+/* ================= STAGE 4 · ROLLOUT ================= */
+const CITIES=["Houston","Atlanta","Dallas","Toronto","London","Los Angeles","Lagos","Accra"];
+const OTHER_MOVES=[
+ {id:"city",n:"Push in top city",d:"DMs, local pages and DJs in your #1 city.",type:"geo"},
+ {id:"djs",n:"DJ drop-off",d:"Get the record into local clubs + parties."},
+ {id:"show",n:"Release show",d:"Big superfan night.",need:"venue"},
+ {id:"open",n:"Open mic / pop-up",d:"Small room, real connections."},
+ {id:"perk",n:"Supporter perk drop",d:"Demo, vote or early ticket for backers."},
+ {id:"reward",n:"Pay the street team",d:"Tokens to fans who shared.",tokOnly:1},
+ {id:"blast",n:"Text/email blast",d:"Hit your list directly. No algorithm."},
+ {id:"plist",n:"Playlist + radio pitch",d:"Curators, college + community radio.",need:"plist"},
+ {id:"seed",n:"Dancer/creator seeding",d:"Local dancers start your challenge.",need:"seed"},
+ {id:"ads",n:"Targeted ads",d:"Aim at your top city.",need:"ads"}];
+let R,picks=[],MOVES=[];
+function initRoll(){
+  MOVES=S.pillars.map(id=>{const p=PILLARS.find(x=>x.id===id);return {id,n:"Post: "+p.n,d:p.d,type:"content"}}).concat(OTHER_MOVES);
+  R={wk:1,listeners:Math.round(S.followers*.4),core:Math.round(S.backers*.6),holders:S.holders,list:S.list,weekly:[],streamsTot:0,
+     hot:Math.random()<.5?S.city:CITIES[Math.floor(Math.random()*CITIES.length)],best:S.pillars[Math.floor(Math.random()*3)],lastContent:{},ignore:0,
+     showDone:false,dataHits:0,dataTries:0,showRev:0,merchRev:0,adsLeft:S.adsFunded||0,darkWeeks:0,hotPillar:null,pool:S.pool,lessons:[]};
+  $("dPoolWrap").classList.toggle("hidden",S.fundType!=="token");
+  $("rLog").innerHTML=`<div><b>Release day:</b> "${S.song}" is live everywhere. ${S.holders?fmt(S.holders)+" backers are already in.":"No backers yet, so you're starting from scratch."}</div>`;
+  picks=[];drawWeek();
+}
+function drawWeek(){
+  $("wk").textContent=R.wk;$("wkBudget").textContent=`CASH ${money(S.cash)}${R.adsLeft?" · ADS "+money(R.adsLeft):""}`;
+  const last=R.weekly[R.weekly.length-1]||Math.round(R.listeners*2);
+  $("dStreams").textContent=fmt(last);$("dListen").textContent=fmt(R.listeners);$("dCore").textContent=fmt(R.core);$("dHold").textContent=fmt(R.holders);
+  const others=CITIES.concat([S.city]).filter(c=>c!==R.hot).sort(()=>Math.random()-.5);
+  let list=[R.hot,others[0],others[1]];if(R.wk===1||Math.random()<.2)list=[others[0],R.hot,others[1]];
+  R.cityView=list.map((c,i)=>[c,[100,rnd(55,85),rnd(30,50)][i]]);
+  $("dCities").innerHTML=R.cityView.map(([c,n])=>`<div class="hbar"><span class="l">${c}</span><span class="b"><i style="width:${n}%"></i></span></div>`).join("");
+  $("dContent").innerHTML=R.wk===1?`<p style="font-size:12.5px">Nothing posted yet. Post and see what wins.</p>`:S.pillars.map(id=>{const p=R.lastContent[id],val=p?(id===R.best?rnd(70,100):rnd(15,50)):0;return `<div class="hbar"><span class="l">${PILLARS.find(x=>x.id===id).n}</span><span class="b"><i style="width:${val}%"></i></span><span class="n">${p?Math.round(val*12):"—"}</span></div>`}).join("");
+  const save=Math.min(45,8+S.q*14+(S.funded.includes("mix")?8:0)+rnd(-2,2));$("dSave").textContent=save.toFixed(0)+"%";R.save=save/100;
+  $("dAct").textContent=R.holders?(R.ignore>=2?"Low ⚠":R.ignore===1?"Cooling":"Hot"):"—";$("dPool").textContent=fmt(R.pool);
+  $("dSkip").textContent=Math.round((S.opening==="hook"?50:68)+rnd(-4,4))+"%";
+  let ins=R.hotPillar&&R.hotWk===R.wk-1?`🔥 Your ${PILLARS.find(x=>x.id===R.hotPillar).n} post took off. Make part 2 in the same format THIS week, before the wave passes.`:R.wk===1?"Week 1 data is thin. Post different pillars and watch which one wins.":R.ignore>=2?"⚠ Your backers haven't heard from you in 2 weeks. Quiet communities shrink.":save<15?"Low save rate: people play it once and move on. Shows and direct fan contact convert better than more ads.":`${R.cityView[0][0]} is your #1 city this week.`;
+  $("dInsight").innerHTML=`<div class="lesson tip" style="margin-top:10px">💡 ${ins}</div><p style="font-size:12.5px;margin-top:4px">Goal: ${fmt(R.core)} / ${TARGETS.core} superfans · weeks without a post: ${R.darkWeeks}</p>`;
+  drawMoves();
+}
+function drawMoves(){
+  $("moves").innerHTML=MOVES.map(m=>{const dis=(m.need&&!S.funded.includes(m.need))||(m.id==="show"&&R.showDone)||(m.id==="ads"&&R.adsLeft<=0)||(m.tokOnly&&(S.fundType!=="token"||R.pool<=0))||(m.id==="perk"&&!R.holders);
+    const nm=m.id==="city"?`Push in ${R.cityView[0][0]}`:m.n;
+    return `<div class="card ${picks.includes(m.id)?"on":""} ${dis?"dis":""}" data-id="${m.id}"><b>${nm}</b><small>${dis&&m.need?"🔒 Not funded":m.d}</small></div>`}).join("");
+  document.querySelectorAll("#moves .card").forEach(c=>c.onclick=()=>{if(c.classList.contains("dis"))return;const id=c.dataset.id,i=picks.indexOf(id);if(i>=0)picks.splice(i,1);else if(picks.length<2)picks.push(id);drawMoves()});
+  $("wkBtn").disabled=picks.length!==2;$("wkBtn").textContent=R.wk===8?"Run the final week →":"Run the week →";
+}
+function runWeek(){
+  const vid=S.funded.includes("video")?1.5:1,art=S.funded.includes("art")?1.1:1,q=.5+S.q;
+  let newL=0,newCore=0,log=[],posted=false;R.lastContent={};const target=R.cityView[0][0];
+  picks.forEach(id=>{
+    const m=MOVES.find(x=>x.id===id);
+    if(m.type==="content"){posted=true;R.lastContent[id]=1;const hb=id===R.best;R.dataTries++;if(hb)R.dataHits++;
+      const timeM={eve:1.2,lunch:1,morn:.75}[S.postTime],openM=S.opening==="hook"?1.3:.6,ppwM={1:.6,3:1,5:1.25}[S.ppw],shoot=S.funded.includes("shoot")?1.25:1,seedM=(id==="dance"&&R.seeded)?1.4:1;
+      const follow=R.hotPillar===id&&R.hotWk===R.wk-1;
+      let g=rnd(250,450)*q*vid*art*timeM*openM*ppwM*shoot*seedM*(hb?2.4:.8)*(id==="promo"?.45:1)*(follow?1.5:1);
+      newL+=g;newCore+=g*(id==="stakes"?.05:.02);if(S.kw){const c=Math.round(g*.03);R.list+=c;R.kwContacts=(R.kwContacts||0)+c}
+      if(g>1500){R.hotPillar=id;R.hotWk=R.wk}
+      log.push((follow?`<b>${m.n}:</b> 🔁 You followed up the winner, so the algorithm kept pushing it. `:hb?`<b>${m.n}:</b> 🔥 Your audience loves this. `:id==="promo"?`<b>${m.n}:</b> Promo underperformed, as promo usually does. `:`<b>${m.n}:</b> OK numbers. `)+`+${fmt(g)} listeners${S.kw?`, ${fmt(g*.03)} comment-keyword contacts`:""}.`)}
+    if(id==="plist"){const g=rnd(300,600)*q;newL+=g;newCore+=g*.02;log.push(`<b>Playlist + radio:</b> Two curators and a community station added it. +${fmt(g)} listeners.`)}
+    if(id==="seed"){R.seeded=true;const g=rnd(200,400)*q;newL+=g;newCore+=g*.04;log.push(`<b>Seeding:</b> Local dancers posted your challenge. +${fmt(g)} listeners, and your dance posts now hit harder.`)}
+    if(id==="city"){R.dataTries++;const ok=target===R.hot;if(ok)R.dataHits++;const g=rnd(220,380)*q*(ok?2:.6);newL+=g;newCore+=g*.07;
+      log.push(ok?`<b>Push in ${target}:</b> ✅ The data was right. +${fmt(g)} listeners.`:`<b>Push in ${target}:</b> Early data was noisy and this city cooled. +${fmt(g)}.`)}
+    if(id==="djs"){const g=rnd(160,260)*q*(S.funded.includes("street")?1.3:1);if(S.funded.includes("street"))R.list+=Math.round(g*.05);newL+=g;newCore+=g*.07;log.push(`<b>DJ drop-off:</b> Spinning in ${S.city} clubs. +${fmt(g)} listeners.`)}
+    if(id==="show"){R.showDone=true;const att=Math.round(Math.min(300,R.core*.5+R.holders*.4+60)),rev=att*15;R.showRev+=rev;newCore+=att*.5;newL+=att*2;log.push(`<b>Release show:</b> ${att} people, ${money(rev)} at the door.`)}
+    if(id==="open"){const att=Math.round(rnd(25,60));R.showRev+=att*5;newCore+=att*.4;newL+=att*1.5;R.list+=Math.round(att*.5);log.push(`<b>Open mic:</b> ${att} people. Collected numbers at the door.`)}
+    if(id==="perk"){R.ignore=-1;const g=Math.round(R.core*.08+R.holders*.05);R.holders+=g;newCore+=R.holders*.06;log.push(`<b>Supporter perk drop:</b> ${g} new supporters joined to get access.`)}
+    if(id==="reward"){const out=Math.min(R.pool,Math.round(S.pool*.2));R.pool-=out;const sh=Math.round(out/50);newL+=sh*12;newCore+=sh*.6;R.holders+=sh;R.ignore=-1;
+      log.push(`<b>Street team paid:</b> ${fmt(out)} $${S.tok.sym} to ${sh} fans who shared. Pool left: ${fmt(R.pool)}.`);
+      if(R.pool===0)R.lessons.push(["tip","Your rewards pool ran dry. That's token emission: once it's spent, it's spent. Pace it."])}
+    if(id==="blast"){const g=R.list*rnd(.25,.4);newL+=g*3;newCore+=g*.3;log.push(`<b>Text/email blast:</b> ${fmt(g)} of ${fmt(R.list)} clicked straight to the song.`)}
+    if(id==="ads"){R.dataTries++;const ok=target===R.hot;if(ok)R.dataHits++;const sp=Math.min(200,R.adsLeft);R.adsLeft-=sp;const g=sp*rnd(2,3.5)*(ok?1.6:.8);newL+=g;newCore+=g*.01;log.push(`<b>Ads in ${target}:</b> ${money(sp)} spent, +${fmt(g)} listeners.`)}
+  });
+  if(R.holders){R.ignore++;if(R.ignore>=2){const lost=Math.round(R.holders*.08);R.holders-=lost;log.push(`<b>Community:</b> ⚠ Backers feel ignored. ${lost} went quiet.`)}}
+  if(R.ignore<0)R.ignore=0;
+  if(!posted){R.darkWeeks++;R.listeners=Math.round(R.listeners*.6);log.push(`<b>Went dark:</b> ⚠ No posts this week. Reach dropped hard. Momentum takes weeks to rebuild.`)}
+  if(R.wk===5&&Math.random()<.5){R.best=S.pillars[Math.floor(Math.random()*3)];log.push(`<b>Trend shift:</b> 📉 The algorithm changed. Check the data.`)}
+  R.listeners=Math.round(R.listeners*.82+newL);R.core=Math.round(R.core+newCore);
+  const streams=Math.round(R.listeners*(2+R.save*8)+R.core*6);R.weekly.push(streams);R.streamsTot+=streams;
+  if(S.funded.includes("merch")&&R.wk>=2){const m=Math.round(R.core*rnd(.03,.06))*25;R.merchRev+=m;log.push(`<b>Merch:</b> ${money(m)}.`)}
+  const blk=document.createElement("div");blk.innerHTML=`<b style="color:var(--gold)">WEEK ${R.wk}</b> · ${fmt(streams)} streams<br>`+log.join("<br>");$("rLog").prepend(blk);
+  picks=[];if(R.wk>=8){finishRelease();return}
+  R.wk++;drawWeek();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ================= STAGE 5 · REPORT ================= */
+function finishRelease(){
+  const streamRev=R.streamsTot*.004,total=streamRev+R.showRev+R.merchRev+S.raised,dataPct=R.dataTries?R.dataHits/R.dataTries:0;
+  const score=R.core+R.holders*1.5+R.streamsTot/200+total/20+dataPct*150;
+  const g=score>1800?"A":score>1000?"B":score>500?"C":"D";
+  toStage(5);
+  $("grade").textContent=g;
+  $("gradeLine").innerHTML=`"${S.song}" by ${S.artist} · ${S.genre||"Afrobeats"}. `+(g==="A"||g==="B"?"Strong release. Run it back with a different strategy and see if you can hit all six goals.":"Check the goals below, then run it back with a different strategy.");
+  [["pStream",streamRev],["pShow",R.showRev],["pMerch",R.merchRev],["pFund",S.raised],["pTotal",total]].forEach(([id,x])=>$(id).textContent=money(x));
+  $("pCore").textContent=fmt(R.core);$("pHold").textContent=fmt(R.holders);$("pData").textContent=Math.round(dataPct*100)+"%";
+  const mx=Math.max(...R.weekly);$("chart").innerHTML=R.weekly.map((x,i)=>`<div style="height:${x/mx*100}%"><span>W${i+1}</span></div>`).join("");
+  const goals=[
+    ["Fully funded (100% of goal)",(S.raisedGross||0)>=S.goal,`${money(S.raisedGross||0)} of ${money(S.goal)}`],
+    [`${TARGETS.core}+ superfans`,R.core>=TARGETS.core,fmt(R.core)],
+    ["Posted every single week",R.darkWeeks===0,R.darkWeeks?R.darkWeeks+" dark week(s)":"8 of 8"],
+    ["Followed the data (60%+ hits)",dataPct>=TARGETS.data,Math.round(dataPct*100)+"%"],
+    ["Brought in more than the release cost",total>=S.goal,money(total)+" vs "+money(S.goal)],
+    ["Captured fan contacts you own",R.list>S.list+50,`${fmt(R.list)} contacts (started ${fmt(S.list)})`]];
+  S.goalsHit=goals.filter(x=>x[1]).length;
+  $("goalCard").innerHTML=goals.map(([n,ok,val])=>`<div class="goalrow"><span>${ok?"✅":"❌"} ${n}</span><b style="color:${ok?"var(--green)":"var(--red)"}">${val}</b></div>`).join("")+`<p style="margin-top:8px;font-size:13px">${S.goalsHit} of ${goals.length} goals hit.</p>`;
+  S.goalsList=goals;
+  const L=[];
+  (S.contentWarn||[]).filter(x=>x[0]==="bad").forEach(x=>L.push(x));
+  L.push(["bad",`Streaming reality: ${fmt(R.streamsTot)} streams paid about ${money(streamRev)} (roughly $0.003–0.005 per stream). Your community paid ${money(S.raised+R.showRev+R.merchRev)}.`]);
+  if(S.fundType==="royalty"&&S.roy.sold){const paid=streamRev*S.roy.pct/100*(S.roy.sold/S.roy.sh),yr=(streamRev*52/8)*S.roy.pct/100*(S.roy.sold/S.roy.sh);
+    L.push(["tip",`Royalty holders earned ${money(paid)} from these 8 weeks. At this pace that's about ${money(yr)}/yr going to them instead of you. That's the trade you made for ${money(S.raised)} up front.`]);S.royPaid=yr}
+  L.push([dataPct>=.6?"ok":"bad",dataPct>=.6?`You read the data well: ${Math.round(dataPct*100)}% of data-driven moves hit.`:`Only ${Math.round(dataPct*100)}% of data-driven moves hit. Double down on the pillar and city that win two weeks in a row.`]);
+  L.push([R.holders>S.holders?"ok":"bad",R.holders>S.holders?`Your supporter community grew from ${fmt(S.holders)} to ${fmt(R.holders)}.`:`Your supporter count didn't grow. Give backers a reason to stay every 1–2 weeks.`]);
+  (S.fundLessons||[]).filter(x=>x[0]==="bad").slice(0,2).forEach(x=>L.push(x));
+  R.lessons.forEach(x=>L.push(x));
+  $("lessons").innerHTML=L.map(([k,t])=>`<div class="lesson ${k==="bad"?"bad":k==="tip"?"tip":""}">${t}</div>`).join("");
+  buildPlan(streamRev,total);
+}
+function buildPlan(streamRev,total){
+  const fundedNames=BUDGET.concat(MBUDGET).filter(b=>S.funded.includes(b.id)).map(b=>b.n),P=id=>PILLARS.find(p=>p.id===id).n;
+  const a=S.analysis;
+  const songSec=a?`- Analyzed: ~${a.tempo} BPM, ${mmss(a.dur)} long, energy hits at ${mmss(a.intro)}.
+- Your clip: ${S.clip}. Use it in every short-form post.
+${S.anaNotes.filter(x=>x[0]==="bad").map(x=>"- Fix: "+x[1]).join("\n")}`:`- ${S.path==="beat"||S.path==="demo"?"Built on the "+S.groove+" groove at "+S.bpm+" BPM.":"Made with Suno."}`;
+  const fundSec=S.fundType==="token"?`- Fan token $${S.tok.sym}: fixed 100,000 supply · Backers ${S.tok.b}% · Rewards ${S.tok.c}% · Artist ${S.tok.a}%${S.tok.vest?" (locked 12 mo)":""} · Treasury ${S.tok.t}%${S.tok.cap?" · 2% wallet cap":""}.
+- Tiers: ${S.tiers.map(x=>`${x.n} $${x.price}`).join(" · ")}.
+- Start as a membership pass or fan token on a low-fee network before any open trading.
+- Sell access and experiences. Never promise the token will go up.`:`- Royalty sale: ${S.roy.pct}% of streaming royalties, ${S.roy.term===99?"lifetime":S.roy.term+" years"}, ${S.roy.sh} shares at $${S.roy.pr}.
+- Use a platform built for fan royalty sales so it's handled legally. These are investments, and rules vary by place.
+- Show real numbers and real risks. No guarantees.`;
+  $("plan").textContent=
+`${S.artist.toUpperCase()} · "${S.song}" · ${S.city}
+About: ${S.about}
+For: ${S.fansDesc}
+
+1. THE RECORD
+${songSec}
+- Distribute independently and keep your masters. Register with a PRO for songwriting royalties.
+
+2. CONTENT
+- Pillars: ${S.pillars.map(P).join(", ")}.
+${S.calendar.map((w,i)=>`- Week ${i+1} (${w[0]}): ${w[1]}`).join("\n")}
+
+3. FUNDING · goal ${money(S.goal)} = production ${money(S.prodCost)} + marketing ${money(S.mktCost)} + fees ${money(S.fee)}
+- Funded: ${fundedNames.join(", ")}${S.adsFunded?`, ${money(S.adsFunded)} ads`:""}
+- ${S.model}, ${S.len} days. Warm up 2–4 weeks first (${S.pre.join(", ")||"teasers, listening party"}).
+- Expect most money in the first 48 hours and the last 72.
+${fundSec}
+
+4. CONTENT RULES THAT WORK (from real artist data)
+- Open every video on the hook: your face, performing, best line first. Flyers and logos get swiped away.
+- Performance content beats promo by a wide margin. Put promo in Stories first.
+- Post 3+ times a week, main posts 5–7pm, secondary 12–3pm. Never go dark, because one quiet stretch can erase weeks of momentum.
+- A story with stakes (a real problem you're facing) every 2 weeks earns saves.
+- Comment-keyword CTA: say it out loud and put it on screen. One keyword per post.
+- If a post takes off, make part 2 in the same format within 7 days.
+- Paid ads send people to your profile or page, never straight to Spotify.
+- Daily: create something, capture a fan, make a sale, send three messages.
+
+5. ROLLOUT
+- Check your dashboards weekly: top cities, which pillar wins, save rate. Double down on what wins twice.
+- Give backers something every 1–2 weeks. Collect numbers at every show.
+- Talk to an entertainment lawyer before launching any token or royalty sale.
+
+6. GOALS SCORECARD
+${S.goalsList.map(([n,ok,val])=>`- ${ok?"✅":"❌"} ${n}: ${val}`).join("\n")}
+
+7. RESULTS TO BEAT
+- ${fmt(R.streamsTot)} streams (~${money(streamRev)}) · ${fmt(R.core)} superfans · ${fmt(R.holders)} supporters · ${money(total)} total.`;
+}
+function restart(){chosenPre=[];tracks=[];curStack=-1;S.bounced=false;if($("arr")){drawArr();drawStacks();$("stackDetail").innerHTML="";$("bounceOut").innerHTML=""}pillars=[];$("budget").innerHTML="";$("mbudget").innerHTML="";$("calOut").querySelectorAll(".lesson").forEach(x=>x.remove());$("calOut").classList.add("hidden");$("fundRes").classList.add("hidden");S.analysis=null;$("anaOut").classList.add("hidden");$("sunoOut").classList.add("hidden");toStage(0)}
+
+/* ================= LOOPER / ARRANGER ================= */
+const NOTES={c:0,"c#":1,db:1,d:2,"d#":3,eb:3,e:4,f:5,"f#":6,gb:6,g:7,"g#":8,ab:8,a:9,"a#":10,bb:10,b:11};
+const KEYNAMES=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+function parseKey(k){if(!k)return null;const m=k.toLowerCase().trim().match(/^([a-g][#b]?)\s*(minor|major|min|maj|m)?$/);if(!m)return null;
+  const q=m[2];return {root:NOTES[m[1]],minor:q?(q.startsWith("mi")||q==="m"):null}}
+function minorTonic(k,defMinor){const minor=k.minor===null?defMinor:k.minor;return minor?k.root:(k.root+9)%12}
+function keyShift(srcKey,dstKey){const s=parseKey(srcKey),d=parseKey(dstKey);if(!s||!d)return 0;
+  let diff=(minorTonic(d,true)-minorTonic(s,d.minor!==false)+12)%12;if(diff>6)diff-=12;return diff}
+// Splice stacks (metadata only: the sounds stay in the user's own Splice account)
+const L=(role,name,bpm,key,link)=>({role,name,bpm,key,link:"https://splice.com/sounds/sample/"+link});
+const STACKS=[
+ {n:"Classic Naija",feel:"Bouncy, rims + shakers",bpm:100,key:"f minor",url:"4571c5a3-0342-4c7d-afb7-3782a114b388",layers:[
+  L("Drums","AU_AAS2_110_drum_full_smooth",110,"","118a925320f5fda4a47a70b408ff85cd379ada4f94fe21105d9a7b7476dc5ada"),
+  L("Percussion","RARE_ADF_90_perc_bongo_recorded",90,"","39f45d5b27e6c3d32332f4dbcfe108914446957473d557e5b97555433e2b2059"),
+  L("Guitar","TL_AB_100_Guitar_Loop_Electric_Phaser_Dm",100,"d minor","d6ba0e258c67b5f6b2845c5dd02c397087a2ca50b31d2b3d2e24c6cb8ac85363"),
+  L("Bass","SO_DH_100_bass_wtfmon_crazy_808_Fmaj",100,"f major","996b149d837516003d37b2f0f1a54bdcfcf8edf2980644c348b7d5bead614e5d"),
+  L("Keys","SS_SNF_110_keys_loop_trackstarter_02_key_chops_f#",110,"f#","a98897c99269a1b5bbdd3447d0303829e43423b9fe596d005a9404cc5194ff23")]},
+ {n:"Afropop Love",feel:"Slow, romantic",bpm:94,key:"d minor",url:"24a9beef-b8b1-479e-8b80-1c33dfa83c32",layers:[
+  L("Drums","SS_AB_100_drum_loop_sidethrust",100,"","bb99e9f486d2a513e867dcd623ac321cdc0271b082523e5f1aba8e9086fb675c"),
+  L("Guitar","AU_AMHM_90_electric_guitar_loop_hongkong_Dmin",90,"d minor","fc9d3c4dcf2159c9307fb27ff1b8a17b4d5e2b2c317bb70bc29652f9d12a27a1"),
+  L("Keys","RARE_ADF2_90_synth_Udo6_phrase_Gb",90,"f#","d4779dd03f9300dac802984916d75d67b7ab48120dd0c97eeff27443a8171281"),
+  L("Bass","OS_AFR2_98_synth_bass_church_afro_Dm",98,"d minor","2113b2a078d150e74d64099b517e8be2b11279c063417d2c5b126ec37057bb52")]},
+ {n:"Ghana Highlife",feel:"Shekere, bright guitar, flute",bpm:104,key:"f# minor",url:"cebd064e-7c5e-4550-9ad2-2dc5284360af",layers:[
+  L("Percussion","RARE_AP4_90_Shekere_loop_power",90,"","8affaeb768a0942c3b657cd698d0e317ffbe56bb0e1dd0d03d21614edc1e2589"),
+  L("Drums","STCR2_ABV_105_Drum_Dusk_Full",105,"","2f5d0c916193a6f0ba3a8fc8591fcb9d5ee4a4a1a220e6dd3fb2b6967dc85e96"),
+  L("Guitar","ESM_Loop_110_Hybrid_Guitar_Wildfire_Em",110,"e minor","0f06b0a02e629c27e9b0ea2b85754259ede5e3267941cd71d0f81deb810375f2"),
+  L("Flute","TRKTRN_REDJON_100_Woodwind_Flute_Crash_Melody_C#min",100,"c# minor","117eaa2621f989ac1d127f9b54fe1e4a8564dff7fd71df60f2b00f224b64231e"),
+  L("Bass","SO_AFU_90_bass_synth_sub_greentops_Dmin",90,"d minor","a676adc8c8bd13bac81838017d0e3cdede0d83d1c2045b8462f6bc3a356da1df")]},
+ {n:"Afro-Dancehall",feel:"Dembow bounce, vocal chops",bpm:100,key:"d minor",url:"e90a13ed-af78-450a-b1b4-6e368ca505fa",layers:[
+  L("Drums","OSS_RNB2_97_DRUM_LOOP_DANCEHALL_HOLD_ALT",97,"","a9594da65765b4ddce51d4892e77be42cfbb0f8cf49de2e73fb2a099e89e75bd"),
+  L("Percussion","SS_SAP_100_perc_congas_albizia",100,"","589c2df253c1ea7372103ae1f90bfa84f5267f475b3925e0e7b7e780f39878c4"),
+  L("Bass","CPA_SPR_95_electric_bass_inspire_Em",95,"e minor","52ff76c48dbb0246059d9ba85e6746981101da1cb6e8f707d9803386b593863d"),
+  L("Synth","TRKTRN_DABF_113_Synth_Arp_Loop_Motion_GbMaj",113,"f# major","02a0cc1410779b271ecfb9aa496ce1449e0f7511360383198af582cfaebaa0fc"),
+  L("Vocals","TRKTRN_EAGBRJ_102_Vocal_Chop_Loop_Company_High_Dmin",102,"d minor","33dbc8135ac7bed4dac65de1bdc2b1c31c931f5cddc900bded7c23509888017b")]},
+ {n:"UK Afro-Swing",feel:"Swung drums, keys, sub",bpm:102,key:"c# minor",url:"6cd1f878-211a-426b-a005-849e103c12d4",layers:[
+  L("Drums","STCR2_ABV_105_Drums_Full_Queen_A#",105,"","14ef88162b604244bb1cd29b0f9ef92c793f63a1837d863bba55d87425a7fb03"),
+  L("Keys","ABR_keys_100_electric_piano_man_Cm",100,"c minor","609ddfa59d5c3cdd1defabe9e53aac1a4a391d0e9a449c0ca368d4d09bdd43eb"),
+  L("Bass","ESM_Loop_90_Hybrid_Bass_Magnetic_Dm",90,"d minor","259ec75d46c54ae44973fcd2678944ec904215a1b3c892eddd6ab32ed3ef6940"),
+  L("Pad","STCR2_ABV2_105_Synth_Pad_Special_Gm",105,"g minor","2a935b075e9e8aa1d04f69b4938685c443c9ce97e79abf3113527af4215940be")]},
+ {n:"Dark Afro-Fusion",feel:"Moody, minor, heavy bass",bpm:98,key:"f minor",url:"559d7133-2486-4f28-adb4-c84155988f68",layers:[
+  L("Drums","SO_DH_100_drum_loop_wtfmon_rim_dancehall",100,"","9eac2cf359d6b5634d3ac3b0ee85705b8c7dfaff78db42b106702200fd1ee078"),
+  L("Percussion","RARE_ABP2_90_Metals_loop_concept",90,"","1c16fe0be1ee19dd92cdbe1f3a2fd266914f2825733f6638fb53c2fb8887790a"),
+  L("Guitar","AU_AMHM_90_electric_guitar_loop_hongkong_Dmin",90,"d minor","fc9d3c4dcf2159c9307fb27ff1b8a17b4d5e2b2c317bb70bc29652f9d12a27a1"),
+  L("Bass","AU_AMH2_97_electric_bass_loop_extra_Emin",97,"e minor","ed032f9f71b403557a6d115e1fb075895530c7c0ec2661cdd1e5778e9c011199"),
+  L("Synth bass","OS_AFR2_98_synth_bass_church_afro_Dm",98,"d minor","2113b2a078d150e74d64099b517e8be2b11279c063417d2c5b126ec37057bb52"),
+  L("Pad","MA_SOL_100_Synth_Pad_Row_Upon_Row_Em",100,"e minor","6f677c74dbf3b0207d7bd75bfa5133d0e491b5097bb1720198ee3790271777a8")]},
+ {n:"Street Party",feel:"High energy, chants",bpm:110,key:"g minor",url:"71df4307-c2e3-47b2-a776-d5382a00e9b7",layers:[
+  L("Drums","AU_AAS2_110_drum_full_mystery",110,"","84c513611eee2e0ce54f658ab452164702190c46fbb6cafcb657f54882953ae1"),
+  L("Percussion","RARE_AP2_100_Djembe_Loop_idea",100,"","2a2ec065ad80c0db5cb43e990e38273782fa06aae22d9b6b323c6151242bd231"),
+  L("Vocal lead","FL_MAV_122_Vocal_Male_Tuine_Nda_Lead_Main_Wet_Fmin",122,"f minor","b413a3dd28fd6613ea686be526d61e4ce30718213a46d0453cd11a10a75d8033"),
+  L("Bass","FL_WAGA_122_Bass_Synth_Heli_Fmin",122,"f minor","3017329c17abfe03ebdc23201a9dcb648cbf3af480e5be431e35a6f664b946ae"),
+  L("Vocal hook","AU_AMH2_110_vocal_hook_loop_male_verse_world_falling_in_love_wet_C#min",110,"c# minor","d73c34bcf8e85cdad4b12d58136c5a6c0693abe508da8b4559fba5dce01230c1")]},
+ {n:"Afro House",feel:"Four on the floor, kalimba",bpm:120,key:"b minor",url:"2efbcd3d-fdca-4e93-b2d2-96972fb111f4",layers:[
+  L("Percussion","RARE_ADP_108_rebolo_smack",108,"","38ded1ae8c27763bdb4f0214e338c7529cdb1f1a3673cc29ae4ee9d7eacfbf00"),
+  L("Kalimba perc","RARE_kalimba_percussion_loop12_Dmaj_120",120,"d major","575b038271af3975389aa91836bc7f471a394491557fe002cfbb9c0443fa2ff3"),
+  L("Bass","SS_GAT_122_synth_bass_iyoo_Dmin",122,"d minor","88be75259dc7f11fe244875ad8b1c2fa45c4d52d15df1c344a5f397de503b69c"),
+  L("Melody","Kalimba_Loop_UrgentMessage_120_Em",120,"e minor","4f341bacb1bee25fee9463f1eaadc3710757038c7fd15550e07b0a490f7cab2f")]},
+ {n:"Amapiano Vibe",feel:"Shakers, jazzy keys",bpm:112,key:"c# minor",url:"1f05843b-3be4-4395-90a8-e77d0c0da08b",layers:[
+  L("Bass","SS_RITMO_120_BASS_SYNTH_Synthia_B",120,"b","1323061762b8cf1c0e2f18c7d5fc79b156d6525f207a28a40908c5a0c8dd3f34"),
+  L("Percussion","AU_APR_112_shaker_loop_condition_bunia",112,"","e005e39cc5472861e93473b8a04784a86f20647b24bac388e02bc7e2c261150d"),
+  L("Keys","TL_AS_Keys_Loop_Electric_Piano_Progression_Stuck_Abm_114",114,"g# minor","2ee52c9a2a770c6239260ce8f1ee516b7161de19b64f22386b34d3cd3a149685"),
+  L("Drums","SS_FA_120_drum_loop_soft_serve_full",120,"","b8ffe7704caa15ae1e976d3f4aa808482a85e3fdf9b87f92b4443b0d747c4125")]},
+ {n:"Afro-Soul",feel:"Live drums, neo-soul guitar",bpm:90,key:"f",url:"39adf09f-ac3e-4071-aba7-5d84c473695b",layers:[
+  L("Drums","OSS_IE_99_DRUM_loop_ANGEL",99,"","48bcdf9dbaf081332d2ef1baa148976c96665503425eb7de2e22cbac27ca3f08"),
+  L("Guitar","TRKTRN_EAGBRJ_102_Electric_Guitar_Loop_Progress_Stack_Gmaj",102,"g major","7388debae73619d4cc6471148499a5198095f12ff30692825485663b03277772"),
+  L("Bass","RKU_ESA_83_bass_guitar_loop_fifty_second_ave_G#min",83,"g# minor","c227e8fc09ac4a90c7f215478338f3ed7ed169699a37b165780fbb0d1f645811"),
+  L("Flute","TL_AP_Melodic_Loop_Synth_Flute_Access_C#m_90",90,"c# minor","3717ee7c5581230820d27eac3311f1a2be0e517274e0cc7521796b9895a3bdad")]},
+ {n:"Warm Afrobeats A",feel:"Bonus · rolling guitar",bpm:104,key:"a minor",url:"35b95000-f816-442c-855b-d134799c452e",layers:[
+  L("Drums","STCR2_ABV_109_Drum_Lust_Full",109,"","6f9c3ef2a7dcc925caa96b887acf091b465ce2d2b905aeb1afd918c7760e7acf"),
+  L("Percussion","AU_AMH2_100_shaker_loop_diva",100,"","a995d25c95dd6efa33aa653db76fd5131dfb1d11cd4273f174c1f5dd3a35b691"),
+  L("Guitar","SC_SG_100_guitar_electric_rolling_Fmin",100,"f minor","4928cacf66511f4142d5ec9e81945dc99be03fb5ee43efd432c056309456a408"),
+  L("Bass","ABP_Bass_Guitar_Loop_90_Cm_01",90,"c minor","bede7bfd38ece35fc5afaad2fa1e1936df94333aa471a6c785e7d4ff9a19af66"),
+  L("Keys","PL_SAM_105_Electric_Keys_Loop_DanceMission_D",105,"d","216132ea54fcd67ccccd4febe9ffafd4d823ee6bd370e19093406b7c1bb76fb5")]},
+ {n:"Warm Afrobeats G#",feel:"Bonus · log drum bass",bpm:104,key:"g# minor",url:"b9e52569-a250-438e-aab2-60ea4a650d4c",layers:[
+  L("Drums","DD_TAAD_100_drums_grooves_shuffle_kick_snare_groove",100,"","b54ff1fd987160cdf8dae899f6837ce5cc2e7693dba8cad9a709180ad48270a6"),
+  L("Percussion","RARE_AP4_106_Shakers_loop_thump",106,"","0a8d920cc60485140e0ffb08f9e8837a84b259b92e2d665895d6607e204eaffe"),
+  L("Guitar","SO_ARB_90_guitar_electric_anguilla_chuck_Amin",90,"a minor","54696101ed51a777b5e1401415c069750eac2212f5462c7e30612398a503246a"),
+  L("Log drum bass","TRKTRN_DABF_114_Logdrum_Bass_Loop_My_Mood_Dmin",114,"d minor","6db9493c6f5c1e1ad6bd2cd46a878c91eb9f00c9e20df534d0fe29d0f3a18aa3"),
+  L("Keys","RKU_VA_98_Electric_Piano_Loop_Loved_Wet_C#min",98,"c# minor","2cac778042e971a519928acc5005cd71ce5c8cf84773aaf4c3b4e59c4fe71e80")]}];
+const ROLECOL={Drums:"#f5b82e",Percussion:"#2fd67b",Bass:"#b06cff",Guitar:"#ff8a3d",Keys:"#4fc3ff",Vocals:"#ff6fa8"};
+const colOf=r=>ROLECOL[Object.keys(ROLECOL).find(k=>r.toLowerCase().includes(k.toLowerCase()))]||"#ffe08a";
+const BARS=16;let tracks=[],curStack=-1,arrPlaying=false,arrTimer=null,arrBar=0,arrNext=0,arrSrcs=[];
+const projBpm=()=>Math.max(80,Math.min(130,+$("pBpm").value||100));
+const projKey=()=>$("pKey").value;
+// ---- DSP: resample (pitch) + WSOLA (time) ----
+function resample(x,p){if(p===1)return x;const n=Math.floor(x.length/p),y=new Float32Array(n);for(let i=0;i<n;i++){const j=i*p,j0=j|0,fr=j-j0;y[i]=x[j0]*(1-fr)+(x[j0+1]||0)*fr}return y}
+function wsola(chs,outLen){
+  const N=2048,Hs=N/2,inLen=chs[0].length,Ha=Hs*inLen/outLen,tol=384,win=new Float32Array(N);
+  for(let i=0;i<N;i++)win[i]=.5-.5*Math.cos(2*Math.PI*i/N);
+  const out=chs.map(()=>new Float32Array(outLen+N)),norm=new Float32Array(outLen+N),x=chs[0];
+  let prev=0;
+  for(let k=0;k*Hs<outLen;k++){
+    const ideal=Math.round(k*Ha);let best=0;
+    if(k>0){const nat=prev+Hs;let bc=-Infinity;
+      for(let d=-tol;d<=tol;d+=16){const st=ideal+d;if(st<0||st+N>=inLen)continue;let c=0;for(let i=0;i<N/2;i+=8)c+=x[st+i]*(x[nat+i]||0);if(c>bc){bc=c;best=d}}}
+    let st=Math.max(0,Math.min(inLen-N-1,ideal+best));if(inLen<=N)st=0;prev=st;
+    const o=k*Hs;for(let i=0;i<N;i++){const w=win[i];norm[o+i]+=w;for(let c=0;c<chs.length;c++)out[c][o+i]+=(chs[c][st+i]||0)*w}}
+  return out.map(ch=>{const r=new Float32Array(outLen);for(let i=0;i<outLen;i++)r[i]=norm[i]>1e-3?ch[i]/norm[i]:0;return r});
+}
+function conform(buf,srcBpm,srcKey){
+  const sr=buf.sampleRate,semi=keyShift(srcKey,projKey()),p=Math.pow(2,semi/12);
+  let bars=buf.duration*srcBpm/240;const opts=[1,2,4,8,16];bars=opts.reduce((a,b)=>Math.abs(b-bars)<Math.abs(a-bars)?b:a,1);
+  const outLen=Math.round(bars*240/projBpm()*sr);
+  const chs=[];for(let c=0;c<Math.min(2,buf.numberOfChannels);c++)chs.push(resample(buf.getChannelData(c),p));
+  const st=wsola(chs,outLen),ob=ctx.createBuffer(st.length,outLen,sr);st.forEach((d,c)=>ob.copyToChannel(d,c));
+  return {buf:ob,bars,semi};
+}
+// ---- tracks ----
+function addTrack(name,role,raw,srcBpm,srcKey,pre){
+  const t={name,role,raw,srcBpm,srcKey,vol:.8,mute:false,cells:pre||Array(BARS).fill(1)};
+  refit(t);tracks.push(t);drawArr();return t;
+}
+function refit(t){if(t.raw){const r=conform(t.raw,t.srcBpm,t.srcKey);t.buf=r.buf;t.bars=r.bars;t.semi=r.semi}}
+function busy(msg){const b=$("lpBusy");if(msg){b.textContent=msg;b.classList.remove("hidden")}else b.classList.add("hidden")}
+function drawArr(){
+  if(!tracks.length){$("arr").innerHTML=`<p style="font-size:13px;padding:8px">No loops yet. Send your Beat Maker parts in, load a stack below, or add your own loop.</p>`;return}
+  $("arr").innerHTML=`<div class="ruler">${Array.from({length:BARS},(_,i)=>`<span class="${i&&i%4===0?"q":""}">${i+1}</span>`).join("")}</div>`;
+  tracks.forEach((t,ti)=>{const r=document.createElement("div");r.className="arow";
+    r.innerHTML=`<div class="tn" title="${t.name}">${t.name}<small>${t.role}${t.semi?` · ${t.semi>0?"+":""}${t.semi} st`:""}${t.srcBpm?` · ${t.srcBpm}→${projBpm()}`:""}</small></div>`;
+    for(let b=0;b<BARS;b++){const c=document.createElement("button");c.className="bar"+(b&&b%4===0?" q":"")+(t.cells[b]?" on":"");c.style.setProperty("--c",colOf(t.role));c.onclick=()=>{t.cells[b]^=1;c.classList.toggle("on")};r.appendChild(c)}
+    const mx=document.createElement("div");mx.className="mx";mx.innerHTML=`<button class="btn ghost sm" style="padding:4px 7px">${t.mute?"🔇":"🔊"}</button><input type="range" min="0" max="1" step=".05" value="${t.vol}"><button class="btn ghost sm" style="padding:4px 7px">✕</button>`;
+    mx.children[0].onclick=()=>{t.mute=!t.mute;drawArr()};mx.children[1].oninput=e=>t.vol=+e.target.value;mx.children[2].onclick=()=>{tracks.splice(ti,1);drawArr()};
+    r.appendChild(mx);$("arr").appendChild(r)});
+}
+function applyTpl(v){if(!v)return;
+  tracks.forEach(t=>{const r=t.role.toLowerCase();
+    if(v==="all")t.cells=Array(BARS).fill(1);
+    if(v==="clear")t.cells=Array(BARS).fill(0);
+    if(v==="song"){const intro=/perc|keys|pad|guitar|flute|kalimba|melody|chord/.test(r),drums=/drum/.test(r),bass=/bass/.test(r),vox=/vocal/.test(r);
+      t.cells=Array.from({length:BARS},(_,b)=>b<4?(intro?1:0):b<12?((drums||bass||/guitar|perc/.test(r))?1:0):1);if(vox)t.cells=t.cells.map((x,b)=>b>=12?1:0)}});
+  drawArr()}
+// ---- playback ----
+const barDur=()=>240/projBpm();
+function schedBar(b,t,c,dest,list){tracks.forEach(tr=>{if(!tr.buf||tr.mute||!tr.cells[b])return;const s=c.createBufferSource();s.buffer=tr.buf;const g=c.createGain();
+  const d=barDur(),off=(b%tr.bars)*d;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(tr.vol,t+.004);g.gain.setValueAtTime(tr.vol,t+d-.006);g.gain.linearRampToValueAtTime(0,t+d);
+  s.connect(g).connect(dest);s.start(t,off,d+.01);if(list)list.push(s)})}
+function arrTick(){while(arrNext<ctx.currentTime+.25){schedBar(arrBar,arrNext,ctx,master,arrSrcs);const b=arrBar,when=(arrNext-ctx.currentTime)*1000;
+  setTimeout(()=>document.querySelectorAll("#arr .arow").forEach(r=>r.querySelectorAll(".bar").forEach((x,k)=>x.classList.toggle("ph",k===b))),Math.max(0,when));
+  arrNext+=barDur();arrBar=(arrBar+1)%BARS}}
+function arrToggle(){initAudio();ctx.resume();if(arrPlaying){arrStop();return}if(!tracks.length)return;stopPlay();arrPlaying=true;arrBar=0;arrNext=ctx.currentTime+.08;arrSrcs=[];arrTimer=setInterval(arrTick,40);$("arrPlay").textContent="■ STOP"}
+function arrStop(){arrPlaying=false;clearInterval(arrTimer);arrSrcs.forEach(s=>{try{s.stop()}catch(e){}});arrSrcs=[];if($("arrPlay"))$("arrPlay").textContent="▶ PLAY SONG";document.querySelectorAll(".bar.ph").forEach(x=>x.classList.remove("ph"))}
+// ---- render beat maker parts into loops ----
+let RENDER=null;
+async function renderPattern(parts,bars){
+  const sr=44100,len=Math.ceil(bars*240/bpm()*sr),oc=new OfflineAudioContext(2,len+sr,sr);
+  const saveCtx=ctx,saveMaster=master,saveLS=loopStep;ctx=oc;master=oc.createDynamicsCompressor();master.connect(oc.destination);RENDER=parts;
+  const sp=60/bpm()/4;for(let i=0;i<bars*16;i++){loopStep=i;const sw=i%2?(+$("swing").value/100)*sp*.5:0;scheduleStep(i%16,i*sp+sw)}
+  RENDER=null;ctx=saveCtx;master=saveMaster;loopStep=saveLS;
+  const full=await oc.startRendering(),out=ctx.createBuffer(2,len,sr);for(let c=0;c<2;c++)out.copyToChannel(full.getChannelData(c).subarray(0,len),c);return out;
+}
+async function sendBeat(){initAudio();ctx.resume();stopPlay();busy("Rendering your Beat Maker parts…");
+  $("pBpm").value=bpm();const nm=PRESETS[curPre].n;
+  const d=await renderPattern({drums:1},4),b=await renderPattern({bass:1},4),k=await renderPattern({keys:1},4);
+  tracks=tracks.filter(t=>!t.fromBeat);
+  [[nm+" drums","Drums",d],[nm+" bass","Bass",b],[nm+" chords + melody","Keys",k]].forEach(([n,r,buf])=>{const t=addTrack(n,r,buf,bpm(),"");t.fromBeat=1});
+  busy("");applyTpl("song");$("looper").scrollIntoView({behavior:"smooth"})}
+// ---- stacks ----
+function drawStacks(){$("stacks").innerHTML=STACKS.map((s,i)=>`<div class="stk ${i===curStack?"on":""}" onclick="pickStack(${i})"><b>${s.n}</b><span class="bpm">${s.bpm} BPM · ${s.key.toUpperCase()}</span><small style="display:block">${s.feel}</small></div>`).join("")}
+function pickStack(i){curStack=i;const s=STACKS[i];$("pBpm").value=s.bpm;const k=parseKey(s.key);$("pKey").value=KEYNAMES[k.root]+(k.minor===false?" major":" minor");refitAll();drawStacks();
+  $("stackDetail").innerHTML=`<div class="lesson tip" style="margin-top:10px">Project set to <b>${s.bpm} BPM, ${s.key}</b>. <a href="https://splice.com/sounds/stacks/${s.url}" target="_blank" rel="noopener" style="color:var(--gold)">Open this stack in Splice ↗</a>. Download each sound there, then load it below.</div>`+
+   s.layers.map((l,j)=>`<div class="lay"><div class="info"><b>${l.role}</b> · ${l.bpm} BPM${l.key?" · "+l.key:""}<small><a href="${l.link}" target="_blank" rel="noopener" style="color:var(--dim)">${l.name} ↗</a></small></div><span id="ok_${j}"></span><label class="up" for="sl_${j}">Load</label><input type="file" id="sl_${j}" accept="audio/*" class="hidden"></div>`).join("");
+  s.layers.forEach((l,j)=>$("sl_"+j).onchange=async e=>{const f=e.target.files[0];if(!f)return;initAudio();busy(`Fitting ${l.role} to ${projBpm()} BPM, ${projKey()}…`);
+    try{const raw=await ctx.decodeAudioData(await f.arrayBuffer());await new Promise(r=>setTimeout(r,30));tracks=tracks.filter(t=>t.slot!==`${i}_${j}`);const t=addTrack(l.role,l.role,raw,l.bpm,l.key);t.slot=`${i}_${j}`;$("ok_"+j).innerHTML='<span class="ok">✓ IN</span>';applyTpl("song")}catch(err){busy("Couldn't read that file.");return}busy("")})}
+let refitTimer;function refitAll(){clearTimeout(refitTimer);refitTimer=setTimeout(()=>{if(!tracks.some(t=>t.raw))return drawArr();busy("Re-fitting loops to the new tempo/key…");setTimeout(()=>{tracks.forEach(refit);busy("");drawArr()},30)},250)}
+// ---- bounce to song ----
+function wavBlob(b){const n=b.length,ch=b.numberOfChannels,sr=b.sampleRate,buf=new ArrayBuffer(44+n*ch*2),v=new DataView(buf);let o=0;const w=s=>{for(const c of s)v.setUint8(o++,c.charCodeAt(0))},u32=x=>{v.setUint32(o,x,true);o+=4},u16=x=>{v.setUint16(o,x,true);o+=2};
+  w("RIFF");u32(36+n*ch*2);w("WAVE");w("fmt ");u32(16);u16(1);u16(ch);u32(sr);u32(sr*ch*2);u16(ch*2);u16(16);w("data");u32(n*ch*2);
+  const d=[];for(let c=0;c<ch;c++)d.push(b.getChannelData(c));for(let i=0;i<n;i++)for(let c=0;c<ch;c++){const s=Math.max(-1,Math.min(1,d[c][i]));v.setInt16(o,s*32767,true);o+=2}return new Blob([buf],{type:"audio/wav"})}
+async function bounceSong(){if(!tracks.length){busy("Add some loops first.");return}arrStop();busy("Bouncing your song…");
+  const sr=44100,reps=2,total=BARS*reps,len=Math.ceil(total*barDur()*sr),oc=new OfflineAudioContext(2,len,sr),comp=oc.createDynamicsCompressor();comp.connect(oc.destination);
+  for(let k=0;k<total;k++)schedBar(k%BARS,k*barDur(),oc,comp,null);
+  const out=await oc.startRendering(),file=new File([wavBlob(out)],(v("song")||"my-song")+".wav",{type:"audio/wav"});busy("");
+  S.bounced=true;$("paneUpload").classList.remove("hidden");$("sunoBox").classList.add("hidden");$("upTitle").textContent="Your song (from the looper)";
+  await analyzeFile(file);$("bounceOut").innerHTML=`<div class="lesson">✅ Bounced ${total} bars (${mmss(out.duration)}). This is now your song for the rest of the game. Scroll up to see its analysis.</div>`;
+}
+
+/* ================= INIT (keep last) ================= */
+$("bpm").oninput=e=>{$("bpmV").textContent=e.target.value;if(loopSrc)loopSrc.playbackRate.value=bpm()/(+$("loopBpm").value||100);scoreSong()};
+$("swing").oninput=e=>{$("swV").textContent=e.target.value;scoreSong()};
+["bassStyle","padOn","keysOn","prog","shakOn"].forEach(id=>$(id).onchange=scoreSong);
+$("file").onchange=e=>{const fl=e.target.files[0];if(!fl)return;if(!$("song").dataset.touched)$("song").value=fl.name.replace(/\.[^.]+$/,"").replace(/[_-]+/g," ").slice(0,28);analyzeFile(fl)};
+$("song").oninput=()=>$("song").dataset.touched=1;
+$("smpCh").innerHTML=CH.map((c,i)=>`<option value="${i}">${c.n}</option>`).join("");
+$("smpFile").onchange=async e=>{const fl=e.target.files[0];if(!fl)return;initAudio();try{const i=+$("smpCh").value;samples[i]=await ctx.decodeAudioData(await fl.arrayBuffer());hit(i,ctx.currentTime);
+  $("smpList").innerHTML=Object.keys(samples).map(k=>`✓ ${CH[k].n}: your sample`).join("<br>");e.target.value=""}catch(err){$("smpList").textContent="Couldn't read that file."}};
+$("pKey").innerHTML=KEYNAMES.map(k=>`<option>${k} minor</option>`).join("")+KEYNAMES.map(k=>`<option>${k} major</option>`).join("");$("pKey").value="A minor";
+$("pBpm").onchange=refitAll;$("pKey").onchange=refitAll;
+$("anyLoop").onchange=async e=>{const f=e.target.files[0];if(!f)return;initAudio();busy("Detecting tempo + fitting…");try{const raw=await ctx.decodeAudioData(await f.arrayBuffer());const m=f.name.match(/(\d{2,3})\s*bpm|_(\d{2,3})_/i);const t0=m?+(m[1]||m[2]):tempoOf(raw);
+  const km=f.name.match(/_([A-G][#b]?)(min|maj|m)?(?=[_.])/);const key=km?km[1]+(km[2]&&km[2].startsWith("maj")?" major":" minor"):"";
+  addTrack(f.name.replace(/\.[^.]+$/,"").slice(0,30),"Loop",raw,Math.round(t0),key);e.target.value=""}catch(err){busy("Couldn't read that file.");return}busy("")};
+drawStacks();drawArr();
+$("genreSel").innerHTML=MUSIC.map(([n])=>`<option ${LIVE.includes(n)?"":"disabled"}>${n}${LIVE.includes(n)?"":" (coming soon)"}</option>`).join("");
+drawLevels();
+loadPreset(0);
+</script>
+</body>
+</html>
