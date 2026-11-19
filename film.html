@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pay Me In Crypto — Filmmaker Level</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0a07;--panel:#1a140d;--line:#3a2c1a;--gold:#f5b82e;--green:#2fd67b;--red:#ff5a4e;--ink:#f6ead6;--dim:#a89377;--purple:#b06cff;--blue:#4fc3ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(circle at 50% -10%,#3a2408 0%,var(--bg) 55%);color:var(--ink);font-family:'Bricolage Grotesque',sans-serif;min-height:100vh;padding:16px 12px 40px}
+.wrap{max-width:760px;margin:0 auto}
+h1,h2,h3{font-family:'Bungee',cursive;font-weight:400;letter-spacing:.5px}
+h1{font-size:34px;line-height:1;color:var(--gold);text-shadow:3px 3px 0 #6b3d00}
+h2{font-size:21px;color:var(--gold);margin-bottom:6px}
+h3{font-size:14px;margin:14px 0 8px}
+p{line-height:1.45;color:var(--dim);font-size:15px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.btn{font-family:'Bungee';background:var(--gold);color:#1a0f00;border:none;border-radius:10px;padding:12px 16px;font-size:14px;cursor:pointer;box-shadow:0 4px 0 #8a5a00;text-decoration:none;display:inline-block}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5a00}
+.btn.ghost{background:transparent;color:var(--gold);border:2px solid var(--gold);box-shadow:none}
+.btn.green{background:var(--green);box-shadow:0 4px 0 #137a43}
+.btn.sm{padding:7px 10px;font-size:11px}
+.btn.full{width:100%;margin-top:12px;text-align:center}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hidden{display:none!important}
+.tag{display:inline-block;font-size:11px;font-family:'Bungee';padding:3px 8px;border-radius:6px;background:#2a1f12;color:var(--gold);border:1px solid var(--line)}
+.levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+.lvl{border:2px solid var(--line);border-radius:12px;padding:12px;background:#140f09;position:relative;min-height:90px}
+.lvl.open{border-color:var(--gold);background:linear-gradient(160deg,#3a2408,#140f09);cursor:pointer}
+.lvl .nm{font-family:'Bungee';font-size:14px}
+.lvl .sb{font-size:12px;color:var(--dim);margin-top:4px}
+.lvl.soon{opacity:.72}
+.lvl .badge{display:inline-block;margin-top:8px;font-family:'Bungee';font-size:9.5px;padding:3px 7px;border-radius:6px;border:1px solid var(--line);color:var(--dim)}
+.lvl.open .badge{color:#1a0f00;background:var(--green);border-color:var(--green)}
+.cat{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:2px;margin-top:18px}
+.stages{display:flex;gap:6px;margin:10px 0 4px}
+.stages div{flex:1;height:8px;border-radius:4px;background:var(--line)}
+.stages div.on{background:var(--gold)}
+/* start paths */
+.paths{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+.path{display:flex;gap:12px;align-items:center;background:#140f09;border:2px solid var(--line);border-radius:14px;padding:14px;cursor:pointer}
+.path:hover,.path:active{border-color:var(--gold)}
+.path .ic{font-size:30px;width:44px;text-align:center;flex-shrink:0}
+.path b{font-family:'Bungee';font-size:15px;display:block;color:var(--ink)}
+.path small{color:var(--dim);font-size:13px;line-height:1.35}
+.path .go{margin-left:auto;font-family:'Bungee';color:var(--gold)}
+/* presets */
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pre{background:#0f0b07;border:2px solid var(--line);border-radius:12px;padding:10px;cursor:pointer}
+.pre.on{border-color:var(--gold);background:#2a1f12}
+.pre b{font-family:'Bungee';font-size:12.5px;display:block}
+.pre .bpm{font-size:11px;color:var(--gold);font-family:'Bungee'}
+.pre small{display:block;color:var(--dim);font-size:12px;margin-top:3px;line-height:1.3}
+.bigplay{width:100%;font-size:18px;padding:16px;margin-top:10px}
+details{margin-top:10px}
+summary{cursor:pointer;font-family:'Bungee';font-size:13px;color:var(--gold);padding:8px 0;list-style:none}
+summary::before{content:"▸ "}
+details[open] summary::before{content:"▾ "}
+.rack{background:#0a0806;border:2px solid var(--line);border-radius:10px;padding:6px;margin-top:8px;overflow-x:auto}
+.ch{display:flex;align-items:center;gap:4px;margin:3px 0;min-width:max-content}
+.ch .m{width:22px;height:22px;border-radius:50%;border:2px solid var(--green);background:var(--green);cursor:pointer;flex-shrink:0}
+.ch .m.off{background:transparent;border-color:#555}
+.ch input[type=range]{width:44px;flex-shrink:0}
+.ch .nm{width:78px;font-size:11.5px;font-weight:800;background:#2a2016;border-radius:5px;padding:5px 6px;flex-shrink:0;white-space:nowrap;overflow:hidden;cursor:pointer}
+.st{width:24px;height:28px;border-radius:4px;border:none;background:#3b3026;flex-shrink:0;cursor:pointer}
+.st.alt{background:#4a2a22}
+.st.on{background:var(--c,var(--gold));box-shadow:inset 0 -3px 0 rgba(0,0,0,.35)}
+.st.play{outline:2px solid #fff}
+.roll .st{height:20px}
+select,input[type=text],input[type=email],input[type=number],textarea{background:#0f0b07;color:var(--ink);border:2px solid var(--line);border-radius:8px;padding:9px;font-family:inherit;font-size:16px;width:100%}
+label{font-size:13px;color:var(--dim);display:block;margin-bottom:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.meter{height:14px;background:#2a2016;border-radius:7px;overflow:hidden;margin:6px 0}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold),var(--green));transition:width .3s}
+.tips li{font-size:13.5px;color:var(--dim);margin:3px 0 3px 18px}
+.tips li.ok{color:var(--green)}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.chk input{margin-top:3px;accent-color:var(--gold);width:18px;height:18px;flex-shrink:0}
+.chk span{font-size:14.5px;flex:1}
+.chk small{display:block;color:var(--dim);font-size:12.5px}
+.chk .amt{font-family:'Bungee';color:var(--gold);font-size:13px;width:74px;background:#0f0b07;border:1px solid var(--line);border-radius:8px;padding:6px;text-align:right}
+.chk.trap span{color:#ffb3ad}
+.lesson{border-left:4px solid var(--green);background:#0f1a12;padding:10px 12px;border-radius:0 10px 10px 0;margin:8px 0;font-size:14px;line-height:1.45}
+.lesson.bad{border-color:var(--red);background:#1f0f0d}
+.lesson.tip{border-color:var(--blue);background:#0d1520}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.stats.four{grid-template-columns:repeat(4,1fr)}
+.stat{background:#0f0b07;border:2px solid var(--line);border-radius:10px;padding:8px;text-align:center}
+.stat .v{font-family:'Bungee';font-size:16px;color:var(--gold)}
+.stat .k{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.log{background:#0f0b07;border-radius:10px;padding:10px;max-height:220px;overflow-y:auto;font-size:13.5px;margin-top:10px}
+.log div{padding:4px 0;border-bottom:1px dashed var(--line);color:var(--dim)}
+.log div b{color:var(--ink)}
+.tier{background:#0f0b07;border:2px solid var(--line);border-radius:10px;padding:10px;margin:8px 0}
+.tier .hd{display:flex;justify-content:space-between;align-items:center}
+.tier small{display:block;color:var(--dim);font-size:12.5px;margin:3px 0 6px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.card{background:#0f0b07;border:2px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;font-size:13.5px}
+.card b{display:block;font-size:14px;margin-bottom:3px}
+.card small{color:var(--dim);font-size:12px}
+.card.on{border-color:var(--gold);background:#2a1f12}
+.card.dis{opacity:.35;cursor:not-allowed}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{flex:1;font-family:'Bungee';font-size:12px;padding:10px;border-radius:10px;border:2px solid var(--line);background:#0f0b07;color:var(--dim);cursor:pointer}
+.tabs button.on{border-color:var(--gold);color:var(--gold);background:#2a1f12}
+.wave{display:flex;align-items:center;gap:1px;height:70px;margin-top:8px;cursor:pointer}
+.wave i{flex:1;background:#5a4630;border-radius:1px;min-height:2px}
+.wave i.hot{background:var(--gold)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:110px;margin-top:10px;padding:0 4px;border-bottom:2px solid var(--line)}
+.bars div{flex:1;background:linear-gradient(0deg,#8a5a00,var(--gold));border-radius:4px 4px 0 0;position:relative;min-height:2px}
+.bars div span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-size:10px;color:var(--dim)}
+.hbar{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0}
+.hbar .l{width:88px;color:var(--dim)}
+.hbar .b{flex:1;height:12px;background:#2a2016;border-radius:6px;overflow:hidden}
+.hbar .b i{display:block;height:100%;background:var(--blue)}
+.hbar .n{width:40px;text-align:right;font-family:'Bungee';font-size:11px}
+.grade{font-family:'Bungee';font-size:72px;text-align:center;color:var(--gold);text-shadow:4px 4px 0 #6b3d00;line-height:1}
+pre{white-space:pre-wrap;font-family:inherit;font-size:13.5px;line-height:1.5;background:#0f0b07;border-radius:10px;padding:12px;color:var(--ink)}
+.prog{height:22px;background:#2a2016;border-radius:11px;overflow:hidden;position:relative;margin:8px 0}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--green));width:0;transition:width .15s}
+.prog span{position:absolute;inset:0;text-align:center;font-family:'Bungee';font-size:11px;line-height:22px;color:#fff;text-shadow:0 1px 2px #000}
+audio{width:100%;margin-top:8px}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal .box{background:var(--panel);border:2px solid var(--gold);border-radius:14px;padding:18px;max-width:340px;text-align:center}
+.goal{background:linear-gradient(90deg,#2a1f12,#1a140d);border:2px solid var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0;font-size:14px;line-height:1.4}
+.goal b{font-family:'Bungee';color:var(--gold);font-size:12px;display:block;margin-bottom:2px}
+.sub{font-family:'Bungee';font-size:12px;color:var(--dim);margin:12px 0 4px;letter-spacing:1px}
+.goalrow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.drop{border:2px dashed var(--gold);border-radius:14px;padding:22px;text-align:center;cursor:pointer;background:#140f09}
+.drop b{font-family:'Bungee';color:var(--gold);display:block;font-size:15px;margin-bottom:4px}
+.arr{background:#0a0806;border:2px solid var(--line);border-radius:10px;padding:6px;overflow-x:auto;margin-top:8px}
+.arow{display:flex;align-items:center;gap:3px;margin:3px 0;min-width:max-content}
+.arow .tn{width:96px;flex-shrink:0;font-size:11px;font-weight:800;background:#2a2016;border-radius:5px;padding:4px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow .tn small{display:block;font-weight:400;color:var(--dim);font-size:9.5px}
+.bar{width:26px;height:30px;border-radius:4px;border:none;background:#2c241b;flex-shrink:0;cursor:pointer}
+.bar.q{margin-left:5px}
+.bar.on{background:var(--c,var(--gold))}
+.bar.ph{outline:2px solid #fff}
+.arow .mx{display:flex;gap:3px;align-items:center;flex-shrink:0}
+.arow .mx input{width:42px}
+.ruler{display:flex;gap:3px;min-width:max-content;margin-left:99px;font-size:9px;color:var(--dim)}
+.ruler span{width:26px;text-align:center}
+.ruler span.q{margin-left:5px}
+.stk{background:#0f0b07;border:2px solid var(--line);border-radius:10px;padding:9px;cursor:pointer}
+.stk.on{border-color:var(--gold);background:#2a1f12}
+.stk b{font-family:'Bungee';font-size:12px;display:block}
+.stk small{color:var(--dim);font-size:11.5px}
+.lay{display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding:8px 0;font-size:13px}
+.lay .info{flex:1;min-width:0}
+.lay .info small{display:block;color:var(--dim);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lay label.up{margin:0;font-family:'Bungee';font-size:10px;color:var(--gold);border:2px solid var(--gold);border-radius:8px;padding:6px 8px;cursor:pointer;flex-shrink:0}
+.lay .ok{color:var(--green);font-family:'Bungee';font-size:10px}
+.week{border-bottom:1px solid var(--line);padding:8px 0;font-size:14px}
+.week b{font-family:'Bungee';font-size:12px;color:var(--gold)}
+body:not(.has-g) .ai-g,body:not(.has-v) .ai-v{display:none!important}
+.ai-out{white-space:pre-wrap;font-size:13px;background:var(--panel2,#1A140D);border:1px solid #3A2C1A;border-radius:10px;padding:10px;margin-top:8px}
+
+.topbar{position:sticky;top:0;z-index:40;margin:-16px -12px 0;padding:12px 12px 8px;background:rgba(13,10,7,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.stages div{transition:background .5s ease}
+.btn{transition:transform .08s ease,box-shadow .08s ease,filter .2s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8a5a00}
+.btn:disabled{filter:grayscale(.4) brightness(.8)}
+.enter{animation:enter .45s cubic-bezier(.2,.7,.2,1) both}
+.enter>.panel,.enter>div>.panel{animation:enter .5s cubic-bezier(.2,.7,.2,1) both}
+.enter>.panel:nth-child(2),.enter>div:nth-child(2)>.panel{animation-delay:.06s}.enter>.panel:nth-child(3){animation-delay:.12s}.enter>.panel:nth-child(4){animation-delay:.18s}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.log>div:first-child{animation:enter .4s ease both}
+.goal{transition:opacity .3s}
+.card,.path{transition:transform .15s ease,border-color .2s,background .2s}
+.path:active,.card:active{transform:scale(.98)}
+html{scroll-behavior:smooth}
+.secmap{display:flex;gap:2px;margin-top:4px;height:22px;font-size:10px;font-family:'Bungee'}
+.secmap span{display:flex;align-items:center;justify-content:center;border-radius:4px;overflow:hidden;white-space:nowrap;cursor:pointer;color:#1a0f00}
+.s-Hook{background:var(--gold)}.s-Verse{background:#8a6a40}.s-Intro,.s-Outro{background:#4a3a28;color:var(--ink)!important}.s-Break{background:#4FC3FF}
+.wave i.s-Hook{background:#b98a1e}.wave i.s-Break{background:#2f7fa8}.wave i.hot{background:#ffd75e!important}
+.premium{border-color:var(--gold);background:linear-gradient(180deg,#2a1d0b,var(--panel))}
+.prem{border:1px dashed var(--line);border-radius:10px;padding:10px;margin-top:8px;opacity:.9}.prem b{display:block;font-size:14px}.prem small{color:var(--dim);font-size:12.5px}
+.score{margin-top:12px;background:#0f0b07;border:1px solid var(--line);border-radius:12px;padding:12px}
+.score .big{font-family:'Bungee';font-size:38px;color:var(--gold);text-shadow:2px 2px 0 #6b3d00}
+.meter{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px}.meter span{width:70px}.meter b{flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden}.meter b i{display:block;height:100%;background:var(--gold);transition:width .8s ease}.meter em{width:26px;text-align:right;font-style:normal;color:var(--dim)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+</style>
+</head>
+<body>
+<div class="modal hidden" id="restartModal"><div class="box"><h3 style="margin-top:0">Start over?</h3><p style="font-size:14px">You'll go back to the start of the Filmmaker level. This run will be cleared.</p><div class="row" style="justify-content:center;margin-top:12px"><button class="btn" onclick="location.reload()">Yes, restart</button><button class="btn ghost" onclick="$('restartModal').classList.add('hidden')">Cancel</button></div></div></div>
+<div class="wrap">
+<section id="s-game">
+  <div class="topbar">
+    <div class="row" style="justify-content:space-between;flex-wrap:nowrap">
+      <span class="tag" id="stageTag"></span>
+      <span class="row" style="gap:6px;flex-wrap:nowrap"><a class="btn ghost sm" href="index.html">Home</a><button class="btn ghost sm" onclick="$('restartModal').classList.remove('hidden')" aria-label="Restart">↺</button></span>
+    </div>
+    <div class="stages"><div id="b1"></div><div id="b2"></div><div id="b3"></div><div id="b4"></div><div id="b5"></div><div id="b6"></div></div>
+  </div>
+  <div class="goal" id="goalBox"></div>
+
+  <!-- ============ 1 · YOUR PROJECT ============ -->
+  <div id="st1">
+    <div class="panel">
+      <h2>Tell me about your project</h2>
+      <p>Start big. What are you making, why you, and where do you want it to take you? Everything after this is built from your answers.</p>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">The big picture</h3>
+      <label>Project title</label><input type="text" id="fTitle" maxlength="60" placeholder="WEATHERMAN">
+      <label style="margin-top:10px">Logline: who wants what, and what's in the way (one sentence)</label>
+      <textarea id="fLog" rows="3" placeholder="A washed-up battle rap legend cycles through temp jobs to pay rent, until he discovers he can read the weather better than the guy on TV."></textarea>
+      <label style="margin-top:10px">What it's really about, and why you're the one to make it</label>
+      <textarea id="fAbout" rows="3" placeholder="Starting over at 30. I lived it."></textarea>
+      <label style="margin-top:10px">Long-term goal</label>
+      <select id="fGoal">
+        <option value="festival">One great project that wins festivals and opens doors</option>
+        <option value="fanbase">A series that builds a loyal fanbase</option>
+        <option value="streaming">Get it on a big streaming service</option>
+        <option value="studio">Launch my own studio and brand</option>
+        <option value="promo">Power up my music, business or brand</option>
+      </select>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Format</h3>
+      <p style="font-size:13px">How you'll make it. You'll compare other formats in the Idea Lab.</p>
+      <div class="cards" id="fmtCards"></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Genre, themes, style</h3>
+      <label>Genre</label><select id="fGenre"></select>
+      <label style="margin-top:10px">Themes (pick up to 3)</label>
+      <div class="cards" id="themeCards"></div>
+      <label style="margin-top:10px">Style and tone</label><select id="fTone"></select>
+      <label style="margin-top:10px">It's like… (2 movies or shows)</label><input type="text" id="fRefs" placeholder="Atlanta meets Rocky">
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Who it's for</h3>
+      <label>Age range</label>
+      <select id="fAge"><option>13–17</option><option>18–24</option><option selected>18–34</option><option>25–44</option><option>35–54</option><option>All ages</option></select>
+      <label style="margin-top:10px">Exactly who (the more specific, the better)</label>
+      <input type="text" id="fAud" placeholder="Black 25–40 creatives in Vegas who've had to start over">
+      <label style="margin-top:10px">Where they watch</label>
+      <select id="fWatch">
+        <option value="social">TikTok, Reels, Shorts</option>
+        <option value="youtube">YouTube</option>
+        <option value="apps">Micro-drama apps (ReelShort, DramaBox)</option>
+        <option value="stream">Streaming services (Tubi, Prime, Netflix)</option>
+        <option value="fest">Festivals and theaters</option>
+      </select>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">What you're working with</h3>
+      <div class="grid2"><div><label>Your city</label><input type="text" id="fCity" placeholder="Las Vegas"></div>
+      <div><label>Team</label><select id="fTeam"><option value="solo">Just me</option><option value="small" selected>Me + 2–5 people</option><option value="crew">A real crew</option></select></div></div>
+      <div class="grid2" style="margin-top:8px"><div><label>Most you can spend ($)</label><input type="number" id="fCap" value="10000" min="0" step="500"></div>
+      <div><label>Social followers</label><input type="number" id="fFoll" value="1500" min="0"></div></div>
+      <label style="margin-top:8px">Phone numbers / emails you have</label><input type="number" id="fList" value="150" min="0">
+    </div>
+    <button class="btn full" onclick="lockProject()">Grade my idea →</button>
+  </div>
+
+  <!-- ============ 2 · IDEA LAB ============ -->
+  <div id="st2" class="hidden">
+    <div class="panel">
+      <h2 id="ideaTitle">Idea Lab</h2>
+      <p id="ideaLog" style="font-size:14px;color:var(--ink)"></p>
+      <div id="ideaScore" class="score"></div>
+      <div id="ideaNotes"></div>
+      <button class="btn sm ai-g" style="margin-top:10px" onclick="aiIdea(this)">🎬 Get a writers' room read (Gemini)</button>
+      <div id="roomOut" class="ai-out hidden"></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Same idea, three ways</h3>
+      <p style="font-size:13px">Here's your story packaged as three formats, each graded against your goal, budget and audience. Pick the one you'll make.</p>
+      <div id="angles"></div>
+    </div>
+    <button class="btn full" id="toMake" onclick="toStage(3)">Next: Plan the production →</button>
+  </div>
+
+  <!-- ============ 3 · MAKE IT ============ -->
+  <div id="st3" class="hidden">
+    <div class="panel">
+      <h2>Make it</h2>
+      <p id="makeIntro"></p>
+      <h3>Scope</h3>
+      <div class="grid2"><div><label>Episodes (1 = a single film)</label><input type="number" id="mEps" min="1" step="1"></div>
+      <div><label>Minutes each</label><input type="number" id="mMin" min="0.5" step="0.5"></div></div>
+      <p style="font-size:13px;margin-top:6px">Total runtime: <b id="mRun" style="color:var(--ink)"></b></p>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Budget (every number is yours to change)</h3>
+      <div id="mBudget"></div>
+      <div class="row" style="justify-content:space-between;margin-top:10px"><span class="tag">PRODUCTION TOTAL</span><b style="font-family:Bungee;color:var(--gold);font-size:20px" id="mTotal"></b></div>
+      <p id="mCapNote" style="font-size:13px;margin-top:6px"></p>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Timeline</h3>
+      <div class="grid2"><div><label>Prep weeks</label><input type="number" id="tPrep" min="0"></div><div><label>Shoot / make weeks</label><input type="number" id="tShoot" min="0"></div></div>
+      <div class="grid2" style="margin-top:8px"><div><label>Post weeks</label><input type="number" id="tPost" min="0"></div><div><label>Release weeks</label><input type="number" id="tRel" min="0" value="8"></div></div>
+      <p style="font-size:13px;margin-top:6px">Idea to release: <b id="tTotal" style="color:var(--ink)"></b></p>
+    </div>
+    <div class="panel" id="unionPanel">
+      <h3 style="margin-top:0">Union actors?</h3>
+      <select id="mUnion">
+        <option value="none">Non-union (friends, local talent)</option>
+        <option value="micro">SAG-AFTRA Micro-Budget ($20k or less per film or per episode, no stunts)</option>
+        <option value="spa">SAG-AFTRA Short Project ($50k max, 40 min max)</option>
+        <option value="ulb">SAG-AFTRA Ultra Low Budget ($300k max)</option>
+      </select>
+      <label class="chk" style="margin-top:8px"><input type="checkbox" id="mStunts"><span>The script has stunts<small>Fights, falls, car work. Needs a stunt coordinator.</small></span></label>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Production checklist</h3>
+      <p style="font-size:13px">Check what you'll actually do. Each one you skip shows up in the report.</p>
+      <div id="mChecks"></div>
+    </div>
+    <div id="mLessons"></div>
+    <button class="btn full" onclick="lockMake()">Next: Fund it →</button>
+  </div>
+
+  <!-- ============ 4 · FUND IT ============ -->
+  <div id="st4" class="hidden">
+    <div class="panel">
+      <h2>Fund it</h2>
+      <p>Your audience and your community fund the project, and they get something real back.</p>
+      <h3>Marketing budget</h3>
+      <div id="fMkt"></div>
+      <div class="row" style="justify-content:space-between;margin-top:8px"><span>Production</span><b id="fProd"></b></div>
+      <div class="row" style="justify-content:space-between"><span>Marketing</span><b id="fMk"></b></div>
+      <div class="row" style="justify-content:space-between"><span>Fees (~8%)</span><b id="fFee"></b></div>
+      <div class="row" style="justify-content:space-between;margin-top:4px"><span class="tag">FUNDING GOAL</span><b style="font-family:Bungee;color:var(--gold);font-size:20px" id="fGoalV"></b></div>
+    </div>
+    <div class="tabs"><button id="tabTok" class="on" onclick="fundTab('token')">🪙 Fan token</button><button id="tabRev" onclick="fundTab('rev')">📈 Revenue share</button><button id="tabSpon" onclick="fundTab('spon')">🤝 Sponsors</button></div>
+    <div class="panel" id="paneTok">
+      <p style="font-size:13px">Backers get tokens that unlock access in your world: credits, premieres, set visits. Access, not profit.</p>
+      <label>Total supply: <b id="supV"></b></label>
+      <select id="tSupply"><option value="10000">10,000</option><option value="100000" selected>100,000</option><option value="1000000">1,000,000</option><option value="10000000">10,000,000</option></select>
+      <label style="margin-top:8px">Backers: <b id="aB">45</b>%</label><input type="range" id="pB" min="10" max="70" value="45">
+      <label>Community rewards (pay your street team, extras): <b id="aC">25</b>%</label><input type="range" id="pC" min="0" max="50" value="25">
+      <label>You, the creator: <b id="aA">20</b>%</label><input type="range" id="pA" min="5" max="60" value="20">
+      <label class="chk"><input type="checkbox" id="vest" checked><span>Lock your tokens 12 months<small>Proves you won't cash out on day one.</small></span></label>
+      <label class="chk"><input type="checkbox" id="cap" checked><span>Max 2% per wallet<small>Keeps one whale from controlling it.</small></span></label>
+      <h3>Backer tiers (set your prices)</h3>
+      <div id="tiers"></div>
+    </div>
+    <div class="panel hidden" id="paneRev">
+      <p style="font-size:13px">Backers buy a share of the project's net revenue. That's an investment, so it's regulated in most places. Use a platform built for it.</p>
+      <label>Share of net revenue you sell: <b id="rPctV"></b>%</label><input type="range" id="rPct" min="5" max="50" value="20">
+      <label>Price per share: $<b id="rPrV"></b></label><input type="range" id="rPr" min="10" max="500" step="10" value="50">
+      <p id="rNote" style="font-size:13px"></p>
+    </div>
+    <div class="panel hidden" id="paneSpon">
+      <p style="font-size:13px">Local businesses pay to be in it or on it: a scene at their shop, a logo on the poster, a thank-you in the credits.</p>
+      <label>Brand partners you'll pitch: <b id="sNV"></b></label><input type="range" id="sN" min="1" max="20" value="6">
+      <label>Ask per partner: $<b id="sFV"></b></label><input type="range" id="sF" min="100" max="5000" step="100" value="500">
+      <label class="chk"><input type="checkbox" id="sFit" checked><span>Only brands that fit the story<small>A forced product shot breaks the scene and the audience notices.</small></span></label>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Warm up first (pick 2)</h3>
+      <div class="cards" id="warm"></div>
+      <label class="chk trap" style="margin-top:8px"><input type="checkbox" id="moon"><span>Promise backers they'll make money<small>"This token is going to 10x" / "Guaranteed returns." Could drive hype…</small></span></label>
+      <label style="margin-top:8px">Campaign</label>
+      <select id="fModel"><option value="keep">Keep what you raise</option><option value="aon">All-or-nothing</option></select>
+    </div>
+    <button class="btn full" id="launchBtn" onclick="runFund()">Launch the campaign →</button>
+    <div id="fundRes" class="hidden">
+      <div class="panel"><div class="stats"><div class="stat"><div class="v" id="frRaised"></div><div class="k">Raised</div></div><div class="stat"><div class="v" id="frBack"></div><div class="k">Backers</div></div><div class="stat"><div class="v" id="frPct"></div><div class="k">Of goal</div></div></div></div>
+      <div id="fLessons"></div>
+      <button class="btn full" onclick="toStage(5)">Next: Release it →</button>
+    </div>
+  </div>
+
+  <!-- ============ 5 · RELEASE IT ============ -->
+  <div id="st5" class="hidden">
+    <div class="panel">
+      <h2>Release it</h2>
+      <p>Where it lives and how people find it. Pick up to 3 paths. They should work together.</p>
+      <div id="paths"></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Rollout plan</h3>
+      <label>Release cadence</label><select id="rCad"></select>
+      <div id="rChecks" style="margin-top:8px"></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Deliverables (what platforms ask for)</h3>
+      <div id="dChecks"></div>
+    </div>
+    <button class="btn full" onclick="finish()">See my report →</button>
+  </div>
+
+  <!-- ============ 6 · REPORT ============ -->
+  <div id="st6" class="hidden">
+    <div class="panel" style="text-align:center">
+      <div class="tag">PROJECT REPORT</div>
+      <div class="grade" id="grade" style="margin:12px 0"></div>
+      <p id="gradeLine"></p>
+      <div class="stats four">
+        <div class="stat"><div class="v" id="pIdea"></div><div class="k">Idea</div></div>
+        <div class="stat"><div class="v" id="pMake"></div><div class="k">Plan</div></div>
+        <div class="stat"><div class="v" id="pFund"></div><div class="k">Funded</div></div>
+        <div class="stat"><div class="v" id="pRel"></div><div class="k">Release</div></div>
+      </div>
+    </div>
+    <div class="panel"><h3 style="margin-top:0">🎯 Your goals</h3><div id="goalCard"></div></div>
+    <div class="panel"><h3 style="margin-top:0">What to fix before you shoot</h3><div id="lessons"></div></div>
+    <div class="panel">
+      <h3 style="margin-top:0">🤖 Your project plan + AI agent</h3>
+      <p style="font-size:13px">Your whole plan, phase by phase: the project bible, idea scorecard, budget, schedule, checklists, funding and release. Paste it into Claude, ChatGPT or Grok and it becomes your own producer: it asks where you are, runs the play step by step, and redoes the math when you change a number.</p>
+      <div class="row" style="margin-top:10px"><button class="btn" onclick="copyAgent(this)">Copy plan + agent</button><button class="btn ghost" onclick="downloadAgent()">Download .md</button><button class="btn ghost ai-g" onclick="aiPlan(this)">✨ Make it personal</button></div>
+      <div id="planOut" class="ai-out hidden"></div>
+      <details style="margin-top:8px"><summary style="font-size:13px;color:var(--dim);cursor:pointer">How to set it up</summary><ol style="font-size:13px;margin:8px 0 0 18px;line-height:1.6">
+        <li><b>Claude:</b> new Project → paste into the project instructions.</li>
+        <li><b>ChatGPT:</b> new Project (or Explore GPTs → Create) → paste into instructions.</li>
+        <li><b>Grok:</b> new Project → paste into the instructions, or paste it as the first message of a chat.</li>
+        <li>Then start with: "I'm in pre-production. Here's what's done: …"</li></ol></details>
+      <pre id="plan" style="margin-top:10px;max-height:320px;overflow:auto"></pre>
+    </div>
+    <div class="panel premium">
+      <div class="row" style="justify-content:space-between"><h3 style="margin:0">⭐ Premium · DBN production team</h3><span class="tag">COMING SOON</span></div>
+      <p style="font-size:13px;margin-top:6px">Want help making it? The Do Better Network team works with you on retainer for the whole project.</p>
+      <div id="premList"></div>
+    </div>
+    <div class="row" style="margin-bottom:30px"><a class="btn ghost" href="index.html">Back to all levels</a><button class="btn ghost" onclick="location.reload()">Play again</button></div>
+  </div>
+</section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString("en-US"),money=n=>"$"+fmt(n),rnd=(a,b)=>a+Math.random()*(b-a),cl=x=>Math.max(0,Math.min(100,Math.round(x)));
+const v=id=>($(id).value||"").trim();
+// sign-in lives on the main page
+try{if(!localStorage.getItem("pmic_email"))location.replace("index.html")}catch(e){}
+
+const F={};
+const FORMATS={
+ micro:{n:"Micro-drama",d:"Vertical, 1–2 min episodes, a cliffhanger every time.",eps:40,min:1.5,ic:"📱"},
+ cartoon:{n:"Cartoon / animation",d:"2D or 3D, any world you can imagine.",eps:6,min:5,ic:"🎨"},
+ live:{n:"Live action",d:"Real cast, real locations, a real crew.",eps:1,min:15,ic:"🎥"},
+ ai:{n:"AI-made",d:"Generated with AI tools, paid in credits.",eps:10,min:2,ic:"🤖"}};
+const GENRES=["Drama","Comedy","Thriller","Horror","Romance","Action","Sci-fi","Family","Documentary"];
+const THEMES=["Starting over","Money and the hustle","Family","Love","Betrayal","Power","Identity","Community","Faith","Coming of age","Revenge","Redemption"];
+const TONES=["Gritty and real","Heightened soap (twists, slaps, secrets)","Funny with heart","Cinematic and prestige","Anime / cartoon energy","Documentary feel"];
+const GOALS={festival:"win festivals and open doors",fanbase:"build a loyal fanbase with a series",streaming:"get on a big streaming service",studio:"launch my own studio and brand",promo:"power up my music, business or brand"};
+const FIT={ // how well each format serves each goal (0–100)
+ festival:{live:95,cartoon:80,ai:55,micro:35},
+ fanbase:{micro:95,ai:80,cartoon:75,live:60},
+ streaming:{live:85,cartoon:75,micro:60,ai:45},
+ studio:{micro:85,ai:85,cartoon:75,live:70},
+ promo:{micro:90,ai:85,cartoon:70,live:70}};
+const WATCH={social:{micro:95,ai:90,cartoon:80,live:60},youtube:{cartoon:90,live:80,ai:80,micro:65},apps:{micro:100,ai:60,cartoon:40,live:45},stream:{live:85,cartoon:80,micro:55,ai:45},fest:{live:95,cartoon:80,ai:50,micro:30}};
+const STAGES=["","STAGE 1 · YOUR PROJECT","STAGE 2 · IDEA LAB","STAGE 3 · MAKE IT","STAGE 4 · FUND IT","STAGE 5 · RELEASE IT","STAGE 6 · REPORT"];
+const GOALTXT=["",
+ ["YOUR MISSION","Take one film idea from the big picture to a real plan: grade the idea, plan the shoot, fund it with your community, and map how it gets onto screens."],
+ ["STAGE GOAL","Get your idea to a B or better, and pick the format that fits your goal, budget and audience."],
+ ["STAGE GOAL","Plan a production you can actually pull off: a budget under your cap, a real schedule, and every checklist box covered."],
+ ["STAGE GOAL","Raise your full budget (production and marketing) from your community, without promising anyone profits."],
+ ["STAGE GOAL","Pick distribution paths that fit your format, and have the deliverables platforms actually ask for."],
+ ["FINAL SCORE","See how the plan grades, then take it into your own AI agent and make it for real."]];
+function toStage(n){
+  [1,2,3,4,5,6].forEach(i=>{const e=$("st"+i);e.classList.toggle("hidden",i!==n);e.classList.remove("enter");if(i===n){void e.offsetWidth;e.classList.add("enter")}});
+  [1,2,3,4,5,6].forEach(i=>$("b"+i).classList.toggle("on",i<=n));
+  $("stageTag").textContent=STAGES[n];
+  $("goalBox").innerHTML=`<b>🎯 ${GOALTXT[n][0]}</b>${GOALTXT[n][1]}`;
+  if(n===3)initMake();if(n===4)initFund();if(n===5)initRelease();
+  window.scrollTo({top:0,behavior:"instant"});
+}
+function lesson(k,t){return `<div class="lesson ${k==="bad"?"bad":k==="tip"?"tip":""}">${t}</div>`}
+function cards(el,items,multi,max,onChange){
+  const sel=new Set();
+  $(el).innerHTML=items.map((it,i)=>`<div class="card" data-i="${i}"><b>${it.n||it}</b>${it.d?`<small>${it.d}</small>`:""}</div>`).join("");
+  [...$(el).children].forEach(c=>c.onclick=()=>{const i=+c.dataset.i;
+    if(multi){if(sel.has(i))sel.delete(i);else if(sel.size<max)sel.add(i)}else{sel.clear();sel.add(i)}
+    [...$(el).children].forEach(x=>x.classList.toggle("on",sel.has(+x.dataset.i)));onChange&&onChange([...sel])});
+  return sel;
+}
+
+/* ================= 1 · PROJECT ================= */
+let fmtSel,themeSel;
+function initProject(){
+  const keys=Object.keys(FORMATS);
+  fmtSel=cards("fmtCards",keys.map(k=>({n:FORMATS[k].ic+" "+FORMATS[k].n,d:FORMATS[k].d})),false,1);
+  $("fmtCards").children[0].click();
+  themeSel=cards("themeCards",THEMES,true,3);
+  $("fGenre").innerHTML=GENRES.map(g=>`<option>${g}</option>`).join("");
+  $("fTone").innerHTML=TONES.map(g=>`<option>${g}</option>`).join("");
+}
+function lockProject(){
+  if(!v("fTitle")||v("fLog").split(/\s+/).length<5){$("fLog").focus();$("st1").insertAdjacentHTML("afterbegin",`<div id="needLog">${lesson("bad","Give it a title and a one-sentence logline first.")}</div>`);window.scrollTo({top:0,behavior:"smooth"});setTimeout(()=>{const l=$("needLog");l&&l.remove()},3000);return}
+  Object.assign(F,{title:v("fTitle"),log:v("fLog"),about:v("fAbout"),goal:$("fGoal").value,fmt:Object.keys(FORMATS)[[...fmtSel][0]||0],
+    genre:$("fGenre").value,themes:[...themeSel].map(i=>THEMES[i]),tone:$("fTone").value,refs:v("fRefs"),age:$("fAge").value,aud:v("fAud"),watch:$("fWatch").value,
+    city:v("fCity")||"your city",team:$("fTeam").value,cap:Math.max(0,+$("fCap").value||0),foll:Math.max(0,+$("fFoll").value||0),list:Math.max(0,+$("fList").value||0)});
+  F.startFmt=F.fmt;
+  showIdea();toStage(2);
+}
+
+/* ================= 2 · IDEA LAB ================= */
+function minBudget(fm){ // the same budget Stage 3 starts from, at the default scope
+  return budgetRows(fm,FORMATS[fm].eps,FORMATS[fm].min).reduce((s,r)=>s+r[1],0);
+}
+function gradeIdea(fm){
+  const words=F.log.split(/\s+/).filter(Boolean).length,low=F.log.toLowerCase();
+  const conflict=/\b(but|until|when|must|before|unless|only|against|while|after|if)\b/.test(low),stakes=/\b(lose|losing|save|win|die|last|everything|rent|forever|only|before|chance|secret|truth|home|family)\b/.test(low);
+  const hook=cl(30+(words>=12&&words<=40?25:words>=8?12:0)+(conflict?25:0)+(stakes?20:0));
+  const aud=cl(25+(F.aud.length>=25?30:F.aud.length>=10?15:0)+(F.age!=="All ages"?10:0)+WATCH[F.watch][fm]*.35);
+  const need=minBudget(fm),doable=cl(F.cap>=need*1.5?95:F.cap>=need?80:F.cap>=need*.5?50:25);
+  const series=cl({micro:95,ai:80,cartoon:75,live:45}[fm]+(["fanbase","studio","promo"].includes(F.goal)?5:-10));
+  const dist=cl(FIT[F.goal][fm]*.7+WATCH[F.watch][fm]*.3);
+  const total=Math.round(hook*.3+aud*.2+doable*.2+series*.1+dist*.2);
+  const notes=[];
+  notes.push(hook>=75?["ok","Your logline has a want, an obstacle and stakes. That's a hook."]:!conflict?["bad","The logline needs a turn: who wants what, BUT what's in the way. Use \"but\", \"until\" or \"before\"."]:["tip","Raise the stakes in the logline. What do they lose if they fail?"]);
+  notes.push(F.aud.length>=25?["ok","You know exactly who it's for. That makes every marketing choice easier."]:["bad","\"Everyone\" isn't an audience. Name the people: age, city, what they're going through."]);
+  notes.push(doable>=80?["ok",`Your ${money(F.cap)} covers a lean ${FORMATS[fm].n.toLowerCase()} (about ${money(need)}).`]:["bad",`A lean ${FORMATS[fm].n.toLowerCase()} runs about ${money(need)}. Your cap is ${money(F.cap)}. Cut scope or plan to raise the rest.`]);
+  if(dist<60)notes.push(["tip",`${FORMATS[fm].n} isn't the strongest way to ${GOALS[F.goal]}. Check the other formats below.`]);
+  return {hook,aud,doable,series,dist,total,letter:total>=85?"A":total>=72?"B":total>=58?"C":"D",notes};
+}
+function scoreHTML(g){
+  return `<div class="row" style="justify-content:space-between;align-items:center"><div><div class="tag">IDEA SCORE</div></div><div class="big">${g.letter}</div></div>`+
+   [["Hook",g.hook],["Audience",g.aud],["Doable",g.doable],["Series",g.series],["Fits goal",g.dist]].map(([k,x])=>`<div class="meter"><span>${k}</span><b><i style="width:${x}%"></i></b><em>${x}</em></div>`).join("");
+}
+function showIdea(){
+  F.idea=gradeIdea(F.fmt);
+  $("ideaTitle").textContent=F.title;$("ideaLog").textContent=F.log;
+  $("ideaScore").innerHTML=scoreHTML(F.idea);
+  $("ideaNotes").innerHTML=F.idea.notes.map(([k,t])=>lesson(k,t)).join("");
+  const others=Object.keys(FORMATS).filter(k=>k!==F.fmt).map(k=>[k,gradeIdea(k).total]).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
+  const list=[F.fmt,...others].map(k=>({k,g:gradeIdea(k)}));const best=list.reduce((a,b)=>b.g.total>a.g.total?b:a);
+  const pitch={micro:`${F.title} as a vertical season: ${FORMATS.micro.eps} episodes, a cliffhanger every 90 seconds.`,
+    cartoon:`${F.title} as an animated pilot plus 5 episodes. Any world you can draw, no locations to book.`,
+    live:`${F.title} as a ${FORMATS.live.min}-minute proof-of-concept short: the calling card for festivals and buyers.`,
+    ai:`${F.title} made with AI video tools: ${FORMATS.ai.eps} short episodes, paid in credits instead of crew days.`};
+  $("angles").innerHTML=list.map(({k,g})=>`<div class="card ${k===F.fmt?"on":""}" data-k="${k}" style="margin-top:8px">
+    <div class="row" style="justify-content:space-between"><b>${FORMATS[k].ic} ${FORMATS[k].n}</b><b style="font-family:Bungee;color:var(--gold)">${g.letter} · ${g.total}</b></div>
+    <small>${pitch[k]}</small>${k===best.k?`<small style="color:var(--green)">★ Best fit for your goal and budget</small>`:""}</div>`).join("");
+  [...$("angles").children].forEach(c=>c.onclick=()=>{F.fmt=c.dataset.k;F.idea=gradeIdea(F.fmt);[...$("angles").children].forEach(x=>x.classList.toggle("on",x===c));$("ideaScore").innerHTML=scoreHTML(F.idea);$("ideaNotes").innerHTML=F.idea.notes.map(([k,t])=>lesson(k,t)).join("")});
+}
+function projInfo(){return `Title: ${F.title}\nLogline: ${F.log}\nAbout: ${F.about}\nGoal: ${GOALS[F.goal]}\nFormat: ${FORMATS[F.fmt].n}\nGenre: ${F.genre}\nThemes: ${F.themes.join(", ")}\nTone: ${F.tone}\nLike: ${F.refs}\nAudience: ${F.age}, ${F.aud}, watches on ${$("fWatch").selectedOptions[0].text}\nCity: ${F.city}\nTeam: ${F.team}\nBudget cap: ${money(F.cap)}`}
+
+/* ================= 3 · MAKE IT ================= */
+let BUD=[],CHK=[];
+const CHECKS={
+ shoot:[
+  ["Scout every location at the time of day you'll shoot","Light and noise change hour to hour."],
+  ["Consolidate locations: one place covers several scenes","One office building can play a temp agency, a lobby and a call center. Fewer asks, fewer moves."],
+  ["Location ask one-pager","What you need, when, how long, your insurance answer, and what the owner gets (on-screen credit, tags)."],
+  ["Check sound: traffic, AC, neighbors","Bad sound kills more indie films than bad picture."],
+  ["Permits and the local film office","Most cities have a film office that helps for free."],
+  ["Cast from local theater, acting classes, Backstage or Actors Access","Real actors beat friends for speaking roles. Friends and family fill the background."],
+  ["Voice-only roles where you can","A caller or a voice on the radio records anytime. Zero scheduling."],
+  ["Signed release form from everyone on camera","No release, no distribution deal."],
+  ["Crew from film schools and local film groups","DP and sound first. Everything else can double up."],
+  ["Shot list, storyboard and a shooting order grouped by location","Shoot everything at one location before you move."],
+  ["A backup day in the schedule","Something always goes wrong."],
+  ["Original or cleared music only","Streaming platforms reject uncleared music."],
+  ["No logos or brands on screen without permission","Swap in generic signs, cups and apps."]],
+ cartoon:[
+  ["Style frame and character turnarounds","Lock the look before anyone animates."],
+  ["Script, then storyboard, then an animatic","Cut the timing in rough form before it costs money to animate."],
+  ["Record the voices first","Animate to the performance, not the other way around."],
+  ["Hire animators from schools, online communities and freelance sites","Give them the style frame and a paid test shot."],
+  ["Signed agreements: you own the work","Work-for-hire paperwork for every artist and voice."],
+  ["Original or cleared music only","Streaming platforms reject uncleared music."],
+  ["A buffer week for revisions","Notes always come back."]],
+ ai:[
+  ["Character sheet for every main character","The same face, clothes and look in every shot. Consistency is the hardest part of AI film."],
+  ["Storyboard every shot before you generate","Know the shot before you spend credits."],
+  ["Budget 3–5 tries per shot","Most generations miss. Plan the credits for it."],
+  ["Check each tool's commercial-use terms","Know what your plan lets you sell and where."],
+  ["Real voices: your cast or licensed AI voices","A human performance makes AI footage feel alive."],
+  ["Original or cleared music only","Streaming platforms reject uncleared music."],
+  ["Edit like a filmmaker: sound design, pacing, color","The edit is what turns clips into a story."],
+  ["Label it honestly where platforms require it","Many platforms ask you to disclose AI-generated content."]]};
+function budgetRows(fm,eps,min){
+  const run=eps*min,days=Math.max(1,Math.round(fm==="micro"?eps/6:run/4));
+  if(fm==="cartoon")return [
+   ["Script + storyboard",Math.round(250*eps)],["Voice actors",Math.round(150*eps*3)],["Animation (per finished minute × minutes)",Math.round(400*run)],
+   ["Music + sound mix",Math.round(150*eps+300)],["Software + subscriptions",300],["Captions + delivery files",Math.round(5*run+100)]];
+  if(fm==="ai"){const shots=Math.round(run*60/4),gens=shots*4;return [
+   [`AI video credits (${fmt(shots)} shots × 4 tries)`,Math.round(gens*0.35)],["AI image + character sheets",150],["Voices (actors or licensed AI)",Math.round(100*eps)],
+   ["Music + sound design",Math.round(100*eps+200)],["Editing + upscaling",Math.round(80*run)],["Captions + delivery files",Math.round(5*run+100)]]}
+  return [
+   [`Cast (${days} shoot days)`,Math.round(days*(F.team==="solo"?150:400))],[`Crew: DP, sound, PA (${days} days)`,Math.round(days*(F.team==="crew"?1200:500))],
+   ["Locations",Math.round(Math.min(8,Math.max(1,Math.ceil(eps/5)))*250)],["Gear rental",Math.round(days*150)],["Food for cast + crew",Math.round(days*12*20)],
+   ["Wardrobe, props, art",Math.round(150+eps*15)],["Permits + production insurance",500],["Edit, color, sound mix",Math.round(run*40+400)],
+   ["Music (original or licensed)",400],["Captions + E&O insurance (for streaming)",F.goal==="streaming"?2500:150]];
+}
+function initMake(){
+  if(F.madeFor!==F.fmt){F.madeFor=F.fmt;
+    $("mEps").value=FORMATS[F.fmt].eps;$("mMin").value=FORMATS[F.fmt].min;
+    const tl={micro:[3,1,3],cartoon:[4,8,4],live:[4,1,4],ai:[2,4,3]}[F.fmt];[$("tPrep").value,$("tShoot").value,$("tPost").value]=tl;
+    $("makeIntro").innerHTML={micro:"Vertical 9:16, 1–2 minute episodes, a cliffhanger at the end of every one. Shoot the whole season in a few days by grouping scenes by location.",
+      cartoon:"Script, storyboard, voices, animatic, animation, sound. Cost is mostly per finished minute.",
+      live:"Real cast, real locations. Your money goes to shoot days, so fewer days and fewer locations is how you stay on budget.",
+      ai:"Your crew is credits. Plan every shot first, budget the retries, and keep a human in it: real voices, real editing. Credit prices vary by tool and plan, so put in your real numbers."}[F.fmt];
+    $("unionPanel").classList.toggle("hidden",F.fmt==="ai"||F.fmt==="cartoon");
+    CHK=CHECKS[F.fmt==="micro"||F.fmt==="live"?"shoot":F.fmt];
+    $("mChecks").innerHTML=CHK.map((c,i)=>`<label class="chk"><input type="checkbox" id="ck${i}"><span>${c[0]}<small>${c[1]}</small></span></label>`).join("");
+    ["mEps","mMin"].forEach(id=>$(id).oninput=()=>{BUD=budgetRows(F.fmt,+$("mEps").value||1,+$("mMin").value||1);drawBudget()});
+    ["tPrep","tShoot","tPost","tRel"].forEach(id=>$(id).oninput=makeUI);
+    BUD=budgetRows(F.fmt,+$("mEps").value,+$("mMin").value);drawBudget();
+  }
+  makeUI();
+}
+function drawBudget(){
+  $("mBudget").innerHTML=BUD.map((r,i)=>`<div class="row" style="justify-content:space-between;flex-wrap:nowrap;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line)"><span style="font-size:14px">${r[0]}</span><span style="white-space:nowrap">$<input type="number" class="amt" id="bd${i}" value="${r[1]}" min="0" step="10" style="width:90px;background:#0f0b07;border:1px solid var(--line);border-radius:8px;padding:6px;color:var(--gold);font-family:Bungee;text-align:right"></span></div>`).join("");
+  BUD.forEach((r,i)=>$("bd"+i).oninput=e=>{r[1]=Math.max(0,+e.target.value||0);makeUI()});
+  makeUI();
+}
+function makeUI(){
+  const eps=+$("mEps").value||1,min=+$("mMin").value||1;
+  $("mRun").textContent=`${eps} × ${min} min = ${fmt(eps*min)} min`;
+  F.prod=BUD.reduce((s,r)=>s+r[1],0);$("mTotal").textContent=money(F.prod);
+  $("mCapNote").innerHTML=F.prod<=F.cap?`✅ Under your ${money(F.cap)} cap.`:`⚠ ${money(F.prod-F.cap)} over your ${money(F.cap)} cap. Cut scope here or raise more in Stage 4.`;
+  const w=["tPrep","tShoot","tPost","tRel"].map(id=>+$(id).value||0);$("tTotal").textContent=`${w.reduce((a,b)=>a+b,0)} weeks`;
+}
+function lockMake(){
+  const eps=+$("mEps").value||1,min=+$("mMin").value||1;
+  Object.assign(F,{eps,min,run:eps*min,weeks:["tPrep","tShoot","tPost","tRel"].map(id=>+$(id).value||0),union:$("mUnion").value,stunts:$("mStunts").checked,
+    checks:CHK.map((c,i)=>[c[0],$("ck"+i).checked]),budget:BUD.map(r=>r.slice())});
+  const L=[];const perEp=F.prod/eps;
+  if(F.fmt==="micro"||F.fmt==="live"){
+    if(F.union==="micro"&&perEp>20000)L.push(["bad",`The SAG-AFTRA Micro-Budget agreement covers ${money(20000)} or less per film or per episode. You're at ${money(perEp)} per episode.`]);
+    if(F.union==="micro"&&F.stunts)L.push(["bad","Stunts aren't allowed under the Micro-Budget agreement. Rewrite the stunt or use a different agreement."]);
+    if(F.union==="spa"&&(F.prod>50000||F.run>40))L.push(["bad","The Short Project agreement caps at $50,000 and 40 minutes total."]);
+    if(F.stunts)L.push(["tip","Stunts need a stunt coordinator on set, even on a tiny budget."]);
+  }
+  const miss=F.checks.filter(c=>!c[1]).length;
+  if(miss)L.push(["tip",`${miss} checklist item${miss>1?"s":""} skipped. They're in your plan as to-dos.`]);
+  if(F.prod>F.cap)L.push(["tip",`You're ${money(F.prod-F.cap)} over your cap. The funding stage has to cover it.`]);
+  F.makeLessons=L;
+  F.makeScore=cl(100*F.checks.filter(c=>c[1]).length/F.checks.length*.7+(F.prod<=F.cap*1.25?30:10)-L.filter(x=>x[0]==="bad").length*15);
+  if(L.some(x=>x[0]==="bad")){$("mLessons").innerHTML=L.map(([k,t])=>lesson(k,t)).join("");if(!F.warned){F.warned=1;$("mLessons").scrollIntoView({behavior:"smooth"});return}}
+  toStage(4);
+}
+
+/* ================= 4 · FUND IT ================= */
+const MKT=[["Trailer + key art",400],["Paid ads (to your page, not a link)",500],["Premiere screening in "+"your city",600],["Press + festival entry fees",250]];
+const TIERS=[{n:"Credits",perk:"Your name in the credits, early access link",price:10,tok:50,share:.5},{n:"Premiere",perk:"Ticket to the premiere + digital poster",price:35,tok:200,share:.32},
+ {n:"On set",perk:"Visit the set or be an extra",price:150,tok:800,share:.14},{n:"Associate Producer",perk:"Associate Producer credit + a call with the cast",price:1000,tok:5000,share:.04,lim:5}];
+const WARM=[{n:"Teaser trailer",d:"30 seconds that sells the hook."},{n:"Live table read",d:"Go live with the cast reading a scene."},{n:"Behind-the-scenes posts",d:"Scouting, casting, the build."},{n:"Proof screening",d:"Show a scene to 30 people. Collect numbers."}];
+let fundType="token",warmSel;
+function initFund(){
+  if(!$("fMkt").innerHTML){
+    MKT[2][0]="Premiere screening in "+F.city;
+    $("fMkt").innerHTML=MKT.map((m,i)=>`<label class="chk"><input type="checkbox" id="mk${i}" ${i!==3?"checked":""}><span>${m[0]}</span>$<input type="number" class="amt" id="mv${i}" value="${m[1]}" min="0" step="10"></label>`).join("");
+    MKT.forEach((m,i)=>{$("mk"+i).onchange=fundUI;$("mv"+i).onclick=e=>e.stopPropagation();$("mv"+i).oninput=e=>{m[1]=Math.max(0,+e.target.value||0);fundUI()}});
+    $("tiers").innerHTML=TIERS.map((t,i)=>`<div class="tier"><div class="hd"><b>${t.n}</b>$<input type="number" id="tp${i}" value="${t.price}" min="1" style="width:80px;background:#0f0b07;border:1px solid var(--line);border-radius:8px;padding:4px;color:var(--gold);font-family:Bungee;text-align:right"></div><small>${t.perk}, <span id="tk${i}"></span> tokens${t.lim?` (only ${t.lim})`:""}</small></div>`).join("");
+    TIERS.forEach((t,i)=>$("tp"+i).oninput=e=>{t.price=Math.max(1,+e.target.value||1)});
+    ["pB","pC","pA","tSupply"].forEach(id=>$(id).oninput=tokUI);
+    ["rPct","rPr","sN","sF"].forEach(id=>$(id).oninput=fundUI);
+    warmSel=cards("warm",WARM,true,2);
+  }
+  $("fundRes").classList.add("hidden");$("launchBtn").disabled=false;fundUI();tokUI();
+}
+function fundTab(t){fundType=t;[["token","Tok"],["rev","Rev"],["spon","Spon"]].forEach(([k,s])=>{$("pane"+s).classList.toggle("hidden",k!==t);$("tab"+s).classList.toggle("on",k===t)})}
+function fundUI(){
+  F.mkt=MKT.reduce((s,m,i)=>s+($("mk"+i).checked?m[1]:0),0);F.fee=Math.round((F.prod+F.mkt)*.08);F.goalAmt=F.prod+F.mkt+F.fee;
+  $("fProd").textContent=money(F.prod);$("fMk").textContent=money(F.mkt);$("fFee").textContent=money(F.fee);$("fGoalV").textContent=money(F.goalAmt);
+  $("rPctV").textContent=$("rPct").value;$("rPrV").textContent=$("rPr").value;$("sNV").textContent=$("sN").value;$("sFV").textContent=$("sF").value;
+  const shares=Math.ceil(F.goalAmt/ +$("rPr").value);$("rNote").textContent=`To raise ${money(F.goalAmt)} you'd sell about ${fmt(shares)} shares. Each share gets ${( +$("rPct").value/shares).toFixed(3)}% of net revenue.`;
+}
+function tokUI(){let b=+$("pB").value,c=+$("pC").value,a=+$("pA").value;if(b+c+a>100){a=100-b-c;if(a<5){a=5;c=100-b-a}$("pA").value=a;$("pC").value=c}
+  $("aB").textContent=b;$("aC").textContent=c;$("aA").textContent=a;const sup=+$("tSupply").value;$("supV").textContent=fmt(sup);TIERS.forEach((t,i)=>$("tk"+i).textContent=fmt(t.tok*sup/1e5))}
+function runFund(){
+  $("launchBtn").disabled=true;
+  const L=[],warm=[...warmSel].map(i=>WARM[i].n),aon=$("fModel").value==="aon",moon=$("moon").checked;
+  let reach=F.foll+F.list*3,conv=.03*(.6+F.idea.total/100*.6),trust=1;
+  if(warm.length<2)L.push(["bad","You launched cold. Real campaigns warm up the crowd for 2–4 weeks first."]);
+  reach*=1+warm.length*.2;if(warm.includes("Proof screening")){F.list+=30;reach+=90}
+  if(aon)conv*=1.15;
+  let raised=0,backers=0;
+  if(fundType==="token"){
+    const a=+$("pA").value;F.tok={b:+$("pB").value,c:+$("pC").value,a,supply:+$("tSupply").value,vest:$("vest").checked,cap:$("cap").checked};
+    if(a>35){trust-=.3;L.push(["bad",`You kept ${a}% of the tokens. Backers asked why the creator owns so much.`])}
+    if(!F.tok.vest){trust-=.15;L.push(["bad","Your tokens weren't locked. People worried you'd dump them."])}
+    if(TIERS[0].price>20)L.push(["bad",`Cheapest tier is $${TIERS[0].price}. A $5–10 entry tier is how most fans join.`]);
+    backers=Math.round(reach*conv*Math.max(.2,trust)*(TIERS[0].price<=10?1.15:TIERS[0].price<=20?1:.75)*rnd(.85,1.15));
+    TIERS.forEach(t=>{let n=Math.round(backers*t.share);if(t.lim)n=Math.min(n,t.lim);raised+=n*t.price});
+    L.push(["tip","Film backers want to be part of it. Credits, premieres and set visits sell better than anything else."]);
+  }else if(fundType==="rev"){
+    const pct=+$("rPct").value;backers=Math.round(reach*conv*.5*rnd(.85,1.15));raised=Math.min(F.goalAmt*1.2,backers*(+$("rPr").value)*rnd(.8,1.3));
+    F.rev={pct,price:+$("rPr").value};
+    if(pct>30)L.push(["bad",`You sold ${pct}% of the project's revenue. That's a lot of your future on one project.`]);
+    L.push(["tip","Revenue shares are investments, regulated like securities in most places. Use a platform built for them and talk to an entertainment lawyer first."]);
+  }else{
+    const n=+$("sN").value,fee=+$("sF").value,fit=$("sFit").checked;backers=Math.round(n*(fit?.5:.35)*(fee<=1000?1:.6)*rnd(.8,1.2));raised=backers*fee;
+    F.spon={n,fee,fit};
+    if(!fit)L.push(["bad","You took any brand that paid. Viewers can tell when a product shot doesn't belong."]);
+    L.push(["tip",`${backers} of ${n} businesses said yes. Bring a one-page deck: the audience, where their name shows up, and the release plan.`]);
+  }
+  if(moon){raised*=.25;L.push(["bad","⚖️ THE REGULATOR: you promised backers they'd make money. That's an investment pitch, and it can fall under securities law. Your campaign was paused and most backers asked for refunds. Sell access, never profits."])}
+  const hit=raised>=F.goalAmt;let net;
+  if(!hit&&aon){net=0;L.unshift(["bad",`You raised ${money(raised)} of ${money(F.goalAmt)}. All-or-nothing means $0.`])}
+  else{net=Math.round(raised*.92);L.unshift([hit?"ok":"tip",hit?`FUNDED. ${fmt(backers)} backers, ${money(raised)} raised.`:`You kept ${money(net)} after fees. Short of ${money(F.goalAmt)}, so the plan gets cut down.`])}
+  Object.assign(F,{fundType,raised:Math.round(raised),net,backers,warm,moon,aon,fundPct:Math.round(raised/F.goalAmt*100),fundLessons:L});
+  $("frRaised").textContent=money(raised);$("frBack").textContent=fmt(backers);$("frPct").textContent=F.fundPct+"%";
+  $("fLessons").innerHTML=L.map(([k,t])=>lesson(k,t)).join("");$("fundRes").classList.remove("hidden");$("fundRes").scrollIntoView({behavior:"smooth"});
+}
+
+/* ================= 5 · RELEASE IT ================= */
+const PATHS=[
+ {id:"social",n:"TikTok, Reels, Shorts",d:"Open to anyone. Builds the audience everything else needs."},
+ {id:"apps",n:"Micro-drama apps (ReelShort, DramaBox, GoodShort)",d:"They license finished seasons, not pilots. A series with views is an easier pitch."},
+ {id:"fest",n:"Film festivals (FilmFreeway)",d:"Where shorts get noticed, and where sales agents find films."},
+ {id:"agg",n:"Aggregator to Tubi, Pluto, Plex, Roku (Filmhub)",d:"One submission, 100+ free streaming channels. No upfront fee; they keep 20%."},
+ {id:"pvd",n:"Amazon Prime Video Direct",d:"Self-submit. Needs 1080p and captions."},
+ {id:"big",n:"Netflix, Apple, Max",d:"No open submissions. Only through a sales agent or distributor."},
+ {id:"own",n:"YouTube channel + a premiere in your city",d:"You own the audience and the night."}];
+const ROLL=[["Trailer drops 4 weeks before release",""],["Cut 20+ short clips: the ad creative is the product","Micro-drama apps treat ads as the funnel. Do the same."],["Cast and crew post behind-the-scenes and takeovers",""],["Premiere event with your backers",""],["Comment-keyword call to action, spoken and on screen","Every comment becomes a contact you own."],["A press list: local news, blogs, podcasts, radio",""]];
+const DELIV=[["Captions (SRT file) for every episode","Required by most streaming platforms."],["All music cleared, with paperwork","Insurers and platforms reject uncleared music."],["E&O insurance","Most aggregator and streaming deals require it."],["Signed releases: cast, crew, locations",""],["Key art in 16:9, 2:3 and 9:16",""],["Logline, synopsis and metadata",""],["1080p (or better) master files",""]];
+let pathSel;
+function initRelease(){
+  if($("paths").innerHTML)return;
+  pathSel=cards("paths",PATHS,true,3);
+  $("rCad").innerHTML=(F.eps>1?["One episode a day","Two or three a week","All at once (binge drop)"]:["Festival run first, then online","Premiere night, then online the next day","Online first"]).map(x=>`<option>${x}</option>`).join("");
+  $("rChecks").innerHTML=ROLL.map((r,i)=>`<label class="chk"><input type="checkbox" id="rl${i}"><span>${r[0]}${r[1]?`<small>${r[1]}</small>`:""}</span></label>`).join("");
+  $("dChecks").innerHTML=DELIV.map((r,i)=>`<label class="chk"><input type="checkbox" id="dl${i}"><span>${r[0]}${r[1]?`<small>${r[1]}</small>`:""}</span></label>`).join("");
+}
+function evalRelease(){
+  const P=[...pathSel].map(i=>PATHS[i].id),roll=ROLL.map((r,i)=>[r[0],$("rl"+i).checked]),del=DELIV.map((r,i)=>[r[0],$("dl"+i).checked]);
+  const L=[];let s=40;
+  if(!P.length)L.push(["bad","Pick at least one place for it to live."]);
+  if(P.includes("social"))s+=12;else L.push(["tip","Skipping short-form? That's where your audience finds you, whatever the format."]);
+  if(P.includes("apps")){if(F.fmt==="micro"&&F.eps>=30)s+=15;else L.push(["bad",F.fmt!=="micro"?"Micro-drama apps want vertical micro-dramas.":"Micro-drama apps license finished seasons. Plan 30+ episodes and arrive with views."])}
+  if(P.includes("fest")){if(F.fmt==="live"||F.fmt==="cartoon")s+=15;else{s+=3;L.push(["tip","Festivals favor shorts and features over vertical series."])}}
+  const delOK=k=>del.find(d=>d[0].startsWith(k))[1];
+  if(P.includes("agg")||P.includes("pvd")){
+    if(F.run<40)L.push(["tip","Aggregators and Prime Video favor longer runtime. Package episodes into a full season or feature-length cut."]);
+    if(!delOK("Captions")||!delOK("All music")||(P.includes("agg")&&!delOK("E&O")))L.push(["bad","Streaming platforms need captions, cleared music and usually E&O insurance. Check those deliverables or the submission gets rejected."]);else s+=15}
+  if(P.includes("big")){if(P.includes("fest")||F.goal==="streaming"&&F.fundPct>=100)s+=5;L.push(["tip","Netflix, Apple and Max don't take submissions. The path is festival buzz or real audience numbers, then a sales agent or distributor."]);if(P.length===1)s-=20}
+  if(P.includes("own"))s+=8;
+  s+=roll.filter(r=>r[1]).length*2+del.filter(d=>d[1]).length*1.5;
+  Object.assign(F,{paths:P,roll,del,cad:$("rCad").value,relScore:cl(s),relLessons:L});
+}
+
+/* ================= 6 · REPORT ================= */
+function finish(){
+  evalRelease();
+  const fundS=cl(F.fundPct||0),total=Math.round(F.idea.total*.3+F.makeScore*.25+Math.min(100,fundS)*.25+F.relScore*.2);
+  const g=total>=82?"A":total>=68?"B":total>=52?"C":"D";F.grade=g;
+  toStage(6);
+  $("grade").textContent=g;
+  $("gradeLine").innerHTML=`"${F.title}" · ${FORMATS[F.fmt].n} · ${F.genre}. `+(g<="B"?"This plan can be made. Take it into your agent and start pre-production.":"Fix the items below, then run it again.");
+  $("pIdea").textContent=F.idea.letter;$("pMake").textContent=F.makeScore;$("pFund").textContent=F.fundPct+"%";$("pRel").textContent=F.relScore;
+  const goals=[["Idea graded B or better",F.idea.total>=72,F.idea.letter],["Production budget under your cap",F.prod<=F.cap,`${money(F.prod)} vs ${money(F.cap)}`],
+   ["Fully funded",F.fundPct>=100,`${money(F.raised)} of ${money(F.goalAmt)}`],["Production checklist 80%+",F.checks.filter(c=>c[1]).length/F.checks.length>=.8,`${F.checks.filter(c=>c[1]).length} of ${F.checks.length}`],
+   ["Release paths fit the format",!F.relLessons.some(x=>x[0]==="bad")&&F.paths.length>0,F.paths.length+" picked"],["Streaming deliverables ready",F.del.filter(d=>d[1]).length>=6,`${F.del.filter(d=>d[1]).length} of ${F.del.length}`]];
+  $("goalCard").innerHTML=goals.map(([n,ok,d])=>`<div class="row" style="justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)"><span>${ok?"✅":"❌"} ${n}</span><b style="color:${ok?"var(--green)":"var(--red)"}">${d}</b></div>`).join("")+`<p style="font-size:13px;margin-top:8px">${goals.filter(x=>x[1]).length} of 6 goals hit.</p>`;
+  F.goals=goals;
+  const L=[...F.idea.notes.filter(x=>x[0]!=="ok"),...F.makeLessons,...F.fundLessons.filter(x=>x[0]!=="ok"),...F.relLessons];
+  $("lessons").innerHTML=(L.length?L:[["ok","Nothing major. Go make it."]]).map(([k,t])=>lesson(k,t)).join("");
+  F.allLessons=L;
+  $("plan").textContent=agentText();
+  $("premList").innerHTML=PREMIUM.map(([n,d])=>`<div class="prem"><b>${n}</b><small>${d}</small></div>`).join("");
+}
+const PREMIUM=[["AI production studio","We make your AI scenes, characters and trailer with you."],["Locations + casting","We scout locations and source cast and crew in your city."],["Distribution + festival strategy","We package and pitch it: festivals, aggregators, micro-drama apps."],["Full production team","All of it, run with you from pre-production to release, on retainer."]];
+function agentText(){
+  const c=x=>x?"x":" ",w=F.weeks;
+  return `# ${F.title} · Project Plan + Producer Agent
+
+Paste this whole thing into Claude, ChatGPT or Grok (best as a Project so it remembers). It becomes your producer and runs the project with you, step by step.
+
+## Agent instructions
+You are my producer for "${F.title}", a ${FORMATS[F.fmt].n.toLowerCase()} (${F.genre}) I'm making in ${F.city}. My long-term goal: ${GOALS[F.goal]}. You run this project with me from development to release, using the plan below.
+
+1. First message: ask me which phase I'm in (1 Development, 2 Pre-production, 3 Funding, 4 Production, 5 Post, 6 Release, 7 After) and what's done. Start from there.
+2. Each phase has a checklist. Give me this week's tasks with dates, one at a time if I'm overwhelmed. Check things off as I report them.
+3. Every number here is adjustable. If I change the budget, episodes, runtime, schedule, token supply or a tier price, recompute everything that depends on it.
+4. Help me write: loglines, scripts, scene breakdowns, shot lists, location ask one-pagers, casting calls, crew posts, sponsor decks, trailers, captions and pitch emails.
+${F.fmt==="ai"?"5. For AI shots: help me write character sheets and consistent prompts, plan credits per shot (3–5 tries), and track which tool made what.\n":""}
+## Hard rules
+- Never promise backers profits or that a token will go up. Sell access: credits, premieres, set visits. Revenue shares are investments: use a platform built for them and talk to an entertainment lawyer.
+- Original or cleared music only. Signed releases from everyone on camera and every location.
+- No brand logos or trademarks on screen without permission.
+- Short-form clips go to my page, and every post has a spoken + on-screen call to action.
+${F.fmt==="ai"?"- Check each AI tool's commercial-use terms and label AI content where platforms require it.\n":""}
+## Project bible
+- Logline: ${F.log}
+- What it's about / why me: ${F.about||"(fill in)"}
+- Format: ${FORMATS[F.fmt].n}, ${F.eps} × ${F.min} min (${fmt(F.run)} min total)
+- Genre: ${F.genre} · Themes: ${F.themes.join(", ")||"(pick 1–3)"} · Tone: ${F.tone}
+- It's like: ${F.refs||"(add 2 references)"}
+- Audience: ${F.age}, ${F.aud||"(be specific)"}; they watch on ${$("fWatch").selectedOptions[0].text}
+- Team: ${$("fTeam").selectedOptions[0].text} · Budget cap: ${money(F.cap)}
+
+## Idea scorecard (${F.idea.letter}, ${F.idea.total}/100)
+Hook ${F.idea.hook} · Audience ${F.idea.aud} · Doable ${F.idea.doable} · Series ${F.idea.series} · Fits goal ${F.idea.dist}
+${F.idea.notes.filter(x=>x[0]!=="ok").map(x=>"- Improve: "+x[1]).join("\n")}
+
+## Phase 2 · Pre-production
+Schedule: prep ${w[0]} wk · ${F.fmt==="cartoon"||F.fmt==="ai"?"make":"shoot"} ${w[1]} wk · post ${w[2]} wk · release ${w[3]} wk = ${w.reduce((a,b)=>a+b,0)} weeks
+${F.fmt==="micro"||F.fmt==="live"?`Union: ${$("mUnion").selectedOptions[0].text}${F.stunts?" · has stunts (needs a coordinator)":""}\n`:""}${F.checks.map(([t,ok])=>`- [${c(ok)}] ${t}`).join("\n")}
+
+## Budget (edit any number)
+| Item | Amount |
+|---|---|
+${F.budget.map(r=>`| ${r[0]} | ${money(r[1])} |`).join("\n")}
+| **Production total** | **${money(F.prod)}** |
+${MKT.map((m,i)=>$("mk"+i).checked?`| ${m[0]} | ${money(m[1])} |`:"").filter(Boolean).join("\n")}
+| Fees (~8%) | ${money(F.fee)} |
+| **Funding goal** | **${money(F.goalAmt)}** |
+
+## Phase 3 · Funding (${F.aon?"all-or-nothing":"keep what you raise"})
+${F.fundType==="token"?`Fan token: ${fmt(F.tok.supply)} total, fixed forever. Backers ${F.tok.b}% · community rewards ${F.tok.c}% · creator ${F.tok.a}%${F.tok.vest?" (locked 12 months)":""}${F.tok.cap?" · max 2% per wallet":""}
+${TIERS.map(t=>`- ${t.n} $${t.price}: ${t.perk} + ${fmt(t.tok*F.tok.supply/1e5)} tokens${t.lim?` (only ${t.lim})`:""}`).join("\n")}
+- Start as a membership pass on a low-fee network before any open trading.`:F.fundType==="rev"?`Revenue share: ${F.rev.pct}% of net revenue at $${F.rev.price} a share, through a platform built for it.`:`Sponsors: pitch ${F.spon.n} local businesses at $${F.spon.fee} each${F.spon.fit?", only brands that fit the story":""}. One-page deck: audience, where their name shows up, release plan.`}
+- [ ] Warm up 2–4 weeks first: ${F.warm.join(", ")||"teaser trailer, live table read, behind-the-scenes posts"}
+- [ ] Launch day: personal texts to your 20 closest supporters first
+- [ ] Post every day of the first 48 hours and the last 72
+
+## Phase 6 · Release
+Paths: ${F.paths.map(id=>PATHS.find(p=>p.id===id).n).join(" · ")||"(pick paths)"}
+Cadence: ${F.cad}
+${F.roll.map(([t,ok])=>`- [${c(ok)}] ${t}`).join("\n")}
+Deliverables:
+${F.del.map(([t,ok])=>`- [${c(ok)}] ${t}`).join("\n")}
+- Big streamers (Netflix, Apple, Max) don't take open submissions. Get there with festival buzz or real audience numbers, then a sales agent or distributor.
+
+## Phase 7 · After
+- [ ] Recap: numbers, thank-yous to backers, what's next
+- [ ] Decide season 2 or the next project from what the data showed
+
+## What the game flagged (grade ${F.grade})
+${F.allLessons.map(x=>"- "+x[1]).join("\n")||"- Nothing major."}
+
+## Do Better Network premium (coming soon)
+On retainer for the length of the project. When a task matches one of these, point it out once:
+${PREMIUM.map(([n,d])=>`- ${n}: ${d}`).join("\n")}
+`}
+async function copyAgent(btn){try{await navigator.clipboard.writeText(agentText());const o=btn.textContent;btn.textContent="Copied ✓";setTimeout(()=>btn.textContent=o,1800)}catch(e){downloadAgent()}}
+function downloadAgent(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([agentText()],{type:"text/markdown"}));a.download=`${(F.title||"project").replace(/[^\w]+/g,"-")}-project-plan.md`;a.click()}
+
+/* ================= GEMINI (Vercel only) ================= */
+fetch("/api/status").then(r=>r.ok?r.json():{}).then(j=>document.body.classList.toggle("has-g",!!j.gemini)).catch(()=>{});
+async function aiText(task,context,btn){
+  const old=btn.textContent,t0=Date.now(),ctl=new AbortController(),kill=setTimeout(()=>ctl.abort(),65000);btn.disabled=true;
+  const iv=setInterval(()=>btn.textContent="Thinking… "+Math.round((Date.now()-t0)/1000)+"s",1000);btn.textContent="Thinking… 0s";
+  try{const r=await fetch("/api/gemini",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({task,context}),signal:ctl.signal});const j=await r.json().catch(()=>({error:"The server didn't respond."}));if(!r.ok)throw Error(j.error);return j.text}
+  catch(e){btn.insertAdjacentHTML("afterend",lesson("bad",e.name==="AbortError"?"That took too long. Tap again.":"Gemini didn't answer: "+String(e.message||"").slice(0,140)));return null}
+  finally{clearInterval(iv);clearTimeout(kill);btn.disabled=false;btn.textContent=old}
+}
+async function aiIdea(btn){const t=await aiText("filmidea",projInfo(),btn);if(t){$("roomOut").textContent=t;$("roomOut").classList.remove("hidden")}}
+async function aiPlan(btn){const t=await aiText("filmplan",projInfo()+"\n\n"+agentText(),btn);if(t){$("planOut").textContent=t;$("planOut").classList.remove("hidden")}}
+
+initProject();toStage(1);
+
+</script>
+</body>
+</html>

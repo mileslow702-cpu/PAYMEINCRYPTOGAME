@@ -599,11 +599,11 @@ function copyEl(id,btn){navigator.clipboard.writeText($(id).textContent).then(()
 /* ================= LEVELS ================= */
 const MUSIC=[["Afrobeats","From your block to your blockchain"],["Amapiano","Log drums + the dance floor economy"],["Hip-Hop","Mixtapes, features, ownership"],["R&B / Soul","Intimate shows, superfan clubs"],["Gospel","Church circuits + community"],["Reggaeton","Club play + Latin diaspora"],["Country","Small towns, big loyalty"],["Drill","Scenes, crews, short-form"]];
 const CREATORS=[["Visual Artist","Prints, editions, collectors"],["Filmmaker","Fund the film with your viewers"],["Podcaster","Listener-owned shows"],["Fashion Designer","Drops, scarcity, community"],["Game Dev","In-game economies"],["Poet / Author","Chapters, patrons, readings"]];
-const LIVE=["Afrobeats"];
+const LIVE=["Afrobeats","Filmmaker"];
 function drawLevels(){
   const mk=(arr,el,onPick)=>{el.innerHTML="";arr.forEach(([n,sub])=>{const d=document.createElement("div");const open=LIVE.includes(n);d.className="lvl "+(open?"open":"soon");
     d.innerHTML=`<div class="nm">${n}</div><div class="sb">${sub}</div><span class="badge">${open?"AVAILABLE":"COMING SOON"}</span>`;if(open)d.onclick=onPick;el.appendChild(d)})};
-  mk(MUSIC,$("lv-music"),()=>homeStart("make"));mk(CREATORS,$("lv-creators"),()=>{});
+  mk(MUSIC,$("lv-music"),()=>homeStart("make"));mk(CREATORS,$("lv-creators"),()=>{location.href="film.html"});
   mk(MUSIC,$("genrePick"),()=>{S.genre="Afrobeats";$("methodPick").classList.remove("hidden");$("methodPick").scrollIntoView({behavior:"smooth"})});
 }
 function homeStart(k){show("s-game");if(k==="make"){$("methodPick").classList.add("hidden");toStage(0)}else startPath(k)}
